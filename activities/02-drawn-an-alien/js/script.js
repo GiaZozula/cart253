@@ -31,8 +31,10 @@ function setup() {
   ellipse(320,480,300,200);
 
 //draw a purple head
-  fill(128, 74, 148);
-  ellipse(320,240,250,400);
+fill(128, 74, 148);
+ellipse(320,240,250,400);
+
+ellipse(320,240,400,200);
 
 //draw the eyes
 fill(68, 17, 128);
@@ -44,16 +46,21 @@ fill(236, 194, 237);
 ellipse(250,240,40,40);
 ellipse(390,240,40,40);
 
+  //draw the nose
+  fill(234, 178, 237);
+  noStroke();
+  triangle(280, 350, 350, 320, 300, 190);
+
 //draw the nostrils
   fill(0);
-  ellipse(300, 350, 10, 10);
-  ellipse(340, 350, 10, 10);
+  ellipse(300, 340, 10, 10);
+  ellipse(335, 325, 10, 10);
 
 //draw the mouth
   stroke(234, 178, 237);
   strokeWeight(12);
   rectMode(CENTER);
-  rect(320,400,100,20);
+  rect(320,400,100,20,20,20,20);
 
   //draw some eyebrows
   noFill();
