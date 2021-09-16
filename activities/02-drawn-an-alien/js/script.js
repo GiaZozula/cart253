@@ -2,7 +2,7 @@
 activity 2 - drawn an alien
 Gia <3
 
-
+Draws an alien on canvas
 */
 
 "use strict";
@@ -17,7 +17,7 @@ function preload() {
 
 
 /**
-Description of setup
+Draws an alien
 */
 function setup() {
   createCanvas(640, 480);
@@ -54,7 +54,7 @@ ellipse(390,240,80,250);
 
 
 /**
-Description of draw()
+does nothing
 */
 function draw() {
 
