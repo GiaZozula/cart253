@@ -23,11 +23,11 @@ function setup() {
   createCanvas(640, 480);
 
 //orange background
-  background(255, 110, 25);
+  background(149, 227, 230);
   noStroke();
 
 //draw the body
-  fill(127);
+  fill(98, 29, 99);
   ellipse(320,480,300,200);
 
 //draw a purple head
@@ -35,9 +35,14 @@ function setup() {
   ellipse(320,240,250,400);
 
 //draw the eyes
-fill(0);
-ellipse(250,240,80,250);
-ellipse(390,240,80,250);
+fill(68, 17, 128);
+ellipse(250,240,80,80);
+ellipse(390,240,80,80);
+
+//draw the eyes
+fill(236, 194, 237);
+ellipse(250,240,40,40);
+ellipse(390,240,40,40);
 
 //draw the nostrils
   fill(0);
@@ -49,6 +54,12 @@ ellipse(390,240,80,250);
   strokeWeight(12);
   rectMode(CENTER);
   rect(320,400,100,20);
+
+  //draw some eyebrows
+  noFill();
+  arc(280, 100, 100, 55, PI, PI + QUARTER_PI);
+  arc(400, 80, 100, 55, HALF_PI, PI);
+
 
 }
 
