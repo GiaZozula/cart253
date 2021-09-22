@@ -1,33 +1,21 @@
 /**
-Title of Project
-Author Name
+Mona Lisa
+Gia <3
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+Making the Mona Lisa
 */
 
 "use strict";
-
-
-/**
-Description of preload
-*/
-function preload() {
-
-}
-
 
 /**
 Description of setup
 */
 function setup() {
-
+  createCanvas(400, 600);
+  background(144, 209, 152);
 }
-
 
 /**
 Description of draw()
 */
-function draw() {
-
-}
+function draw() {}
