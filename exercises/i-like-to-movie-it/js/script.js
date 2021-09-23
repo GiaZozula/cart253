@@ -10,12 +10,23 @@ Gia's program for exercise #1 "I like to move it"
 /**
 Description of setup
 */
+let rectangle = {
+  x: 0,
+  y: 0,
+  size: 50,
+  vx: 0,
+  vy: 0,
+  shade: 255,
+};
+
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(500, 500);
+
+  rectangle.vx = 12;
+  rectangle.vy = 12;
 
   //baby blue background
-  background(149, 227, 230);
-  noStroke();
+  background(0);
 }
 
 /**
@@ -24,4 +35,16 @@ Description of draw()
 ideas:
 random number + variable (size, position, alpha) in relation to mouse, for a bunch of little circles and lines that follow the mouse
 */
-function draw() {}
+function draw() {
+  rectangle.x += rectangle.vx;
+  rectangle.y += rectangle.vy;
+  rectangle.size = rectangle.size + -2;
+  rectangle.shade = rectangle.shade + random(-1, -30);
+
+  rectMode(CENTER);
+  noFill();
+  let r = map(mouseX, 0, width, 0, 255);
+  let g = map(mouseY, 0, width, 0, 255);
+  stroke(rectangle.shade);
+  rect(rectangle.x, rectangle.y, rectangle.size, rectangle.size);
+}
