@@ -1,5 +1,5 @@
 /**
-~~I like to move it!~~ CART 253
+~~I like to move it!~~ CART 253 except i wrote 'movie' in the folder title by acccident
 Gia
 
 This is my submission for the "I like to move it!" exercise.
