@@ -43,8 +43,6 @@ function draw() {
 
   rectMode(CENTER);
   noFill();
-  let r = map(mouseX, 0, width, 0, 255);
-  let g = map(mouseY, 0, width, 0, 255);
   stroke(rectangle.shade);
   rect(rectangle.x, rectangle.y, rectangle.size, rectangle.size);
 }
