@@ -86,14 +86,13 @@ function setup() {
 }
 
 /**
-drawing some shapes()
+drawing some shapes!
 */
 function draw() {
   //background
   background(bg.r, bg.g, bg.b);
   bg.r = bg.r + 0.3;
   bg.b += 0.09;
-  //bg.g += 0.03;
 
   //little circle1
   fill(237, 255, 169);
