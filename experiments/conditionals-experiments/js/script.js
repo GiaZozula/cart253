@@ -1,7 +1,8 @@
-let caterpillar = {
-  x: 100,
-  y: 250,
-  segmentSize: 50,
+let circle = {
+  x: 250,
+  y: 25,
+  size: 100,
+  speed: 0,
 };
 
 function setup() {
@@ -10,26 +11,7 @@ function setup() {
 
 function draw() {
   background(0);
-  noStroke();
-  fill(100, 200, 100);
-
-  // let x = caterpillar.x;
-  // let numSegments = 5;
-  // let segmentsDrawn = 0;
-  //
-  // while (segmentsDrawn < numSegments) {
-  //   ellipse(x, caterpillar.y, caterpillar.segmentSize);
-  //   x = x + 40;
-  //   segmentsDrawn++;
-  // }
-
-  let x = caterpillar.x;
-  let numSegments = 10;
-
-  for (let i = 0; i < numSegments; i++) {
-    ellipse(x, caterpillar.y, caterpillar.segmentSize);
-    x = x + 40;
-  }
+  circle.x = circle.x + circle.speed;
+  ellipse(circle.x, circle.y, circle.size);
 }
-
 // >, <, >=, <=, ===, !==
