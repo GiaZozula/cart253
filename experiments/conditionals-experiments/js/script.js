@@ -23,12 +23,10 @@ function draw() {
     circle.speed = -circle.speed;
   }
 
-  if (mouseY < height / 2) {
-    fill(255, 0, 0);
-  }
+  fill(255, 255, 255);
 
-  if (mouseY > height / 2) {
-    fill(0, 0, 255);
+  if (!(circle.x < width / 3)) {
+    fill(255, 0, 0);
   }
 
   ellipse(circle.x, circle.y, circle.size);
