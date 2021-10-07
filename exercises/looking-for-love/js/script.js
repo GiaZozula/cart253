@@ -26,6 +26,8 @@ let circle2 = {
   speed: 3,
 };
 
+let state = `title`; //Can be title, simulation, love, and sadness
+
 /**
 Description of preload
 */
@@ -36,7 +38,10 @@ Description of setup
 */
 function setup() {
   createCanvas(500, 500);
+  setupCircles();
+}
 
+function setupCircles() {
   // position circles seperated from one another
   circle1.x = width / 3;
   circle2.x = (2 * width) / 3;
@@ -55,6 +60,25 @@ Description of draw()
 function draw() {
   background(0);
 
+  if (state === `title`) {
+    title();
+  } else if (state === `simulation`) {
+    simulation();
+  } else if (state === `love`) {
+    love();
+  } else if (state === `sadness`) {
+    sadness();
+  }
+}
+
+function title() {
+  textSize(64);
+  fill(200, 100, 100);
+  textAlign(CENTER, CENTER);
+  text(`LOVE?`, width / 2, height / 2);
+}
+
+function simulation() {
   move();
   checkOffscreen();
   checkOverlap();
