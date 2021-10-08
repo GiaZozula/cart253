@@ -1,3 +1,6 @@
-# Template p5 project
+I guess this is a bit early, but Happy Halloween!
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+I call this work, "Terrible Horror Game (I'm Sorry)"
+by Gia
+
+Try to escape your certain fate (of becoming an emoji?) by screaming into the void.
