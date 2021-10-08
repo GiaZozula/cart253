@@ -92,8 +92,9 @@ function draw() {
 //title state
 function title() {
   push();
-  textSize(20);
+  textSize(40);
   fill(0, 0, 0);
+  textFont("Oswald");
   textAlign(CENTER, CENTER);
   text(`CAN U WRANGLE YR KIDS?`, width / 2, height / 2);
   pop();
@@ -118,9 +119,9 @@ function love() {
 
   push();
   textSize(20);
-  fill(255, 150, 100);
+  fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text(`you managed to wrangle one of your children.`, width / 2, height / 2);
+  text(`You managed to wrangle one of your children.`, width / 2, height / 2);
   pop();
 }
 
@@ -136,9 +137,9 @@ function trueparenting() {
 
   push();
   textSize(20);
-  fill(255, 150, 100);
+  fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text(`you are a true parent. well done!`, width / 2, height / 2);
+  text(`You are a true parent. Well done!`, width / 2, height / 2);
   pop();
 }
 
@@ -155,7 +156,7 @@ function sadness() {
   textSize(20);
   fill(150, 150, 255);
   textAlign(CENTER, CENTER);
-  text(`your toddlers escaped! :*(`, width / 2, height / 2);
+  text(`Your toddlers escaped! :*(`, width / 2, height / 2);
   pop();
 }
 
@@ -163,6 +164,7 @@ function sadness() {
 function neglect() {
   // background for the text
   push();
+  stroke(255, 255, 255);
   fill(255, 0, 0);
   rectMode(CENTER);
   rect(popupscreen.x, popupscreen.y, popupscreen.w, popupscreen.h);
@@ -170,10 +172,11 @@ function neglect() {
 
   //text
   push();
-  textSize(20);
-  fill(0);
+  textFont("Oswald");
+  textSize(30);
+  fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text(`don't abandon your kids! wtf!`, width / 2, height / 2);
+  text(`DON'T ABANDON YOUR KIDS! WTF!`, width / 2, height / 2);
   pop();
 }
 
