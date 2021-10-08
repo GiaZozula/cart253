@@ -1,4 +1,4 @@
-~CAN U WRANGLE YR KIDS?~
+CAN U WRANGLE YR KIDS? 
 
 by Gia
 
