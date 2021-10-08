@@ -134,14 +134,14 @@ function love() {
 function trueparenting() {
   // background for the text
   push();
-  fill(255, 255, 255);
+  fill(0, 0, 0);
   rectMode(CENTER);
   rect(popupscreen.x, popupscreen.y, popupscreen.w, popupscreen.h);
   pop();
 
   push();
   textSize(20);
-  fill(0);
+  fill(255, 255, 255);
   textAlign(CENTER, CENTER);
   text(`You are a true parent. Well done!`, width / 2, height / 2);
   pop();
