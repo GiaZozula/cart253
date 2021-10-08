@@ -1,13 +1,13 @@
 /**
-~~looking for luvv!~~ <3 <3
-Gia
+~~CAN U WRANGLE YR KIDS?~~ (looking-for-love exercise)
+Gia <3
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+You play a parent desperately trying to wrangle a couple of hyper kids.
 */
 
 "use strict";
 
+//child 1 is circle1
 let circle1 = {
   x: undefined,
   y: 100,
@@ -19,6 +19,7 @@ let circle1 = {
   ty: 11,
 };
 
+//parent is circle2
 let circle2 = {
   x: 250,
   y: 250,
@@ -30,6 +31,7 @@ let circle2 = {
   ty: 10,
 };
 
+//child 2 is circle2
 let circle3 = {
   x: undefined,
   y: 450,
@@ -41,6 +43,7 @@ let circle3 = {
   ty: 10,
 };
 
+//this is used as a background for the end states
 let popupscreen = {
   x: 250,
   y: 250,
@@ -48,15 +51,14 @@ let popupscreen = {
   h: 100,
 };
 
-let state = `title`; //Can be title, simulation, love, and sadness
+//this is used to fluctuate the colours of the circles
+let blueInc = 0;
+
+//starting at the title
+let state = `title`;
 
 /**
-Description of preload
-*/
-function preload() {}
-
-/**
-Description of setup
+setting up the canvas and circles
 */
 function setup() {
   createCanvas(500, 500);
@@ -67,11 +69,10 @@ function setupCircles() {
   // position circles seperated from one another
   circle1.x = width / 5;
   circle2.x = (2 * width) / 5;
+  circle3.x = width / 2;
 }
 
-/**
-Description of draw()
-*/
+// setting up all the states
 function draw() {
   if (state === `title`) {
     title();
@@ -88,15 +89,17 @@ function draw() {
   }
 }
 
+//title state
 function title() {
   push();
-  textSize(64);
-  fill(200, 100, 100);
+  textSize(20);
+  fill(0, 0, 0);
   textAlign(CENTER, CENTER);
-  text(`LOVE?`, width / 2, height / 2);
+  text(`CAN U WRANGLE YR KIDS?`, width / 2, height / 2);
   pop();
 }
 
+//simulation state
 function simulation() {
   move();
   checkOffscreen();
@@ -104,6 +107,7 @@ function simulation() {
   display();
 }
 
+//love state
 function love() {
   // background for the text
   push();
@@ -120,7 +124,8 @@ function love() {
   pop();
 }
 
-//an essentially impossible secret ending
+//trueparenting state
+//a very difficult but not impossible secret ending (i actually managed it a couple of times! flukey!)
 function trueparenting() {
   // background for the text
   push();
@@ -137,6 +142,7 @@ function trueparenting() {
   pop();
 }
 
+//sadness state
 function sadness() {
   // background for the text
   push();
@@ -153,6 +159,7 @@ function sadness() {
   pop();
 }
 
+//neglect state, also a semi 'secret' ending
 function neglect() {
   // background for the text
   push();
@@ -171,21 +178,21 @@ function neglect() {
 }
 
 function move() {
-  //circle1's movement
+  //circle1's movement based off of noise
   circle1.x = map(noise(circle1.tx), 0, 1, 0, width);
   circle1.y = map(noise(circle1.ty), 0, 1, 0, height);
 
   circle1.tx += 0.009;
   circle1.ty += 0.007;
 
-  //circle3's movement
+  //circle3's movement based off of noise
   circle3.x = map(noise(circle3.tx), 0, 1, 0, width);
   circle3.y = map(noise(circle3.ty), 0, 1, 0, height);
 
   circle3.tx += 0.009;
   circle3.ty += 0.007;
 
-  //circle2 user controls for movement
+  //circle2 is the user, keyboard controls for movement
   if (keyIsDown(LEFT_ARROW)) {
     circle2.vx = -circle2.speed;
   } else if (keyIsDown(RIGHT_ARROW)) {
@@ -207,15 +214,17 @@ function move() {
 }
 
 function checkOffscreen() {
-  //check if the circles have gone offscreen
+  //check if the children circles have gone offscreen
   if (isOffscreen(circle1) || isOffscreen(circle3)) {
     state = `sadness`;
   }
+  //check if the parent circle has gone offscreen
   if (isOffscreen(circle2)) {
     state = `neglect`;
   }
 }
 
+//using a return value for the isOffscreen function
 function isOffscreen(circle) {
   if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height) {
     return true;
@@ -224,8 +233,8 @@ function isOffscreen(circle) {
   }
 }
 
+//check if the circles overlap
 function checkOverlap() {
-  //check if circles overlap
   let d = dist(circle1.x, circle1.y, circle2.x, circle2.y);
   if (d < circle1.size / 2 + circle2.size / 2) {
     state = `love`;
@@ -235,7 +244,8 @@ function checkOverlap() {
     state = `love`;
   }
 
-  //this is the impossible secret ending, couldn't figure out how to have circle2 "collect" all the children
+  //this is the secret ending.
+  //couldn't figure out how to have circle2 "collect" all the children so this is rather difficult to achieve
   let d3 = dist(
     circle1.x,
     circle1.y,
@@ -250,13 +260,26 @@ function checkOverlap() {
 }
 
 function display() {
-  //display the circles
-  fill(240, 70, 100);
+  //display the 'children' circle1 and circle 3
+  // using blueInc to add fluctuating colour for circle 1 and 3.
+  //got the basic idea from Allison Parish's creative coding website
+  push();
+  noStroke();
+  fill(sin(blueInc) * 255, 100, 255);
+  blueInc += 0.05;
   ellipse(circle1.x, circle1.y, circle1.size);
-  ellipse(circle2.x, circle2.y, circle2.size);
   ellipse(circle3.x, circle3.y, circle3.size);
+  pop();
+
+  //display the 'parent' circle2
+  push();
+  fill(sin(blueInc) * 255, 0, 0);
+  blueInc += 0.05;
+  ellipse(circle2.x, circle2.y, circle2.size);
+  pop();
 }
 
+//get the game started :D
 function mousePressed() {
   if (state === `title`) {
     state = `simulation`;
