@@ -1,8 +1,12 @@
 /**
-~~CAN U WRANGLE YR KIDS?~~ (looking-for-love exercise)
+~~CAN U WRANGLE YR KIDS?~~ (looking-for-love/love-actually exercise)
 Gia <3
 
 You play a parent desperately trying to wrangle a couple of hyper kids.
+
+Not sure why, but there appears to be a weird bug with the font that
+only happens sometimes at the start of the game? If you don't mind
+filling me in on what I did wrong I'd appreciate it :) :) Thanks!!
 */
 
 "use strict";
@@ -130,14 +134,14 @@ function love() {
 function trueparenting() {
   // background for the text
   push();
-  fill(0, 0, 0);
+  fill(255, 255, 255);
   rectMode(CENTER);
   rect(popupscreen.x, popupscreen.y, popupscreen.w, popupscreen.h);
   pop();
 
   push();
   textSize(20);
-  fill(255, 255, 255);
+  fill(0);
   textAlign(CENTER, CENTER);
   text(`You are a true parent. Well done!`, width / 2, height / 2);
   pop();
