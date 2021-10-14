@@ -5,6 +5,7 @@ description to match your project!
 */
 
 "use strict";
+let myFont;
 
 let radius = 350;
 let angle = 0;
@@ -15,9 +16,11 @@ let centerX = 700;
 let centerY = 400;
 
 /**
-Description of preload
+Preloading fonts,
 */
-function preload() {}
+function preload() {
+  myFont = loadFont("assets/fonts/tempfont.otf");
+}
 
 /**
 Description of setup
@@ -25,6 +28,7 @@ Description of setup
 function setup() {
   createCanvas(1400, 800);
   rectMode(CENTER);
+  textFont(myFont);
 }
 
 /**
@@ -33,7 +37,7 @@ Description of draw()
 function draw() {
   background(255);
 
-  //Sketching out the basic HUD elements
+  // ~~~ Sketching out the basic HUD elements ~~~
   //drawing the "playfield"
   circle(centerX, centerY, radius * 2);
   //temp position for HP(lives)
@@ -41,8 +45,16 @@ function draw() {
   //temp position for scoreboard
   push();
   fill(0); //add "score colour variable"
-  textSize(20);
-  text("SCOREBOARD", 179, 100); //add scoreboard variable with a counter
+  textSize(30);
+  text("hi score: x100000", 179, 115); //add scoreboard variable with a counter
+  pop();
+  //temp position for "TitleBanner_PanelVersion"
+  push();
+  fill(0);
+  textAlign(CENTER);
+  textSize(140);
+  text("WIZARD", 1200, 100); //1st half of the game's WIP title
+  text("HELL", 1200, 200); //2nd half of the game's WIP title
   pop();
 
   //computing the angle
