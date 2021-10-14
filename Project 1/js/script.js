@@ -7,6 +7,16 @@ description to match your project!
 "use strict";
 let myFont;
 
+//setting up the player
+let user = {
+  x: undefined,
+  y: undefined,
+  vx: 0,
+  vy: 0,
+  speed: 0,
+  size: undefined,
+};
+
 let radius = 350;
 let angle = 0;
 let speed = 0.03;
@@ -35,7 +45,7 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  background(255);
+  background(0);
 
   // ~~~ Sketching out the basic HUD elements ~~~
   //drawing the "playfield"
@@ -44,18 +54,28 @@ function draw() {
   rect(250, 50, 150, 55, 20);
   //temp position for scoreboard
   push();
-  fill(0); //add "score colour variable"
+  fill(255); //add "score colour variable"
   textSize(30);
   text("hi score: x100000", 179, 115); //add scoreboard variable with a counter
   pop();
   //temp position for "TitleBanner_PanelVersion"
   push();
-  fill(0);
+  fill(255);
   textAlign(CENTER);
-  textSize(140);
+  textSize(120);
   text("WIZARD", 1200, 100); //1st half of the game's WIP title
   text("HELL", 1200, 200); //2nd half of the game's WIP title
   pop();
+
+  // ~~~ User controls ~~~
+  //Movement with arrow keys
+  if (keyIsDown(LEFT_ARROW)) {
+    user.vx = -user.speed;
+  } else if (keyIsDown(RIGHT_ARROW)) {
+    user.vx = user.speed;
+  } else {
+    user.vx = 0;
+  }
 
   //computing the angle
   // text(angle, 50, 50);
@@ -67,6 +87,8 @@ function draw() {
   // origin / (0, 0) point
   rect(radius, 0, 50, 50); //add this to "USER"
   line(0, 0, radius, 0); //add this to "shotLine"
+
+  // ~~~ User Display ~~~
 
   angle = angle + speed;
 }
