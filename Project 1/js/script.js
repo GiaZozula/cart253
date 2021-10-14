@@ -31,10 +31,19 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  background(0);
+  background(255);
 
+  //Sketching out the basic HUD elements
   //drawing the "playfield"
   circle(centerX, centerY, radius * 2);
+  //temp position for HP(lives)
+  rect(250, 50, 150, 55, 20);
+  //temp position for scoreboard
+  push();
+  fill(0); //add "score colour variable"
+  textSize(20);
+  text("SCOREBOARD", 179, 100); //add scoreboard variable with a counter
+  pop();
 
   //computing the angle
   // text(angle, 50, 50);
