@@ -74,19 +74,6 @@ function draw() {
   text("HELL", 1200, 200); //2nd half of the game's WIP title
   pop();
 
-  // ~~~ User controls ~~~
-  //Movement with arrow keys
-  if (keyIsDown(LEFT_ARROW)) {
-    user.direction += user.speed;
-  } else if (keyIsDown(RIGHT_ARROW)) {
-    user.direction -= user.speed;
-  } else {
-    user.direction = 0;
-  }
-
-  //need to add a constrain for speed, with maxSpeed
-  user.speed = constrain(user.speed, 0, user.maxSpeed);
-
   //i need a return variable of true or false to determine if the direction has been changed
   //if so, i think i can get the user to actually shift directions immediately by adding a
   //"directionChanged" variable that puts user.direction to 0 before user.speed is calculated.
@@ -100,6 +87,19 @@ function draw() {
   // translate center point for the user to rotate around
   translate(centerX, centerY);
   rotate(angle);
+
+  // ~~~ User controls ~~~
+  //Movement with arrow keys
+  if (keyIsDown(LEFT_ARROW)) {
+    user.direction += user.speed;
+  } else if (keyIsDown(RIGHT_ARROW)) {
+    user.direction -= user.speed;
+  } else {
+    user.direction = 0;
+  }
+
+  //need to add a constrain for speed, with maxSpeed
+  user.speed = constrain(user.speed, 0, user.maxSpeed);
 
   // ~~~ User Display ~~~
   ellipse(radius, user.y, user.size);
