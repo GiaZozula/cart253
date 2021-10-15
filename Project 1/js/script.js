@@ -13,8 +13,8 @@ let user = {
   y: 0,
   size: 100,
   direction: 0,
-  speed: 0.006,
-  maxSpeed: 0.008,
+  leftSpeed: 0.06,
+  rightSpeed: -0.06,
 };
 
 //setting up monsters
@@ -31,6 +31,16 @@ let playfield = {
   angle: 0,
   centerX: 700,
   centerY: 400,
+};
+
+//setting up shot
+let shot = {
+  x: 0,
+  y: 0,
+  position: undefined,
+  size: 30,
+  fire: false,
+  rateoffire: 1,
 };
 
 /**
@@ -75,17 +85,6 @@ function draw() {
   text("HELL", 1200, 200); //2nd half of the game's WIP title
   pop();
 
-  //do i need a return variable of true or false to determine if the direction has been changed?
-  //if so, maybe i can get the user to actually shift directions immediately by adding a
-  //"directionChanged" variable that resets user.direction to 0 before user.speed is calculated.
-  // might feel chunky and weird though!
-  // do i have to do this with a while loop? to constantly check if its changed?
-
-  //Need to add monster AI, likely with Perlin noise, and movement based on chasing the player
-  //every so often. Also need to constrain the AI to the playfield, though I also then have to
-  //figure how to kill enemies who appear on the movement circle (maybe by causing them to die)
-  //or adding a seperate 'bomb' attack for the player, orrrr?
-
   // translate center point for the user to rotate around
   translate(playfield.centerX, playfield.centerY);
   rotate(playfield.angle);
@@ -96,15 +95,26 @@ function draw() {
   // ~~~ User controls ~~~
   //Movement with arrow keys
   if (keyIsDown(LEFT_ARROW)) {
-    user.direction += user.speed;
+    user.direction = user.leftSpeed;
   } else if (keyIsDown(RIGHT_ARROW)) {
-    user.direction -= user.speed;
+    user.direction = user.rightSpeed;
   } else {
     user.direction = 0;
   }
 
-  //need to add a constrain for speed, with maxSpeed
-  user.speed = constrain(user.speed, 0, user.maxSpeed);
+  //Shooting controlss
+  if (keyIsPressed(UP_ARROW)) {
+    shot.fire = true;
+  } else {
+    shot.fire = false;
+  }
+
+  //shot behavior
+
+  //Need to add monster AI, likely with Perlin noise, and movement based on chasing the player
+  //every so often. Also need to constrain the AI to the playfield, though I also then have to
+  //figure how to kill enemies who appear on the movement circle (maybe by causing them to die)
+  //or adding a seperate 'bomb' attack for the player, orrrr?
 
   // ~~~ User Display ~~~
   ellipse(playfield.radius, user.y, user.size);
@@ -113,6 +123,8 @@ function draw() {
   ellipse(monster.x, monster.y, monster.size);
 
   // ~~~ Shot(s) Display ~~~
+  ellipse(playfield.radius, shot.y, shot.size);
+
   //line for testing the direction
   // line(0, 0, radius, 0);
 
