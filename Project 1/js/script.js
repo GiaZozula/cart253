@@ -5,21 +5,28 @@ description to match your project!
 */
 
 "use strict";
-let myFont;
+let tempFont;
 
 //setting up the player
 let user = {
-  x: undefined,
-  y: undefined,
-  vx: 0,
-  vy: 0,
-  speed: 0,
-  size: undefined,
+  x: 0,
+  y: 0,
+  size: 100,
+  direction: 0,
+  speed: 0.006,
+  maxSpeed: 0.001,
+};
+
+//setting up monsters
+let monster = {
+  x: 0,
+  y: 0,
+  size: 50,
+  easing: 0.05,
 };
 
 let radius = 350;
 let angle = 0;
-let speed = 0.03;
 
 // the center of our rotation:
 let centerX = 700;
@@ -29,7 +36,7 @@ let centerY = 400;
 Preloading fonts,
 */
 function preload() {
-  myFont = loadFont("assets/fonts/tempfont.otf");
+  tempFont = loadFont("assets/fonts/tempfont.otf");
 }
 
 /**
@@ -38,7 +45,7 @@ Description of setup
 function setup() {
   createCanvas(1400, 800);
   rectMode(CENTER);
-  textFont(myFont);
+  textFont(tempFont);
 }
 
 /**
@@ -70,25 +77,42 @@ function draw() {
   // ~~~ User controls ~~~
   //Movement with arrow keys
   if (keyIsDown(LEFT_ARROW)) {
-    user.vx = -user.speed;
+    user.direction += user.speed;
   } else if (keyIsDown(RIGHT_ARROW)) {
-    user.vx = user.speed;
+    user.direction -= user.speed;
   } else {
-    user.vx = 0;
+    user.direction = 0;
   }
+
+  //need to add a constrain for speed, with maxSpeed
+  user.speed = constrain(user.speed, 0, user.maxSpeed);
+
+  //i need a return variable of true or false to determine if the direction has been changed
+  //if so, i think i can get the user to actually shift directions immediately by adding a
+  //"directionChanged" variable that puts user.direction to 0 before user.speed is calculated.
+  // do i have to do this with a while loop? to constantly check if its changed?
+
+  //Need to add monster AI, likely with Perlin noise, and movement based on chasing the player
+  //every so often. Also need to constrain the AI to the playfield, though I also then have to
+  //figure how to kill enemies who appear on the movement circle (maybe by causing them to die)
+  //or adding a seperate attack for the player, orrrr?
+
+  // translate center point for the user to rotate around
+  translate(centerX, centerY);
+  rotate(angle);
+
+  // ~~~ User Display ~~~
+  ellipse(radius, user.y, user.size);
+
+  // ~~~ Monster(s) Display ~~~
+  ellipse(monster.x, monster.y, monster.size);
+
+  // ~~~ Shot(s) Display ~~~
+  //line for testing the direction
+  // line(0, 0, radius, 0);
 
   //computing the angle
   // text(angle, 50, 50);
 
-  // translate to point to rotate around
-  translate(centerX, centerY);
-  rotate(angle);
-  // draw shape as though (centerX, centerY) is the new
-  // origin / (0, 0) point
-  rect(radius, 0, 50, 50); //add this to "USER"
-  line(0, 0, radius, 0); //add this to "shotLine"
-
-  // ~~~ User Display ~~~
-
-  angle = angle + speed;
+  angle = angle + user.direction;
 }
