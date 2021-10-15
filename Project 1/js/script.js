@@ -29,11 +29,9 @@ let monster = {
 let playfield = {
   radius: 350,
   angle: 0,
+  centerX: 700,
+  centerY: 400,
 };
-
-// the center of the rotation:
-let centerX = 700;
-let centerY = 400;
 
 /**
 Preloading fonts,
@@ -59,7 +57,7 @@ function draw() {
 
   // ~~~ Sketching out the basic HUD elements ~~~
   //drawing the "playfield"
-  circle(centerX, centerY, playfield.radius * 2);
+  circle(playfield.centerX, playfield.centerY, playfield.radius * 2);
   //temp position for HP(lives)
   rect(250, 50, 150, 55, 20);
   //temp position for scoreboard
@@ -89,7 +87,7 @@ function draw() {
   //or adding a seperate 'bomb' attack for the player, orrrr?
 
   // translate center point for the user to rotate around
-  translate(centerX, centerY);
+  translate(playfield.centerX, playfield.centerY);
   rotate(playfield.angle);
 
   //rotate the angle
