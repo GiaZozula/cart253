@@ -14,7 +14,7 @@ let user = {
   size: 100,
   direction: 0,
   speed: 0.006,
-  maxSpeed: 0.001,
+  maxSpeed: 0.008,
 };
 
 //setting up monsters
@@ -25,10 +25,13 @@ let monster = {
   easing: 0.05,
 };
 
-let radius = 350;
-let angle = 0;
+//setting up rotational playfield
+let playfield = {
+  radius: 350,
+  angle: 0,
+};
 
-// the center of our rotation:
+// the center of the rotation:
 let centerX = 700;
 let centerY = 400;
 
@@ -56,7 +59,7 @@ function draw() {
 
   // ~~~ Sketching out the basic HUD elements ~~~
   //drawing the "playfield"
-  circle(centerX, centerY, radius * 2);
+  circle(centerX, centerY, playfield.radius * 2);
   //temp position for HP(lives)
   rect(250, 50, 150, 55, 20);
   //temp position for scoreboard
@@ -74,19 +77,22 @@ function draw() {
   text("HELL", 1200, 200); //2nd half of the game's WIP title
   pop();
 
-  //i need a return variable of true or false to determine if the direction has been changed
-  //if so, i think i can get the user to actually shift directions immediately by adding a
-  //"directionChanged" variable that puts user.direction to 0 before user.speed is calculated.
+  //do i need a return variable of true or false to determine if the direction has been changed?
+  //if so, maybe i can get the user to actually shift directions immediately by adding a
+  //"directionChanged" variable that resets user.direction to 0 before user.speed is calculated.
+  // might feel chunky and weird though!
   // do i have to do this with a while loop? to constantly check if its changed?
 
   //Need to add monster AI, likely with Perlin noise, and movement based on chasing the player
   //every so often. Also need to constrain the AI to the playfield, though I also then have to
   //figure how to kill enemies who appear on the movement circle (maybe by causing them to die)
-  //or adding a seperate attack for the player, orrrr?
+  //or adding a seperate 'bomb' attack for the player, orrrr?
 
   // translate center point for the user to rotate around
   translate(centerX, centerY);
-  rotate(angle);
+  rotate(playfield.angle);
+  //rotate the angle
+  playfield.angle = playfield.angle + user.direction;
 
   // ~~~ User controls ~~~
   //Movement with arrow keys
@@ -102,7 +108,7 @@ function draw() {
   user.speed = constrain(user.speed, 0, user.maxSpeed);
 
   // ~~~ User Display ~~~
-  ellipse(radius, user.y, user.size);
+  ellipse(playfield.radius, user.y, user.size);
 
   // ~~~ Monster(s) Display ~~~
   ellipse(monster.x, monster.y, monster.size);
@@ -113,6 +119,5 @@ function draw() {
 
   //computing the angle
   // text(angle, 50, 50);
-
-  angle = angle + user.direction;
+  // angle = angle + user.direction;
 }
