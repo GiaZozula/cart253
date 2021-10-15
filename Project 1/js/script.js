@@ -91,6 +91,7 @@ function draw() {
   // translate center point for the user to rotate around
   translate(centerX, centerY);
   rotate(playfield.angle);
+
   //rotate the angle
   playfield.angle = playfield.angle + user.direction;
 
