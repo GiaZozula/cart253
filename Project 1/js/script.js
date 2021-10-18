@@ -1,134 +1,173 @@
 /**
-WIZARD HELL
+~~ changed concept ~~
 By Gia <3
-description to match your project!
-*/
 
-"use strict";
++ attribution of code from Mads' source, my addition of controls,
+then Pippin's adaptation of this idea
+*/
 let tempFont;
 
-//setting up the player
+let stars = [];
+
+let star = {
+  x: 700,
+  y: 400,
+  fill: 255,
+  size: 3,
+};
+
+let centerPoint = {
+  x: 700,
+  y: 400,
+};
+
 let user = {
-  x: 0,
-  y: 0,
+  // The centre
+  x: 700,
+  y: 400,
+  // How far out from the center our thing rotates
+  radius: 350,
+  // How big is it
   size: 100,
-  direction: 0,
+  // What is the current rotation around the circle?
+  rotation: 0,
+  // How fast is it rotating
+  rotationSpeed: 0.0,
+  //determine the direction
   leftSpeed: 0.06,
   rightSpeed: -0.06,
 };
 
-//setting up monsters
-let monster = {
-  x: 0,
-  y: 0,
+let bullet = {
+  //starts on the user
+  x: user.x,
+  y: user.y,
+  radius: user.radius,
+  //how big is it?
   size: 50,
-  easing: 0.05,
+  //rotates at the same speed as the user
+  rotation: user.rotation,
+  //speed of the bullet when shot
+  speed: 5,
 };
 
-//setting up rotational playfield
-let playfield = {
-  radius: 350,
-  angle: 0,
-  centerX: 700,
-  centerY: 400,
-};
-
-//setting up shot
-let shot = {
-  x: 0,
-  y: 0,
-  position: undefined,
-  size: 30,
-  fire: false,
-  rateoffire: 1,
-};
-
-/**
-Preloading fonts,
-*/
-function preload() {
-  tempFont = loadFont("assets/fonts/tempfont.otf");
-}
-
-/**
-Description of setup
-*/
 function setup() {
   createCanvas(1400, 800);
-  rectMode(CENTER);
-  textFont(tempFont);
+  // noCursor();
 }
 
-/**
-Description of draw()
-*/
 function draw() {
   background(0);
 
-  // ~~~ Sketching out the basic HUD elements ~~~
-  //drawing the "playfield"
-  circle(playfield.centerX, playfield.centerY, playfield.radius * 2);
-  //temp position for HP(lives)
-  rect(250, 50, 150, 55, 20);
-  //temp position for scoreboard
+  drawStarfield();
+
+  handleShooting();
+
+  handleDirection();
+
+  drawTrack();
+
+  drawUser();
+
+  drawBullet();
+
+  // Rotate according to the current speed
+  user.rotation += user.rotationSpeed;
+}
+
+function drawStarfield() {
+  //building a for loop (based off of the arrays course material) for the stars
+  for (let i = 0; i < 50; i++) {
+    drawStar(stars[i]);
+  }
+}
+
+//draw a single star
+function drawStar() {
   push();
-  fill(255); //add "score colour variable"
-  textSize(30);
-  text("hi score: x100000", 179, 115); //add scoreboard variable with a counter
+  noStroke();
+  fill(star.fill);
+  ellipse(random(0, width), random(0, height), star.size);
   pop();
-  //temp position for "TitleBanner_PanelVersion"
+}
+
+/**
+Draws the track our user moves on
+*/
+function drawTrack() {
   push();
+  stroke(255);
+  noFill();
+  translate(user.x, user.y);
+  ellipse(0, 0, user.radius * 2);
+  pop();
+}
+
+/**
+Draws our rotating object
+*/
+function drawUser() {
+  push();
+  noStroke();
+  fill(255, 0, 0);
+  // Translate to the centre of rotation
+  translate(user.x, user.y);
+  // Rotate our object by its current rotation
+  rotate(user.rotation);
+  // Now translate by the radius so we can draw it on the edge
+  // of the circle
+  translate(user.radius, 0);
+  // Finally draw the user (at 0,0 because we translated the origin)
+  ellipse(0, 0, user.size);
+  pop();
+}
+
+function drawBullet() {
+  push();
+  noStroke();
+  fill(0, 0, 255);
+  //translate to user's position
+  translate(bullet.x, bullet.y);
+  //have it follow the user when not fired
+  rotate(user.rotation);
+  //Translate by the radius so its drawn on the edge of the circle
+  translate(bullet.radius, 0);
+  //draw the bullet at 0,0 because it has been translated
+  ellipse(0, 0, bullet.size);
+  pop();
+}
+
+function drawStars() {
+  push();
+  noStroke();
   fill(255);
-  textAlign(CENTER);
-  textSize(120);
-  text("WIZARD", 1200, 100); //1st half of the game's WIP title
-  text("HELL", 1200, 200); //2nd half of the game's WIP title
+  translate(user.x, user.y);
+  ellipse(0, 0, star.size);
   pop();
+}
 
-  // translate center point for the user to rotate around
-  translate(playfield.centerX, playfield.centerY);
-  rotate(playfield.angle);
+//use the up arrow to shoot
+function handleShooting() {
+  if (keyIsDown(UP_ARROW)) {
+    push();
+    translate(centerPoint.x, centerPoint.y);
+    bullet.x = bullet.x + bullet.speed;
+    bullet.y = bullet.y + bullet.speed;
+    pop();
+  }
+}
 
-  //rotate the angle
-  playfield.angle = playfield.angle + user.direction;
-
-  // ~~~ User controls ~~~
-  //Movement with arrow keys
+/**
+Change the rotation speed based on arrow keys
+*/
+function handleDirection() {
   if (keyIsDown(LEFT_ARROW)) {
-    user.direction = user.leftSpeed;
+    // Left means accelerate in the negative
+    user.rotationSpeed = user.leftSpeed;
   } else if (keyIsDown(RIGHT_ARROW)) {
-    user.direction = user.rightSpeed;
+    // Right means accelerate in the positive
+    user.rotationSpeed = user.rightSpeed;
   } else {
-    user.direction = 0;
+    user.rotationSpeed = 0;
   }
-
-  //Shooting controlss
-  if (keyIsPressed(UP_ARROW)) {
-    shot.fire = true;
-  } else {
-    shot.fire = false;
-  }
-
-  //shot behavior
-
-  //Need to add monster AI, likely with Perlin noise, and movement based on chasing the player
-  //every so often. Also need to constrain the AI to the playfield, though I also then have to
-  //figure how to kill enemies who appear on the movement circle (maybe by causing them to die)
-  //or adding a seperate 'bomb' attack for the player, orrrr?
-
-  // ~~~ User Display ~~~
-  ellipse(playfield.radius, user.y, user.size);
-
-  // ~~~ Monster(s) Display ~~~
-  ellipse(monster.x, monster.y, monster.size);
-
-  // ~~~ Shot(s) Display ~~~
-  ellipse(playfield.radius, shot.y, shot.size);
-
-  //line for testing the direction
-  // line(0, 0, radius, 0);
-
-  //computing the angle
-  // text(angle, 50, 50);
-  // angle = angle + user.direction;
 }
