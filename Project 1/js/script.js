@@ -59,13 +59,13 @@ let planet2 = {
   // How big is it
   size: 100,
   // What is the current rotation around the circle?
-  rotation: 25,
+  rotation: -0,
   // How fast is it rotating
   rotationSpeed: 0,
   // How fast can it accelerate?
-  rotationAcceleration: 0.001,
+  rotationAcceleration: -0.001,
   // Maximum rotation speed
-  maxRotationSpeed: 0.01,
+  maxRotationSpeed: -0.01,
 };
 
 let moon = {
@@ -132,15 +132,16 @@ function draw() {
 
   // Rotate according to the current speed
   planet.rotation += planet.rotationSpeed;
+  planet2.rotation -= planet2.rotationSpeed;
 }
 
 function drawStarfield() {
   //building a for loop (based off of the arrays course material) for the stars
   for (let i = 0; i < 500; i++) {
-    drawStar1(stars[i]);
-    drawStar2(stars[i]);
-    drawStar3(stars[i]);
-    drawStar4(stars[i]);
+    drawStar1();
+    drawStar2();
+    drawStar3();
+    drawStar4();
   }
 }
 
@@ -262,11 +263,11 @@ function drawSun() {
 
 function drawAsteroidBelt() {
   //building a for loop (based off of the arrays course material) for the stars
-  for (let i = 0; i < 30; i++) {
-    drawAsteroid1(asteroids[i]);
-    drawAsteroid2(asteroids[i]);
-    drawAsteroid3(asteroids[i]);
-    drawAsteroid4(asteroids[i]);
+  for (let i = 0; i < 500; i++) {
+    drawAsteroid1();
+    drawAsteroid2();
+    drawAsteroid3();
+    drawAsteroid4();
   }
 }
 
@@ -421,7 +422,7 @@ function drawPlanet2() {
   // Rotate our object by its current rotation
   rotate(planet2.rotation * 1.6);
   // Now translate by the radius so we can draw it on the edge
-  // of the circle
+  // of the outer ring
   translate(planet2.radius * 1.5, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
   ellipse(0, 0, planet2.size * 2);
@@ -485,11 +486,14 @@ function handleDirection() {
   if (keyIsDown(LEFT_ARROW)) {
     // Left means accelerate in the negative
     planet.rotationSpeed -= planet.rotationAcceleration;
+    planet2.rotationSpeed += planet2.rotationAcceleration;
   } else if (keyIsDown(RIGHT_ARROW)) {
     // Right means accelerate in the positive
     planet.rotationSpeed += planet.rotationAcceleration;
+    planet2.rotationSpeed -= planet2.rotationAcceleration;
   } else {
     planet.rotationSpeed = 0.003;
+    planet2.rotationSpeed = -0.003;
   }
 
   planet.rotationSpeed = constrain(
