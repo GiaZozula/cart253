@@ -26,9 +26,7 @@ let centerPoint = {
 let sun = {
   x: 700,
   y: 400,
-  changingSize: 200,
-  constantSize: 200,
-  sizeMin: 200,
+  size: 200,
 };
 
 let planet = {
@@ -43,6 +41,24 @@ let planet = {
   rotation: 0,
   // How fast is it rotating
   rotationSpeed: 0.0,
+  // How fast can it accelerate?
+  rotationAcceleration: 0.001,
+  // Maximum rotation speed
+  maxRotationSpeed: 0.01,
+};
+
+let planet2 = {
+  // The centre
+  x: 700,
+  y: 400,
+  // How far out from the center our thing rotates
+  radius: 350,
+  // How big is it
+  size: 100,
+  // What is the current rotation around the circle?
+  rotation: 25,
+  // How fast is it rotating
+  rotationSpeed: 0,
   // How fast can it accelerate?
   rotationAcceleration: 0.001,
   // Maximum rotation speed
@@ -82,9 +98,13 @@ function draw() {
 
   drawSun();
 
-  drawTrack();
+  drawTrack1();
+  drawTrack2();
+  drawTrack3();
+  // drawTrack4();
 
   drawPlanet();
+  drawPlanet2();
 
   drawMoon();
 
@@ -110,41 +130,90 @@ function drawStar() {
 
 //draw sun
 function drawSun() {
+  //outermost circle
   push();
   noStroke();
-  fill(255, 255, 255);
+  fill(255, 125, 0, 200);
   translate(planet.x, planet.y);
-  sunRate += 0.0001;
-  sun.constantSize = sin(sunRate) * 100;
-  ellipse(0, 0, sun.constantSize * 1.4);
-  map(sun.constantSize, sun.sizeMin, 1000);
+  ellipse(0, 0, 170);
   pop();
 
   push();
   noStroke();
   fill(255, 185, 0);
   translate(planet.x, planet.y);
-  sunRate += 0.0001;
-  sun.constantSize = sin(sunRate) * 100;
-  ellipse(0, 0, sun.constantSize * 1.3);
+  ellipse(0, 0, 150);
   pop();
 
   push();
   noStroke();
-  fill(255, 125, 0, 200);
+  fill(255, 200, 0);
   translate(planet.x, planet.y);
-  sunRate += 0.01;
-  sun.changingSize = sin(sunRate) * 50;
-  ellipse(0, 0, sun.changingSize * 1.4);
+  ellipse(0, 0, 120);
+  pop();
+
+  push();
+  noStroke();
+  fill(255, 200, 0, 250);
+  translate(planet.x, planet.y);
+  ellipse(0, 0, 100);
+  pop();
+
+  push();
+  noStroke();
+  fill(255, 250, 0, 150);
+  translate(planet.x, planet.y);
+  sunRate += 0.0001;
+  sun.size = sin(sunRate) * 100;
+  ellipse(0, 0, sun.size * 1.4);
+  pop();
+
+  push();
+  noStroke();
+  fill(255, 225, 0, 150);
+  translate(planet.x, planet.y);
+  sunRate += 0.0001;
+  sun.size = sin(sunRate) * 100;
+  ellipse(0, 0, sun.size * 1.3);
+  pop();
+
+  push();
+  noStroke();
+  fill(255, 255, 255, 25);
+  translate(planet.x, planet.y);
+  sunRate += 0.009;
+  sun.size = sin(sunRate) * 50 + 75;
+  ellipse(0, 0, sun.size * 1.4);
+  pop();
+
+  //innermost circle
+  push();
+  noStroke();
+  fill(255, 255, 255);
+  translate(planet.x, planet.y);
+  sunRate += 0.001;
+  sun.size = sin(sunRate) * 50 + 25;
+  ellipse(0, 0, sun.size * 1.4);
   pop();
 }
 
-/**
-Draws the track our planet moves on
-*/
-function drawTrack() {
+//Draws the tracks that the planet moves on
+
+function drawTrack1() {
   push();
   colourRate += 0.009;
+  strokeWeight(4);
+  stroke(sin(colourRate) * 255, 175, 120);
+  noFill();
+  translate(planet.x, planet.y);
+  ellipse(0, 0, planet.radius * 3);
+  pop();
+}
+
+function drawTrack2() {
+  push();
+  colourRate += 0.0005;
+  strokeWeight(2);
   stroke(sin(colourRate) * 255, 175, 120);
   noFill();
   translate(planet.x, planet.y);
@@ -152,15 +221,22 @@ function drawTrack() {
   pop();
 }
 
-//trying to draw multiple planets
+function drawTrack3() {
+  push();
+  colourRate += 0.0009;
+  stroke(sin(colourRate) * 255, 175, 120);
+  noFill();
+  translate(planet.x, planet.y);
+  ellipse(0, 0, planet.radius);
+  pop();
+}
 
-/**
-Draws our rotating object
-*/
+// drawing planets
 function drawPlanet() {
+  //mauve planet on center ring
   push();
   noStroke();
-  fill(175, 100, 100);
+  fill(220, 100, 100);
   // Translate to the center of rotation
   translate(planet.x, planet.y);
   // Rotate our object by its current rotation
@@ -170,6 +246,52 @@ function drawPlanet() {
   translate(planet.radius, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
   ellipse(0, 0, planet.size);
+  pop();
+
+  //planet on inner ring
+  push();
+  noStroke();
+  fill(20, 125, 200);
+  // Translate to the center of rotation
+  translate(planet.x, planet.y);
+  // Rotate our object by its current rotation
+  rotate(planet.rotation / 2);
+  // Now translate by the radius so we can draw it on the edge
+  // of the circle
+  translate(planet.radius / 2, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(0, 0, planet.size / 2);
+  pop();
+
+  //planet on outer ring
+  push();
+  noStroke();
+  fill(20, 125, 200);
+  // Translate to the center of rotation
+  translate(planet.x, planet.y);
+  // Rotate our object by its current rotation
+  rotate(planet.rotation * 1.6);
+  // Now translate by the radius so we can draw it on the edge
+  // of the circle
+  translate(planet.radius * 1.5, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(0, 0, planet.size / 2);
+  pop();
+}
+
+function drawPlanet2() {
+  push();
+  noStroke();
+  fill(20, 125, 200);
+  // Translate to the center of rotation
+  translate(planet2.x, planet2.y);
+  // Rotate our object by its current rotation
+  rotate(planet2.rotation * 1.6);
+  // Now translate by the radius so we can draw it on the edge
+  // of the circle
+  translate(planet2.radius * 1.5, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(0, 0, planet2.size * 2);
   pop();
 }
 
