@@ -7,7 +7,8 @@ then Pippin's adaptation of this idea
 
 https://p5js.org/reference/#/p5/drawingContext for
 */
-let tempFont;
+let font1;
+let font2;
 
 let stars = [];
 let asteroids = [];
@@ -91,26 +92,131 @@ let asteroid = {
   rotationSpeed: 0.001,
 };
 
+let state = "title";
+
 let moonRate = 0;
 let sunRate = 0;
 let colourRate = 0;
 
+function preload() {
+  font1 = loadFont("assets/fonts/font1.otf");
+  font2 = loadFont("assets/fonts/font2.otf");
+}
+
 function setup() {
   createCanvas(1400, 800);
-  // noCursor();
+  title();
+  state === `title`;
+  noCursor();
 }
 
 function draw() {
   background(0);
 
+  stateSwitcher();
+  drawTitle();
+
+  handleDirection();
+  handleOutwardDirection();
+
+  // Rotate according to the current speed
+  planet.rotation += planet.rotationSpeed;
+  planet2.rotation -= planet2.rotationSpeed;
+}
+
+function stateSwitcher() {
+  if (state === `title`) {
+    title();
+  } else if (state === `simulation`) {
+    simulation();
+  } else if (state === `end`) {
+    end();
+  }
+}
+
+function title() {
+  push();
+  drawTitle();
+  pop();
+}
+
+function drawTitle() {
+  push();
+  background(0);
+
+  // background animation
+  drawStarfield();
+  drawAsteroidBelt();
+
+  //draw frame
+  push();
+  stroke(255);
+  fill(0);
+  rectMode(CENTER);
+  rect(700, 400, width / 2, height / 2);
+  pop();
+
+  // orange layer of text for title screen
+  push();
+  fill(217, 89, 24, 255);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3);
+  pop();
+
+  // green layer
+  push();
+  fill(106, 184, 96, 255);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3.2);
+  pop();
+
+  //blue layer
+  push();
+  fill(1, 170, 233, 255);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3.4);
+  pop();
+
+  //white layer
+  push();
+  fill(255);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3.6);
+  pop();
+
+  //seconed chunk of text for title screen
+  push();
+  fill(1, 170, 233, 255);
+  textFont("font2");
+  textAlign(CENTER, CENTER);
+  textSize(72);
+  text(`solar system simulation`, width / 2, height / 2.2);
+  pop();
+
+  // third chunk of text for title screen
+  push();
+  fill(217, 89, 24, 255);
+  textFont("font2");
+  textAlign(CENTER, RIGHT);
+  textSize(40);
+  text(`programmed by Gia ♥♥♥`, 822, height / 1.45);
+  pop();
+}
+
+function drawSimulation() {
   drawStarfield();
   drawStar1();
   drawStar2();
   drawStar3();
   drawStar4();
-
-  handleDirection();
-  handleOutwardDirection();
 
   drawSun();
   drawAsteroidBelt();
@@ -129,10 +235,6 @@ function draw() {
   drawPlanet2();
 
   drawMoon();
-
-  // Rotate according to the current speed
-  planet.rotation += planet.rotationSpeed;
-  planet2.rotation -= planet2.rotationSpeed;
 }
 
 function drawStarfield() {
