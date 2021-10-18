@@ -4,6 +4,8 @@ By Gia <3
 
 + attribution of code from Mads' source, my addition of controls,
 then Pippin's adaptation of this idea
+
+https://p5js.org/reference/#/p5/drawingContext for
 */
 let tempFont;
 
@@ -19,6 +21,14 @@ let star = {
 let centerPoint = {
   x: 700,
   y: 400,
+};
+
+let sun = {
+  x: 700,
+  y: 400,
+  changingSize: 200,
+  constantSize: 200,
+  sizeMin: 200,
 };
 
 let planet = {
@@ -53,6 +63,7 @@ let moon = {
 };
 
 let moonRate = 0;
+let sunRate = 0;
 let colourRate = 0;
 
 function setup() {
@@ -68,6 +79,8 @@ function draw() {
   handleOutwardDirection();
 
   handleDirection();
+
+  drawSun();
 
   drawTrack();
 
@@ -95,6 +108,37 @@ function drawStar() {
   pop();
 }
 
+//draw sun
+function drawSun() {
+  push();
+  noStroke();
+  fill(255, 255, 255);
+  translate(planet.x, planet.y);
+  sunRate += 0.0001;
+  sun.constantSize = sin(sunRate) * 100;
+  ellipse(0, 0, sun.constantSize * 1.4);
+  map(sun.constantSize, sun.sizeMin, 1000);
+  pop();
+
+  push();
+  noStroke();
+  fill(255, 185, 0);
+  translate(planet.x, planet.y);
+  sunRate += 0.0001;
+  sun.constantSize = sin(sunRate) * 100;
+  ellipse(0, 0, sun.constantSize * 1.3);
+  pop();
+
+  push();
+  noStroke();
+  fill(255, 125, 0, 200);
+  translate(planet.x, planet.y);
+  sunRate += 0.01;
+  sun.changingSize = sin(sunRate) * 50;
+  ellipse(0, 0, sun.changingSize * 1.4);
+  pop();
+}
+
 /**
 Draws the track our planet moves on
 */
@@ -116,7 +160,7 @@ Draws our rotating object
 function drawPlanet() {
   push();
   noStroke();
-  fill(175, 175, 100);
+  fill(175, 100, 100);
   // Translate to the center of rotation
   translate(planet.x, planet.y);
   // Rotate our object by its current rotation
