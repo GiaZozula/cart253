@@ -53,6 +53,7 @@ let moon = {
 };
 
 let moonRate = 0;
+let colourRate = 0;
 
 function setup() {
   createCanvas(1400, 800);
@@ -99,7 +100,8 @@ Draws the track our planet moves on
 */
 function drawTrack() {
   push();
-  stroke(255);
+  colourRate += 0.009;
+  stroke(sin(colourRate) * 255, 175, 120);
   noFill();
   translate(planet.x, planet.y);
   ellipse(0, 0, planet.radius * 2);
@@ -114,7 +116,7 @@ Draws our rotating object
 function drawPlanet() {
   push();
   noStroke();
-  fill(255, 0, 0);
+  fill(175, 175, 100);
   // Translate to the center of rotation
   translate(planet.x, planet.y);
   // Rotate our object by its current rotation
@@ -130,7 +132,7 @@ function drawPlanet() {
 function drawMoon() {
   push();
   noStroke();
-  fill(0, 0, 255);
+  fill(0, 175, 100);
   //translate to planet's position
   translate(moon.x, moon.y);
   //have it follow the planet when not moved
@@ -140,7 +142,7 @@ function drawMoon() {
   //draw the moon at 0,0 because it has been translated
   ellipse(moon.x, 0, moon.size);
   scale(0.5);
-  fill(0, 255, 0);
+  fill(255, 175, 120);
   ellipse(moon.x, 0, moon.size);
   pop();
 
