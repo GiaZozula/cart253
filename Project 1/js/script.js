@@ -10,12 +10,15 @@ https://p5js.org/reference/#/p5/drawingContext for
 let tempFont;
 
 let stars = [];
+let asteroids = [];
 
 let star = {
-  x: 700,
+  x: 400,
   y: 400,
   fill: 255,
   size: 3,
+  rotation: 0.01,
+  rotationSpeed: 0.001,
 };
 
 let centerPoint = {
@@ -78,6 +81,16 @@ let moon = {
   speed: 5,
 };
 
+let asteroid = {
+  x: 300,
+  y: 300,
+  width: 4,
+  height: 7,
+  fill: 130,
+  rotation: 0.01,
+  rotationSpeed: 0.001,
+};
+
 let moonRate = 0;
 let sunRate = 0;
 let colourRate = 0;
@@ -91,12 +104,21 @@ function draw() {
   background(0);
 
   drawStarfield();
-
-  handleOutwardDirection();
+  drawStar1();
+  drawStar2();
+  drawStar3();
+  drawStar4();
 
   handleDirection();
+  handleOutwardDirection();
 
   drawSun();
+  drawAsteroidBelt();
+
+  drawAsteroid1();
+  drawAsteroid2();
+  drawAsteroid3();
+  drawAsteroid4();
 
   drawTrack1();
   drawTrack2();
@@ -114,17 +136,56 @@ function draw() {
 
 function drawStarfield() {
   //building a for loop (based off of the arrays course material) for the stars
-  for (let i = 0; i < 2; i++) {
-    drawStar(stars[i]);
+  for (let i = 0; i < 500; i++) {
+    drawStar1(stars[i]);
+    drawStar2(stars[i]);
+    drawStar3(stars[i]);
+    drawStar4(stars[i]);
   }
 }
 
 //draw a single star
-function drawStar() {
+function drawStar1() {
   push();
   noStroke();
   fill(star.fill);
-  ellipse(random(0, width), random(0, height), star.size);
+  translate(planet.x, planet.y);
+  star.rotation += star.rotationSpeed;
+  rotate(star.rotation / 22);
+  ellipse(star.x, star.y, star.size);
+  pop();
+}
+
+function drawStar2() {
+  push();
+  noStroke();
+  fill(star.fill);
+  translate(planet.x, planet.y);
+  star.rotation += star.rotationSpeed;
+  rotate(star.rotation / 25);
+  ellipse(star.x + 20, star.y + 55, star.size + 5);
+  pop();
+}
+
+function drawStar3() {
+  push();
+  noStroke();
+  fill(star.fill);
+  translate(planet.x, planet.y);
+  star.rotation += star.rotationSpeed;
+  rotate(star.rotation / 20);
+  ellipse(star.x - 100, star.y - 123, star.size - 3);
+  pop();
+}
+
+function drawStar4() {
+  push();
+  noStroke();
+  fill(star.fill);
+  translate(planet.x, planet.y);
+  star.rotation += star.rotationSpeed;
+  rotate(star.rotation / 21);
+  ellipse(star.x * 30, star.y * 40, star.size + 2);
   pop();
 }
 
@@ -194,6 +255,78 @@ function drawSun() {
   sunRate += 0.001;
   sun.size = sin(sunRate) * 50 + 25;
   ellipse(0, 0, sun.size * 1.4);
+  pop();
+}
+
+//draws asteroid belt
+
+function drawAsteroidBelt() {
+  //building a for loop (based off of the arrays course material) for the stars
+  for (let i = 0; i < 30; i++) {
+    drawAsteroid1(asteroids[i]);
+    drawAsteroid2(asteroids[i]);
+    drawAsteroid3(asteroids[i]);
+    drawAsteroid4(asteroids[i]);
+  }
+}
+
+//draws individual asteroids
+function drawAsteroid1() {
+  push();
+  noStroke();
+  fill(asteroid.fill);
+  translate(planet.x, planet.y);
+  asteroid.rotation += asteroid.rotationSpeed;
+  rotate(asteroid.rotation / 22);
+  ellipse(asteroid.x, asteroid.y, asteroid.width, asteroid.height);
+  pop();
+}
+
+function drawAsteroid2() {
+  push();
+  noStroke();
+  fill(asteroid.fill);
+  translate(planet.x, planet.y);
+  asteroid.rotation += asteroid.rotationSpeed;
+  rotate(asteroid.rotation / 25);
+  ellipse(
+    asteroid.x + 5,
+    asteroid.y - 6,
+    asteroid.width + 2,
+    asteroid.height + 3
+  );
+  pop();
+}
+
+function drawAsteroid3() {
+  push();
+  noStroke();
+  fill(asteroid.fill);
+  translate(planet.x, planet.y);
+  asteroid.rotation += asteroid.rotationSpeed;
+  rotate(asteroid.rotation / 20);
+  ellipse(
+    asteroid.x + 21,
+    asteroid.y + 11,
+    asteroid.width - 1,
+    asteroid.height - 2
+  );
+  pop();
+}
+
+function drawAsteroid4() {
+  push();
+  noStroke();
+  fill(asteroid.fill);
+  translate(planet.x, planet.y);
+  asteroid.rotation += asteroid.rotationSpeed;
+  rotate(asteroid.rotation / 21);
+  ellipse(
+    asteroid.x - 13,
+    asteroid.y - 5,
+    asteroid.width + 5,
+    asteroid.height - 2
+  );
   pop();
 }
 
@@ -308,6 +441,7 @@ function drawMoon() {
   //draw the moon at 0,0 because it has been translated
   ellipse(moon.x, 0, moon.size);
   scale(0.5);
+  //add another moon
   fill(255, 175, 120);
   ellipse(moon.x, 0, moon.size);
   pop();
