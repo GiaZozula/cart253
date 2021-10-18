@@ -21,7 +21,7 @@ let centerPoint = {
   y: 400,
 };
 
-let user = {
+let planet = {
   // The centre
   x: 700,
   y: 400,
@@ -38,18 +38,20 @@ let user = {
   rightSpeed: -0.06,
 };
 
-let bullet = {
-  //starts on the user
-  x: user.x,
-  y: user.y,
-  radius: user.radius,
+let moon = {
+  //starts on the planet
+  x: planet.x,
+  y: planet.y,
+  radius: planet.radius,
   //how big is it?
   size: 50,
-  //rotates at the same speed as the user
-  rotation: user.rotation,
-  //speed of the bullet when shot
+  //rotates at the same speed as the planet
+  rotation: planet.rotation,
+  //speed of the moon when shot
   speed: 5,
 };
+
+let moonRate = 0;
 
 function setup() {
   createCanvas(1400, 800);
@@ -61,23 +63,23 @@ function draw() {
 
   drawStarfield();
 
-  handleShooting();
+  handleOutwardDirection();
 
   handleDirection();
 
   drawTrack();
 
-  drawUser();
+  drawPlanet();
 
-  drawBullet();
+  drawMoon();
 
   // Rotate according to the current speed
-  user.rotation += user.rotationSpeed;
+  planet.rotation += planet.rotationSpeed;
 }
 
 function drawStarfield() {
   //building a for loop (based off of the arrays course material) for the stars
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 2; i++) {
     drawStar(stars[i]);
   }
 }
@@ -92,67 +94,81 @@ function drawStar() {
 }
 
 /**
-Draws the track our user moves on
+Draws the track our planet moves on
 */
 function drawTrack() {
   push();
   stroke(255);
   noFill();
-  translate(user.x, user.y);
-  ellipse(0, 0, user.radius * 2);
+  translate(planet.x, planet.y);
+  ellipse(0, 0, planet.radius * 2);
   pop();
 }
+
+//trying to draw multiple planets
 
 /**
 Draws our rotating object
 */
-function drawUser() {
+function drawPlanet() {
   push();
   noStroke();
   fill(255, 0, 0);
-  // Translate to the centre of rotation
-  translate(user.x, user.y);
+  // Translate to the center of rotation
+  translate(planet.x, planet.y);
   // Rotate our object by its current rotation
-  rotate(user.rotation);
+  rotate(planet.rotation);
   // Now translate by the radius so we can draw it on the edge
   // of the circle
-  translate(user.radius, 0);
-  // Finally draw the user (at 0,0 because we translated the origin)
-  ellipse(0, 0, user.size);
+  translate(planet.radius, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(0, 0, planet.size);
   pop();
 }
 
-function drawBullet() {
+function drawMoon() {
   push();
   noStroke();
   fill(0, 0, 255);
-  //translate to user's position
-  translate(bullet.x, bullet.y);
-  //have it follow the user when not fired
-  rotate(user.rotation);
+  //translate to planet's position
+  translate(moon.x, moon.y);
+  //have it follow the planet when not moved
+  rotate(planet.rotation);
   //Translate by the radius so its drawn on the edge of the circle
-  translate(bullet.radius, 0);
-  //draw the bullet at 0,0 because it has been translated
-  ellipse(0, 0, bullet.size);
+  translate(moon.radius, 0);
+  //draw the moon at 0,0 because it has been translated
+  ellipse(moon.x, 0, moon.size);
+  scale(0.5);
+  fill(0, 255, 0);
+  ellipse(moon.x, 0, moon.size);
   pop();
+
+  moon.x = sin(moonRate) * 60;
+  moonRate += 0.02;
 }
 
 function drawStars() {
   push();
   noStroke();
   fill(255);
-  translate(user.x, user.y);
+  translate(planet.x, planet.y);
   ellipse(0, 0, star.size);
   pop();
 }
 
 //use the up arrow to shoot
-function handleShooting() {
+function handleOutwardDirection() {
   if (keyIsDown(UP_ARROW)) {
     push();
     translate(centerPoint.x, centerPoint.y);
-    bullet.x = bullet.x + bullet.speed;
-    bullet.y = bullet.y + bullet.speed;
+    moon.x = moon.x + moon.speed;
+    moon.y = moon.y + moon.speed;
+    pop();
+  } else if (keyIsDown(DOWN_ARROW)) {
+    push();
+    translate(centerPoint.x, centerPoint.y);
+    moon.x = moon.x - moon.speed;
+    moon.y = moon.y - moon.speed;
     pop();
   }
 }
@@ -163,11 +179,11 @@ Change the rotation speed based on arrow keys
 function handleDirection() {
   if (keyIsDown(LEFT_ARROW)) {
     // Left means accelerate in the negative
-    user.rotationSpeed = user.leftSpeed;
+    planet.rotationSpeed = planet.leftSpeed;
   } else if (keyIsDown(RIGHT_ARROW)) {
     // Right means accelerate in the positive
-    user.rotationSpeed = user.rightSpeed;
+    planet.rotationSpeed = planet.rightSpeed;
   } else {
-    user.rotationSpeed = 0;
+    planet.rotationSpeed = 0;
   }
 }
