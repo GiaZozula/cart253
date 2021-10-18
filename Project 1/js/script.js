@@ -33,9 +33,10 @@ let planet = {
   rotation: 0,
   // How fast is it rotating
   rotationSpeed: 0.0,
-  //determine the direction
-  leftSpeed: 0.06,
-  rightSpeed: -0.06,
+  // How fast can it accelerate?
+  rotationAcceleration: 0.001,
+  // Maximum rotation speed
+  maxRotationSpeed: 0.01,
 };
 
 let moon = {
@@ -143,8 +144,10 @@ function drawMoon() {
   ellipse(moon.x, 0, moon.size);
   pop();
 
+  push();
   moon.x = sin(moonRate) * 60;
   moonRate += 0.02;
+  pop();
 }
 
 function drawStars() {
@@ -179,11 +182,17 @@ Change the rotation speed based on arrow keys
 function handleDirection() {
   if (keyIsDown(LEFT_ARROW)) {
     // Left means accelerate in the negative
-    planet.rotationSpeed = planet.leftSpeed;
+    planet.rotationSpeed -= planet.rotationAcceleration;
   } else if (keyIsDown(RIGHT_ARROW)) {
     // Right means accelerate in the positive
-    planet.rotationSpeed = planet.rightSpeed;
+    planet.rotationSpeed += planet.rotationAcceleration;
   } else {
-    planet.rotationSpeed = 0;
+    planet.rotationSpeed = 0.003;
   }
+
+  planet.rotationSpeed = constrain(
+    planet.rotationSpeed,
+    -planet.maxRotationSpeed,
+    planet.maxRotationSpeed
+  );
 }
