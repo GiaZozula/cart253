@@ -163,7 +163,6 @@ function drawTitle() {
   }
 
   if (keyIsDown(UP_ARROW)) {
-    resetGame();
     state = `simulation`;
   }
 
@@ -263,7 +262,6 @@ function drawTitle() {
 }
 
 function drawSimulation() {
-  time = 0;
   time = time + deltaTime;
 
   background(backgroundImg);
@@ -304,8 +302,9 @@ function drawSimulation() {
 
   console.log(time);
 
-  if (time == 10000) {
+  if (time >= 10000) {
     superNova = true;
+    time = 0;
   }
 
   if (superNova) {
@@ -320,10 +319,10 @@ function drawSimulation() {
     novaBlast.size += 25;
     music.stop();
     blastFX.play();
-  }
-
-  if (time == 13000) {
-    endVisible = true;
+    if (time >= 3000) {
+      endVisible = true;
+      time = 0;
+    }
   }
 
   if (endVisible) {
@@ -819,7 +818,6 @@ function drawEnd() {
   }
 
   if (keyIsDown(DOWN_ARROW)) {
-    resetGame();
     music.stop();
     musicIsPlaying = false;
     state = `title`;
@@ -914,9 +912,8 @@ function resetGame() {
   let backgroundImg = undefined;
   let musicIsPlaying = false;
   let superNova = false;
-  // let superNovaTimer = 200;
   let endVisible = false;
-  // let endTimer = 90;
+  time = 0;
 }
 
 function drawFade() {
