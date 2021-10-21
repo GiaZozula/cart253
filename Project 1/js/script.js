@@ -346,7 +346,7 @@ function drawSimulation() {
 
   //this counts the time and starts the superNova blast after
   //10 seconds (tried to keep it short for whoever's marking this' sake)
-  if (time >= 15000) {
+  if (time >= 17000) {
     superNova = true;
     time = 0;
   }
