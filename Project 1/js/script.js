@@ -5,6 +5,7 @@ By Gia <3
 + attribution of code from Mads' source, my addition of controls,
 then Pippin's adaptation of this idea
 
+https://p5js.org/reference/#/p5/drawingContext for
 */
 let font1;
 let font2;
@@ -147,7 +148,6 @@ function stateSwitcher() {
 
 function drawTitle() {
   background(0);
-  resetGame();
 
   //start the music :)
   if (musicIsPlaying === false) {
@@ -156,6 +156,7 @@ function drawTitle() {
   }
 
   if (keyIsDown(UP_ARROW)) {
+    resetGame();
     state = `simulation`;
   }
 
@@ -735,6 +736,7 @@ function drawEnd() {
   if (keyIsDown(DOWN_ARROW)) {
     resetGame();
     music.stop();
+    musicIsPlaying = false;
     state = `title`;
   }
 
@@ -824,6 +826,7 @@ function drawEnd() {
 }
 
 function resetGame() {
+  let backgroundImg = undefined;
   let musicIsPlaying = false;
   let superNova = false;
   let superNovaTimer = 200;
