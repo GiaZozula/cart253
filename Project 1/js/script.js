@@ -123,7 +123,7 @@ let colourRate = 0;
 function preload() {
   font1 = loadFont("assets/fonts/font1.otf");
   font2 = loadFont("assets/fonts/font2.otf");
-  backgroundImg = loadImage("assets/images/background.png");
+  backgroundImg = loadImage("assets/images/background.gif");
   music = loadSound("assets/sounds/music.mp3");
   blastFX = loadSound("assets/sounds/blastFX.mp3");
 }
@@ -134,7 +134,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  // background(0); ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   stateSwitcher();
 
   // Rotate according to the current speed
@@ -262,6 +262,8 @@ function drawTitle() {
 }
 
 function drawSimulation() {
+  background(backgroundImg);
+
   drawStarfield();
   drawStar1();
   drawStar2();
@@ -669,6 +671,21 @@ function drawPlanet2() {
   translate(planet2.radius * 1.5, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
   ellipse(-1050, 0, planet2.size * 2);
+  pop();
+
+  //another planet on outerring
+  push();
+  noStroke();
+  fill(232, 204, 215);
+  // Translate to the center of rotation
+  translate(planet2.x, planet2.y);
+  // Rotate our object by its current rotation
+  rotate(planet2.rotation / 1.6);
+  // Now translate by the radius so we can draw it on the edge
+  // of the outer ring
+  translate(planet2.radius * 1.5, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(-10, -140, planet2.size * 1.45);
   pop();
 
   //smaller planet on second ring
