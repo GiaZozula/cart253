@@ -368,7 +368,7 @@ function drawSimulation() {
     blastFX.play();
 
     //this counts for four more seconds
-    if (time >= 4000) {
+    if (time >= 5000) {
       endVisible = true;
       time = 0;
     }
