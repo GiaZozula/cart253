@@ -18,7 +18,7 @@ let asteroids = [];
 let backgroundImg = undefined;
 let musicIsPlaying = false;
 let superNova = false;
-let superNovaTimer = 200;
+let superNovaTimer = 10;
 let endVisible = false;
 let endTimer = 90;
 
@@ -297,8 +297,11 @@ function drawSimulation() {
     musicIsPlaying = true;
   }
 
-  superNovaTimer -= 1;
-  if (superNovaTimer <= 0) {
+  if (frameCount % 60 == 0 && superNovaTimer > 10) {
+    // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+    superNovaTimer--;
+  }
+  if (superNovaTimer == 0) {
     superNova = true;
   }
 
@@ -909,7 +912,7 @@ function resetGame() {
   let backgroundImg = undefined;
   let musicIsPlaying = false;
   let superNova = false;
-  let superNovaTimer = 200;
+  let superNovaTimer = 10;
   let endVisible = false;
   let endTimer = 90;
 }
