@@ -5,7 +5,6 @@ By Gia <3
 + attribution of code from Mads' source, my addition of controls,
 then Pippin's adaptation of this idea
 
-https://p5js.org/reference/#/p5/drawingContext for
 */
 let font1;
 let font2;
@@ -107,7 +106,7 @@ let asteroid = {
   rotationSpeed: 0.001,
 };
 
-let state = `simulation`;
+let state = `end`;
 
 let moonRate = 0;
 let sunRate = 0;
@@ -131,9 +130,6 @@ function draw() {
 
   stateSwitcher();
 
-  handleDirection();
-  handleOutwardDirection();
-
   // Rotate according to the current speed
   planet.rotation += planet.rotationSpeed;
   planet2.rotation -= planet2.rotationSpeed;
@@ -150,15 +146,17 @@ function stateSwitcher() {
 }
 
 function drawTitle() {
-  // if (keyIsDown(UP_ARROW)) {
-  //   push();
-  //   state === `simulation`;
-  //   pop();
-  // }
   background(0);
+  resetGame();
+
+  //start the music :)
   if (musicIsPlaying === false) {
     music.play();
     musicIsPlaying = true;
+  }
+
+  if (keyIsDown(UP_ARROW)) {
+    state = `simulation`;
   }
 
   // background animation
@@ -278,6 +276,9 @@ function drawSimulation() {
   drawPlanet2();
 
   drawMoon();
+
+  handleDirection();
+  handleOutwardDirection();
 
   if (musicIsPlaying === false) {
     music.play();
@@ -731,6 +732,12 @@ function drawEnd() {
     musicIsPlaying = true;
   }
 
+  if (keyIsDown(DOWN_ARROW)) {
+    resetGame();
+    music.stop();
+    state = `title`;
+  }
+
   // background animation
   drawStarfield();
   drawAsteroidBelt();
@@ -812,8 +819,16 @@ function drawEnd() {
   textFont("font2");
   textAlign(LEFT, RIGHT);
   textSize(25);
-  text(`press ↑ now to look to the night sky!`, width / 2.05, height / 1.4);
+  text(`press ↓ now to return to Earth.`, width / 2.05, height / 1.4);
   pop();
+}
+
+function resetGame() {
+  let musicIsPlaying = false;
+  let superNova = false;
+  let superNovaTimer = 200;
+  let endVisible = false;
+  let endTimer = 90;
 }
 
 //use the up arrow to shoot
