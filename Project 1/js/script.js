@@ -7,6 +7,8 @@ then Pippin's adaptation of this idea
 
 https://p5js.org/reference/#/p5/drawingContext for
 */
+
+let time = 0;
 let font1;
 let font2;
 let music;
@@ -18,7 +20,7 @@ let asteroids = [];
 let backgroundImg = undefined;
 let musicIsPlaying = false;
 let superNova = false;
-let superNovaTimer = 10;
+let superNovaTimer = 200;
 let endVisible = false;
 let endTimer = 90;
 
@@ -261,6 +263,9 @@ function drawTitle() {
 }
 
 function drawSimulation() {
+  time = 0;
+  time = time + deltaTime;
+
   background(backgroundImg);
 
   drawStarfield();
@@ -297,11 +302,9 @@ function drawSimulation() {
     musicIsPlaying = true;
   }
 
-  if (frameCount % 60 == 0 && superNovaTimer > 10) {
-    // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
-    superNovaTimer--;
-  }
-  if (superNovaTimer == 0) {
+  console.log(time);
+
+  if (time == 10000) {
     superNova = true;
   }
 
@@ -315,12 +318,11 @@ function drawSimulation() {
     ellipse(0, 0, novaBlast.size);
     pop();
     novaBlast.size += 25;
-    endTimer -= 1;
     music.stop();
     blastFX.play();
   }
 
-  if (endTimer <= 0) {
+  if (time == 13000) {
     endVisible = true;
   }
 
@@ -912,9 +914,9 @@ function resetGame() {
   let backgroundImg = undefined;
   let musicIsPlaying = false;
   let superNova = false;
-  let superNovaTimer = 10;
+  // let superNovaTimer = 200;
   let endVisible = false;
-  let endTimer = 90;
+  // let endTimer = 90;
 }
 
 function drawFade() {
@@ -924,5 +926,5 @@ function drawFade() {
   rectMode(CENTER);
   rect(700, 400, width, height);
   pop();
-  fade.alpha -= 1;
+  fade.alpha -= 5;
 }
