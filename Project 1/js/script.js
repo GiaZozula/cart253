@@ -1,5 +1,5 @@
 /**
-~~ changed concept ~~
+~~ Stargazer ~~
 By Gia <3
 
 + attribution of code from Mads' source, my addition of controls,
@@ -12,6 +12,8 @@ let font2;
 
 let stars = [];
 let asteroids = [];
+
+let backgroundImg = undefined;
 
 let star = {
   x: 400,
@@ -92,7 +94,7 @@ let asteroid = {
   rotationSpeed: 0.001,
 };
 
-let state = "title";
+let state = `end`;
 
 let moonRate = 0;
 let sunRate = 0;
@@ -101,12 +103,11 @@ let colourRate = 0;
 function preload() {
   font1 = loadFont("assets/fonts/font1.otf");
   font2 = loadFont("assets/fonts/font2.otf");
+  backgroundImg = loadImage("assets/images/background.png");
 }
 
 function setup() {
   createCanvas(1400, 800);
-  title();
-  state === `title`;
   noCursor();
 }
 
@@ -114,7 +115,6 @@ function draw() {
   background(0);
 
   stateSwitcher();
-  drawTitle();
 
   handleDirection();
   handleOutwardDirection();
@@ -126,22 +126,21 @@ function draw() {
 
 function stateSwitcher() {
   if (state === `title`) {
-    title();
+    drawTitle();
   } else if (state === `simulation`) {
-    simulation();
+    drawSimulation();
   } else if (state === `end`) {
-    end();
+    drawEnd();
   }
 }
 
-function title() {
-  push();
-  drawTitle();
-  pop();
-}
-
 function drawTitle() {
-  push();
+  // if (keyIsDown(UP_ARROW)) {
+  //   push();
+  //   state === `simulation`;
+  //   pop();
+  // }
+
   background(0);
 
   // background animation
@@ -203,11 +202,34 @@ function drawTitle() {
 
   // third chunk of text for title screen
   push();
-  fill(217, 89, 24, 255);
+  fill(255);
   textFont("font2");
   textAlign(CENTER, RIGHT);
   textSize(40);
-  text(`programmed by Gia ♥♥♥`, 822, height / 1.45);
+  text(`music + programing by Gia ♥♥♥`, width / 1.25, height / 1.05);
+  pop();
+
+  // press "controls"
+  push();
+  fill(255);
+  textFont("font2");
+  textAlign(LEFT, LEFT);
+  textSize(25);
+  text(
+    `use the arrow keys to effect the
+    rotation + position of the solar bodies!`,
+    width / 2.25,
+    height / 1.57
+  );
+  pop();
+
+  // press "up arrow"
+  push();
+  fill(1217, 89, 24, 255);
+  textFont("font2");
+  textAlign(LEFT, RIGHT);
+  textSize(25);
+  text(`press ↑ now to look to the night sky!`, width / 2.05, height / 1.4);
   pop();
 }
 
@@ -362,7 +384,6 @@ function drawSun() {
 }
 
 //draws asteroid belt
-
 function drawAsteroidBelt() {
   //building a for loop (based off of the arrays course material) for the stars
   for (let i = 0; i < 500; i++) {
@@ -561,6 +582,95 @@ function drawStars() {
   fill(255);
   translate(planet.x, planet.y);
   ellipse(0, 0, star.size);
+  pop();
+}
+
+//draw "End" state
+function drawEnd() {
+  background(255);
+
+  // background animation
+  drawStarfield();
+  drawAsteroidBelt();
+
+  //draw frame
+  push();
+  stroke(0);
+  noFill();
+  rectMode(CENTER);
+  rect(700, 400, width / 2, height / 2);
+  pop();
+
+  // orange layer of text for title screen
+  push();
+  fill(217, 89, 24, 255);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3);
+  pop();
+
+  // green layer
+  push();
+  fill(106, 184, 96, 255);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3.2);
+  pop();
+
+  //blue layer
+  push();
+  fill(1, 170, 233, 255);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3.4);
+  pop();
+
+  //white layer
+  push();
+  fill(0);
+  textFont("font1");
+  textAlign(CENTER, CENTER);
+  textSize(160);
+  text(`Stargazer`, width / 2, height / 3.6);
+  pop();
+
+  //seconed chunk of text for title screen
+  push();
+  fill(0);
+  textFont("font2");
+  textAlign(CENTER, CENTER);
+  textSize(72);
+  text(`supernova simulation`, width / 2, height / 2.2);
+  pop();
+
+  // third chunk of text for title screen
+  push();
+  fill(0);
+  textFont("font2");
+  textAlign(CENTER, RIGHT);
+  textSize(40);
+  text(`music + programming by Gia ♥♥♥`, width / 1.25, height / 1.05);
+  pop();
+
+  // press "controls"
+  push();
+  fill(0);
+  textFont("font2");
+  textAlign(LEFT, LEFT);
+  textSize(25);
+  text(`thank you for playing :)`, width / 2.25, height / 1.57);
+  pop();
+
+  // press "up arrow"
+  push();
+  fill(1217, 89, 24, 255);
+  textFont("font2");
+  textAlign(LEFT, RIGHT);
+  textSize(25);
+  text(`press ↑ now to look to the night sky!`, width / 2.05, height / 1.4);
   pop();
 }
 
