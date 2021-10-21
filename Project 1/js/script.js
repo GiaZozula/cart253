@@ -273,7 +273,7 @@ function drawTitle() {
   textAlign(LEFT, LEFT);
   textSize(25);
   text(
-    `use the arrow keys to effect the
+    `use the arrow keys to affect the
     rotation + position of the solar bodies!`,
     width / 2.25,
     height / 1.57
@@ -346,7 +346,7 @@ function drawSimulation() {
 
   //this counts the time and starts the superNova blast after
   //10 seconds (tried to keep it short for whoever's marking this' sake)
-  if (time >= 10000) {
+  if (time >= 15000) {
     superNova = true;
     time = 0;
   }
