@@ -18,7 +18,7 @@ let asteroids = [];
 let backgroundImg = undefined;
 let musicIsPlaying = false;
 let superNova = false;
-let superNovaTimer = 200;
+let superNovaTimer = 54200;
 let endVisible = false;
 let endTimer = 90;
 
@@ -107,7 +107,14 @@ let asteroid = {
   rotationSpeed: 0.001,
 };
 
-let state = `end`;
+let state = `simulation`;
+
+let fade = {
+  x: undefined,
+  y: undefined,
+  fill: 0,
+  alpha: 255,
+};
 
 let moonRate = 0;
 let sunRate = 0;
@@ -128,7 +135,6 @@ function setup() {
 
 function draw() {
   background(0);
-
   stateSwitcher();
 
   // Rotate according to the current speed
@@ -226,7 +232,7 @@ function drawTitle() {
   text(`music + programming by Gia ♥♥♥`, width / 1.25, height / 1.05);
   pop();
 
-  // press "controls"
+  // controls text
   push();
   fill(255);
   textFont("font2");
@@ -240,13 +246,18 @@ function drawTitle() {
   );
   pop();
 
-  // press "up arrow"
+  // begin by pressing "up arrow" text
   push();
   fill(1217, 89, 24, 255);
   textFont("font2");
   textAlign(LEFT, RIGHT);
   textSize(25);
   text(`press ↑ now to look to the night sky!`, width / 2.05, height / 1.4);
+  pop();
+
+  //fade from black effect
+  push();
+  drawFade();
   pop();
 }
 
@@ -277,6 +288,7 @@ function drawSimulation() {
   drawPlanet2();
 
   drawMoon();
+  drawMiniMoon();
 
   handleDirection();
   handleOutwardDirection();
@@ -630,7 +642,7 @@ function drawPlanet() {
   //planet on outer ring
   push();
   noStroke();
-  fill(38, 67, 72);
+  fill(204, 204, 255);
   // Translate to the center of rotation
   translate(planet.x, planet.y);
   // Rotate our object by its current rotation
@@ -693,25 +705,39 @@ function drawPlanet2() {
 function drawMoon() {
   push();
   noStroke();
-  fill(0, 175, 100);
+  fill(37, 53, 41);
   //translate to planet's position
-  translate(moon.x, moon.y);
+  translate(planet.x, planet.y);
+  //have it follow the planet when not moved
+  rotate(planet.rotation * 4);
+  //Translate by the radius so its drawn on the edge of the circle
+  translate(moon.radius * 1.4, moon.radius / 1.4);
+  //draw the moon at 0,0 because it has been translated
+  ellipse(moon.x, 0, moon.size / 1.3);
+  moonMovement();
+  pop();
+}
+
+//add another moon
+function drawMiniMoon() {
+  push();
+  noStroke();
+  fill(255, 175, 120);
+  //translate to planet's position
+  translate(planet.x, planet.y);
   //have it follow the planet when not moved
   rotate(planet.rotation);
   //Translate by the radius so its drawn on the edge of the circle
   translate(moon.radius, 0);
   //draw the moon at 0,0 because it has been translated
-  ellipse(moon.x, 0, moon.size);
-  scale(0.5);
-  //add another moon
-  fill(255, 175, 120);
-  ellipse(moon.x, 0, moon.size);
+  ellipse(moon.x + 15, 0, moon.size / 1.3);
+  moonMovement();
   pop();
+}
 
-  push();
+function moonMovement() {
   moon.x = sin(moonRate) * 60;
   moonRate += 0.02;
-  pop();
 }
 
 function drawStars() {
@@ -723,6 +749,48 @@ function drawStars() {
   pop();
 }
 
+//Controls for during the simulation
+function handleOutwardDirection() {
+  if (keyIsDown(UP_ARROW)) {
+    push();
+    translate(centerPoint.x, centerPoint.y);
+    moon.x = moon.x + moon.speed;
+    moon.y = moon.y + moon.speed;
+    pop();
+  } else if (keyIsDown(DOWN_ARROW)) {
+    push();
+    translate(centerPoint.x, centerPoint.y);
+    moon.x = moon.x - moon.speed;
+    moon.y = moon.y - moon.speed;
+    pop();
+  }
+}
+
+/**
+Change the rotation speed based on arrow keys
+*/
+function handleDirection() {
+  if (keyIsDown(LEFT_ARROW)) {
+    // Left means accelerate in the negative
+    planet.rotationSpeed -= planet.rotationAcceleration;
+    planet2.rotationSpeed += planet2.rotationAcceleration;
+  } else if (keyIsDown(RIGHT_ARROW)) {
+    // Right means accelerate in the positive
+    planet.rotationSpeed += planet.rotationAcceleration;
+    planet2.rotationSpeed -= planet2.rotationAcceleration;
+  } else {
+    planet.rotationSpeed = 0.003;
+    planet2.rotationSpeed = -0.003;
+  }
+
+  planet.rotationSpeed = constrain(
+    planet.rotationSpeed,
+    -planet.maxRotationSpeed,
+    planet.maxRotationSpeed
+  );
+}
+
+//END State
 //draw "End" state
 function drawEnd() {
   background(255);
@@ -834,43 +902,12 @@ function resetGame() {
   let endTimer = 90;
 }
 
-//use the up arrow to shoot
-function handleOutwardDirection() {
-  if (keyIsDown(UP_ARROW)) {
-    push();
-    translate(centerPoint.x, centerPoint.y);
-    moon.x = moon.x + moon.speed;
-    moon.y = moon.y + moon.speed;
-    pop();
-  } else if (keyIsDown(DOWN_ARROW)) {
-    push();
-    translate(centerPoint.x, centerPoint.y);
-    moon.x = moon.x - moon.speed;
-    moon.y = moon.y - moon.speed;
-    pop();
-  }
-}
-
-/**
-Change the rotation speed based on arrow keys
-*/
-function handleDirection() {
-  if (keyIsDown(LEFT_ARROW)) {
-    // Left means accelerate in the negative
-    planet.rotationSpeed -= planet.rotationAcceleration;
-    planet2.rotationSpeed += planet2.rotationAcceleration;
-  } else if (keyIsDown(RIGHT_ARROW)) {
-    // Right means accelerate in the positive
-    planet.rotationSpeed += planet.rotationAcceleration;
-    planet2.rotationSpeed -= planet2.rotationAcceleration;
-  } else {
-    planet.rotationSpeed = 0.003;
-    planet2.rotationSpeed = -0.003;
-  }
-
-  planet.rotationSpeed = constrain(
-    planet.rotationSpeed,
-    -planet.maxRotationSpeed,
-    planet.maxRotationSpeed
-  );
+function drawFade() {
+  push();
+  noStroke();
+  fill(fade.fill, fade.fill, fade.fill, fade.alpha);
+  rectMode(CENTER);
+  rect(700, 400, width, height);
+  pop();
+  fade.alpha -= 1;
 }
