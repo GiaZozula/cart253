@@ -18,7 +18,7 @@ let asteroids = [];
 let backgroundImg = undefined;
 let musicIsPlaying = false;
 let superNova = false;
-let superNovaTimer = 54200;
+let superNovaTimer = 200;
 let endVisible = false;
 let endTimer = 90;
 
@@ -107,7 +107,7 @@ let asteroid = {
   rotationSpeed: 0.001,
 };
 
-let state = `simulation`;
+let state = `title`;
 
 let fade = {
   x: undefined,
@@ -134,7 +134,6 @@ function setup() {
 }
 
 function draw() {
-  // background(0); ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   stateSwitcher();
 
   // Rotate according to the current speed
@@ -284,7 +283,6 @@ function drawSimulation() {
   drawTrack1();
   drawTrack2();
   drawTrack3();
-  // drawTrack4();
 
   drawPlanet();
   drawPlanet2();
@@ -295,8 +293,7 @@ function drawSimulation() {
   handleDirection();
 
   if (musicIsPlaying === false) {
-    /////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DONT FORGET
-    // music.play();
+    music.play();
     musicIsPlaying = true;
   }
 
