@@ -2,28 +2,52 @@
 ~~ Stargazer ~~
 By Gia <3
 
-+ attribution of code from Mads' source, my addition of controls,
-then Pippin's adaptation of this idea
+Hello! This is my simulation for Project 1. It simulates a solar system with some limited interactivity
+in the form of left and right movement of the celestial bodies along a predefined axis. I made all of
+the assets for this project.
 
-https://p5js.org/reference/#/p5/drawingContext for
+I've had help from both Pippin and Mads for this project, especially in regards to wrapping my head
+around how to get the fundamental radial mechanic.
+
+Mads and I spent a significant amount of time trying to debug the program's inability to reset properly,
+but hit a wall with it. Not sure what I'm missing, but its clearly something to do with the superNova.
+
+The bug currently makes it impossible to restart the simulation after completing the program once and
+returning to the title screen.
+
+I am eager to learn how to better use arrays! And how to properly organize/ optimize my code, because
+currently this whole thing feels veeeeerrrry long and cumbersome. Anywho, thanks for all the help!!
+
+
 */
 
-let time = 0;
+//custom fonts
 let font1;
 let font2;
+
+//background music
 let music;
+
+//superNova sound effect (that plays repeatedly when triggered)
 let blastFX;
 
+//my brief for-array into arrays
 let stars = [];
 let asteroids = [];
 
+//basic parameters being set
 let backgroundImg = undefined;
 let musicIsPlaying = false;
+
+//these are thhe parameters I figured I would have to
+//reset at the end for the program to restart the simulation
+let time = 0;
 let superNova = false;
 let superNovaTimer = 200;
 let endVisible = false;
 let endTimer = 90;
 
+//the stars and asteroids ended up being very similar, spinning around for added effect
 let star = {
   x: 400,
   y: 400,
@@ -33,72 +57,70 @@ let star = {
   rotationSpeed: 0.001,
 };
 
+//this is the center of the canvas
 let centerPoint = {
   x: 700,
   y: 400,
 };
 
+//this is the sun, which is made up of a bunch of ellipses
 let sun = {
   x: 700,
   y: 400,
   size: 200,
 };
 
+//this is the white ellipse that fills the screen during superNova
 let novaBlast = {
   x: 700,
   y: 400,
   size: 200,
 };
 
+//this is one of two planet variables that are used repeatedly
 let planet = {
   // The centre
   x: 700,
   y: 400,
-  // How far out from the center our thing rotates
+  // How far out from the center the planet rotates
   radius: 350,
-  // How big is it
+  // How big it is
   size: 100,
-  // What is the current rotation around the circle?
+  // The current rotation around the circle
   rotation: 0,
-  // How fast is it rotating
+  // How fast it is rotating
   rotationSpeed: 0.0,
-  // How fast can it accelerate?
+  // How fast it can accelerate
   rotationAcceleration: 0.001,
   // Maximum rotation speed
   maxRotationSpeed: 0.01,
 };
 
+//this is a variation on the variable above, in order to have
+//some planets move in an opposite direction during a keypress
 let planet2 = {
-  // The centre
   x: 700,
   y: 400,
-  // How far out from the center our thing rotates
   radius: 350,
-  // How big is it
   size: 100,
-  // What is the current rotation around the circle?
   rotation: -0,
-  // How fast is it rotating
   rotationSpeed: 0,
-  // How fast can it accelerate?
   rotationAcceleration: -0.001,
-  // Maximum rotation speed
   maxRotationSpeed: -0.01,
 };
 
+//this is for the smaller ellipses that make up 'moons'
 let moon = {
-  //starts on the planet
+  //starts aligned on the planet
   x: planet.x,
   y: planet.y,
   radius: planet.radius,
-  //how big is it?
   size: 50,
   //rotates at the same speed as the planet
   rotation: planet.rotation,
-  //speed of the moon when shot
-  speed: 5,
 };
 
+//this is for the asteroids that whip around the screen
 let asteroid = {
   x: 300,
   y: 300,
@@ -109,8 +131,10 @@ let asteroid = {
   rotationSpeed: 0.001,
 };
 
+//starting with the title state
 let state = `title`;
 
+//fading in on the title state
 let fade = {
   x: undefined,
   y: undefined,
@@ -118,10 +142,12 @@ let fade = {
   alpha: 255,
 };
 
+//some rates used for variables modulated by sin
 let moonRate = 0;
 let sunRate = 0;
 let colourRate = 0;
 
+//preloading the assets
 function preload() {
   font1 = loadFont("assets/fonts/font1.otf");
   font2 = loadFont("assets/fonts/font2.otf");
@@ -136,13 +162,15 @@ function setup() {
 }
 
 function draw() {
+  //calling the function for switching between states
   stateSwitcher();
 
-  // Rotate according to the current speed
+  //this ensures that everyone rotates according to the current speed
   planet.rotation += planet.rotationSpeed;
   planet2.rotation -= planet2.rotationSpeed;
 }
 
+//this is the function for switching between states
 function stateSwitcher() {
   if (state === `title`) {
     drawTitle();
@@ -153,8 +181,13 @@ function stateSwitcher() {
   }
 }
 
+//drawing everything in the title state
 function drawTitle() {
   background(0);
+
+  //sadly this reset doesn't work. this placement was one of many that was
+  //attempted but none of the ended up fixing the issue.
+  resetGame();
 
   //start the music :)
   if (musicIsPlaying === false) {
@@ -162,15 +195,16 @@ function drawTitle() {
     musicIsPlaying = true;
   }
 
+  //this is to exit the title state and begin the simulation
   if (keyIsDown(UP_ARROW)) {
     state = `simulation`;
   }
 
-  // background animation
+  // the star and asteroid animations
   drawStarfield();
   drawAsteroidBelt();
 
-  //draw frame
+  //this draws a frame around the text
   push();
   stroke(255);
   fill(0);
@@ -255,17 +289,22 @@ function drawTitle() {
   text(`press ↑ now to look to the night sky!`, width / 2.05, height / 1.4);
   pop();
 
-  //fade from black effect
+  // calling the fade from black effect
   push();
   drawFade();
   pop();
 }
 
+//this is the function for drawing everything in the simulation state
 function drawSimulation() {
+  //switched to deltaTime from frameCount in order to try and fix the
+  //reset bug, but to no avail.
   time = time + deltaTime;
 
+  // my custom space background gif
   background(backgroundImg);
 
+  //calling all of the shapes
   drawStarfield();
   drawStar1();
   drawStar2();
@@ -273,8 +312,8 @@ function drawSimulation() {
   drawStar4();
 
   drawSun();
-  drawAsteroidBelt();
 
+  drawAsteroidBelt();
   drawAsteroid1();
   drawAsteroid2();
   drawAsteroid3();
@@ -293,43 +332,55 @@ function drawSimulation() {
   drawMoon();
   drawMiniMoon();
 
+  // this refers to the simulation controls
   handleDirection();
 
+  // lets make sure we're jammin to tunes
   if (musicIsPlaying === false) {
     music.play();
     musicIsPlaying = true;
   }
 
+  // was using this to attempt to debug the reset
   console.log(time);
 
+  //this counts the time and starts the superNova blast after
+  //10 seconds (tried to keep it short for whoever's marking this' sake)
   if (time >= 10000) {
     superNova = true;
     time = 0;
   }
 
+  //this draws the superNova blast at the center of the canvas
   if (superNova) {
     push();
     noStroke();
     fill(255);
-    // Translate to the center of rotation
     translate(novaBlast.x, novaBlast.y);
-    // draw the blast (at 0,0 because we translated the origin)
     ellipse(0, 0, novaBlast.size);
     pop();
     novaBlast.size += 25;
+
+    //record scratch
     music.stop();
+
+    //ka-blooey
     blastFX.play();
-    if (time >= 3000) {
+
+    //this counts for four more seconds
+    if (time >= 4000) {
       endVisible = true;
       time = 0;
     }
   }
 
+  //then switches the state to 'end'
   if (endVisible) {
     state = `end`;
   }
 }
 
+//this draws all the stars spinning about, with an array so they 'streak'
 function drawStarfield() {
   //building a for loop (based off of the arrays course material) for the stars
   for (let i = 0; i < 500; i++) {
@@ -340,7 +391,7 @@ function drawStarfield() {
   }
 }
 
-//draw a single star
+//four different stars are drawn here
 function drawStar1() {
   push();
   noStroke();
@@ -385,7 +436,7 @@ function drawStar4() {
   pop();
 }
 
-//draw sun
+//this draws the sun, which is made up of way too many layers of ellipses
 function drawSun() {
   //outermost circle
   push();
@@ -454,7 +505,7 @@ function drawSun() {
   pop();
 }
 
-//draws asteroid belt
+//draws the asteroid belt, also uses an array for a 'streak' effect
 function drawAsteroidBelt() {
   //building a for loop (based off of the arrays course material) for the stars
   for (let i = 0; i < 500; i++) {
@@ -468,7 +519,7 @@ function drawAsteroidBelt() {
   }
 }
 
-//draws individual asteroids
+//draws some individual asteroids
 function drawAsteroid1() {
   push();
   noStroke();
@@ -576,8 +627,7 @@ function drawAsteroid7() {
   pop();
 }
 
-//Draws the tracks that the planet moves on
-
+//Draws the 'tracks' that give a sense of various shapes' rotation
 function drawTrack1() {
   push();
   colourRate += 0.009;
@@ -610,9 +660,9 @@ function drawTrack3() {
   pop();
 }
 
-// drawing planets
+//drawing the planets, lots of variations.
 function drawPlanet() {
-  //mauve planet on center ring
+  //planet on center ring
   push();
   noStroke();
   fill(220, 100, 100);
@@ -658,6 +708,7 @@ function drawPlanet() {
   pop();
 }
 
+//variation on the previous planet, in order to have them movve in an opposite direction
 function drawPlanet2() {
   //large planet on outerring
   push();
@@ -735,6 +786,7 @@ function drawPlanet2() {
   pop();
 }
 
+//lets draw some moons
 function drawMoon() {
   push();
   noStroke();
@@ -768,11 +820,14 @@ function drawMiniMoon() {
   pop();
 }
 
+//this determines the movement of the moons so they look like
+//they're simultaneously rotatating around the sun and the orbit of a nearby object
 function moonMovement() {
   moon.x = sin(moonRate) * 60;
   moonRate += 0.02;
 }
 
+//This doesn't actually seem to have any use in the current version, I'll delete it
 function drawStars() {
   push();
   noStroke();
@@ -783,15 +838,14 @@ function drawStars() {
 }
 
 /**
-Change the rotation speed based on arrow keys
+Change the direction and rotation speed based on arrow keys being pressed
 */
 function handleDirection() {
   if (keyIsDown(LEFT_ARROW)) {
-    // Left means accelerate in the negative
+    // Left means accelerate in the negative for "planet" and the opposite for "planet2"
     planet.rotationSpeed -= planet.rotationAcceleration;
     planet2.rotationSpeed += planet2.rotationAcceleration;
   } else if (keyIsDown(RIGHT_ARROW)) {
-    // Right means accelerate in the positive
     planet.rotationSpeed += planet.rotationAcceleration;
     planet2.rotationSpeed -= planet2.rotationAcceleration;
   } else {
@@ -810,13 +864,15 @@ function handleDirection() {
 //draw "End" state
 function drawEnd() {
   background(255);
+  resetGame();
 
-  //make sure music is working
+  //make sure music is still blastin'
   if (musicIsPlaying === false) {
     music.play();
     musicIsPlaying = true;
   }
 
+  //this stops the music and switches the state to title again
   if (keyIsDown(DOWN_ARROW)) {
     music.stop();
     musicIsPlaying = false;
@@ -827,7 +883,7 @@ function drawEnd() {
   drawStarfield();
   drawAsteroidBelt();
 
-  //draw frame
+  //draws frame around text
   push();
   stroke(0);
   noFill();
@@ -835,7 +891,7 @@ function drawEnd() {
   rect(700, 400, width / 2, height / 2);
   pop();
 
-  // orange layer of text for title screen
+  // orange layer of text for end screen
   push();
   fill(217, 89, 24, 255);
   textFont("font1");
@@ -862,7 +918,7 @@ function drawEnd() {
   text(`Stargazer`, width / 2, height / 3.4);
   pop();
 
-  //white layer
+  //black layer
   push();
   fill(0);
   textFont("font1");
@@ -871,7 +927,7 @@ function drawEnd() {
   text(`Stargazer`, width / 2, height / 3.6);
   pop();
 
-  //seconed chunk of text for title screen
+  //changes this chunk of text for the end screen because of 'surprise' ending
   push();
   fill(0);
   textFont("font2");
@@ -880,7 +936,7 @@ function drawEnd() {
   text(`supernova simulation`, width / 2, height / 2.2);
   pop();
 
-  // third chunk of text for title screen
+  // third chunk of text for end screen
   push();
   fill(0);
   textFont("font2");
@@ -889,7 +945,7 @@ function drawEnd() {
   text(`music + programming by Gia ♥♥♥`, width / 1.25, height / 1.05);
   pop();
 
-  // press "controls"
+  // more text
   push();
   fill(0);
   textFont("font2");
@@ -898,7 +954,7 @@ function drawEnd() {
   text(`thank you for playing :)`, width / 2.25, height / 1.57);
   pop();
 
-  // press "up arrow"
+  // press "down arrow"
   push();
   fill(1217, 89, 24, 255);
   textFont("font2");
@@ -908,6 +964,7 @@ function drawEnd() {
   pop();
 }
 
+//attempted to reset the game with this function
 function resetGame() {
   let backgroundImg = undefined;
   let musicIsPlaying = false;
@@ -916,6 +973,7 @@ function resetGame() {
   time = 0;
 }
 
+//this is the fade to black function
 function drawFade() {
   push();
   noStroke();
