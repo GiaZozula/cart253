@@ -9,11 +9,18 @@ https://p5js.org/reference/#/p5/drawingContext for
 */
 let font1;
 let font2;
+let music;
+let blastFX;
 
 let stars = [];
 let asteroids = [];
 
 let backgroundImg = undefined;
+let musicIsPlaying = false;
+let superNova = false;
+let superNovaTimer = 200;
+let endVisible = false;
+let endTimer = 90;
 
 let star = {
   x: 400,
@@ -30,6 +37,12 @@ let centerPoint = {
 };
 
 let sun = {
+  x: 700,
+  y: 400,
+  size: 200,
+};
+
+let novaBlast = {
   x: 700,
   y: 400,
   size: 200,
@@ -94,7 +107,7 @@ let asteroid = {
   rotationSpeed: 0.001,
 };
 
-let state = `end`;
+let state = `simulation`;
 
 let moonRate = 0;
 let sunRate = 0;
@@ -104,6 +117,8 @@ function preload() {
   font1 = loadFont("assets/fonts/font1.otf");
   font2 = loadFont("assets/fonts/font2.otf");
   backgroundImg = loadImage("assets/images/background.png");
+  music = loadSound("assets/sounds/music.mp3");
+  blastFX = loadSound("assets/sounds/blastFX.mp3");
 }
 
 function setup() {
@@ -140,8 +155,11 @@ function drawTitle() {
   //   state === `simulation`;
   //   pop();
   // }
-
   background(0);
+  if (musicIsPlaying === false) {
+    music.play();
+    musicIsPlaying = true;
+  }
 
   // background animation
   drawStarfield();
@@ -206,7 +224,7 @@ function drawTitle() {
   textFont("font2");
   textAlign(CENTER, RIGHT);
   textSize(40);
-  text(`music + programing by Gia ♥♥♥`, width / 1.25, height / 1.05);
+  text(`music + programming by Gia ♥♥♥`, width / 1.25, height / 1.05);
   pop();
 
   // press "controls"
@@ -247,6 +265,9 @@ function drawSimulation() {
   drawAsteroid2();
   drawAsteroid3();
   drawAsteroid4();
+  drawAsteroid5();
+  drawAsteroid6();
+  drawAsteroid7();
 
   drawTrack1();
   drawTrack2();
@@ -257,6 +278,39 @@ function drawSimulation() {
   drawPlanet2();
 
   drawMoon();
+
+  if (musicIsPlaying === false) {
+    music.play();
+    musicIsPlaying = true;
+  }
+
+  superNovaTimer -= 1;
+  if (superNovaTimer <= 0) {
+    superNova = true;
+  }
+
+  if (superNova) {
+    push();
+    noStroke();
+    fill(255);
+    // Translate to the center of rotation
+    translate(novaBlast.x, novaBlast.y);
+    // draw the blast (at 0,0 because we translated the origin)
+    ellipse(0, 0, novaBlast.size);
+    pop();
+    novaBlast.size += 25;
+    endTimer -= 1;
+    music.stop();
+    blastFX.play();
+  }
+
+  if (endTimer <= 0) {
+    endVisible = true;
+  }
+
+  if (endVisible) {
+    state = `end`;
+  }
 }
 
 function drawStarfield() {
@@ -391,6 +445,9 @@ function drawAsteroidBelt() {
     drawAsteroid2();
     drawAsteroid3();
     drawAsteroid4();
+    drawAsteroid5();
+    drawAsteroid6();
+    drawAsteroid7();
   }
 }
 
@@ -454,13 +511,61 @@ function drawAsteroid4() {
   pop();
 }
 
+function drawAsteroid5() {
+  push();
+  noStroke();
+  fill(asteroid.fill);
+  translate(planet.x, planet.y);
+  asteroid.rotation += asteroid.rotationSpeed;
+  rotate(asteroid.rotation / 33);
+  ellipse(
+    asteroid.x - 13,
+    asteroid.y - 5,
+    asteroid.width + 7,
+    asteroid.height - 1
+  );
+  pop();
+}
+
+function drawAsteroid6() {
+  push();
+  noStroke();
+  fill(asteroid.fill);
+  translate(planet.x, planet.y);
+  asteroid.rotation += asteroid.rotationSpeed;
+  rotate(asteroid.rotation / 41);
+  ellipse(
+    asteroid.x - 13,
+    asteroid.y - 5,
+    asteroid.width + 1,
+    asteroid.height - 3
+  );
+  pop();
+}
+
+function drawAsteroid7() {
+  push();
+  noStroke();
+  fill(asteroid.fill);
+  translate(planet.x, planet.y);
+  asteroid.rotation += asteroid.rotationSpeed;
+  rotate(asteroid.rotation / 35);
+  ellipse(
+    asteroid.x - 1,
+    asteroid.y - 5,
+    asteroid.width + 1,
+    asteroid.height - 2
+  );
+  pop();
+}
+
 //Draws the tracks that the planet moves on
 
 function drawTrack1() {
   push();
   colourRate += 0.009;
   strokeWeight(4);
-  stroke(sin(colourRate) * 255, 175, 120);
+  stroke(sin(colourRate) * 106, 184, 96, 255);
   noFill();
   translate(planet.x, planet.y);
   ellipse(0, 0, planet.radius * 3);
@@ -471,7 +576,7 @@ function drawTrack2() {
   push();
   colourRate += 0.0005;
   strokeWeight(2);
-  stroke(sin(colourRate) * 255, 175, 120);
+  stroke(sin(colourRate) * 106, 184, 96, 255);
   noFill();
   translate(planet.x, planet.y);
   ellipse(0, 0, planet.radius * 2);
@@ -481,7 +586,7 @@ function drawTrack2() {
 function drawTrack3() {
   push();
   colourRate += 0.0009;
-  stroke(sin(colourRate) * 255, 175, 120);
+  stroke(sin(colourRate) * 106, 184, 96, 255);
   noFill();
   translate(planet.x, planet.y);
   ellipse(0, 0, planet.radius);
@@ -508,7 +613,7 @@ function drawPlanet() {
   //planet on inner ring
   push();
   noStroke();
-  fill(20, 125, 200);
+  fill(171, 205, 239);
   // Translate to the center of rotation
   translate(planet.x, planet.y);
   // Rotate our object by its current rotation
@@ -523,7 +628,7 @@ function drawPlanet() {
   //planet on outer ring
   push();
   noStroke();
-  fill(20, 125, 200);
+  fill(38, 67, 72);
   // Translate to the center of rotation
   translate(planet.x, planet.y);
   // Rotate our object by its current rotation
@@ -532,23 +637,54 @@ function drawPlanet() {
   // of the circle
   translate(planet.radius * 1.5, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
-  ellipse(0, 0, planet.size / 2);
+  ellipse(-700, 400, planet.size / 1.2);
   pop();
 }
 
 function drawPlanet2() {
+  //large planet on outerring
   push();
   noStroke();
-  fill(20, 125, 200);
+  fill(133, 96, 136);
   // Translate to the center of rotation
   translate(planet2.x, planet2.y);
   // Rotate our object by its current rotation
-  rotate(planet2.rotation * 1.6);
+  rotate(planet2.rotation / 1.6);
   // Now translate by the radius so we can draw it on the edge
   // of the outer ring
   translate(planet2.radius * 1.5, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
-  ellipse(0, 0, planet2.size * 2);
+  ellipse(-1050, 0, planet2.size * 2);
+  pop();
+
+  //smaller planet on 2nd ring
+  push();
+  noStroke();
+  fill(95, 158, 160);
+  // Translate to the center of rotation
+  translate(planet2.x, planet2.y);
+  // Rotate our object by its current rotation
+  rotate(planet2.rotation / 2);
+  // Now translate by the radius so we can draw it on the edge
+  // of the circle
+  translate(planet2.radius, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(0, 0, planet2.size / 1.6);
+  pop();
+
+  // planet on middle ring
+  push();
+  noStroke();
+  fill(196, 174, 173);
+  // Translate to the center of rotation
+  translate(planet2.x, planet2.y);
+  // Rotate our object by its current rotation
+  rotate(planet2.rotation / 2);
+  // Now translate by the radius so we can draw it on the edge
+  // of the circle
+  translate(planet2.radius, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(-575, -275, planet2.size / 1.15);
   pop();
 }
 
@@ -588,6 +724,12 @@ function drawStars() {
 //draw "End" state
 function drawEnd() {
   background(255);
+
+  //make sure music is working
+  if (musicIsPlaying === false) {
+    music.play();
+    musicIsPlaying = true;
+  }
 
   // background animation
   drawStarfield();
