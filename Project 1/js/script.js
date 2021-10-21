@@ -291,10 +291,10 @@ function drawSimulation() {
   drawMiniMoon();
 
   handleDirection();
-  handleOutwardDirection();
 
   if (musicIsPlaying === false) {
-    music.play();
+    /////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DONT FORGET
+    // music.play();
     musicIsPlaying = true;
   }
 
@@ -639,7 +639,7 @@ function drawPlanet() {
   ellipse(0, 0, planet.size / 2);
   pop();
 
-  //planet on outer ring
+  //planet on second ring
   push();
   noStroke();
   fill(204, 204, 255);
@@ -649,9 +649,9 @@ function drawPlanet() {
   rotate(planet.rotation * 1.6);
   // Now translate by the radius so we can draw it on the edge
   // of the circle
-  translate(planet.radius * 1.5, 0);
+  translate(planet.radius * 1.9, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
-  ellipse(-700, 400, planet.size / 1.2);
+  ellipse(-850, 285, planet.size / 1.2);
   pop();
 }
 
@@ -671,22 +671,22 @@ function drawPlanet2() {
   ellipse(-1050, 0, planet2.size * 2);
   pop();
 
-  //smaller planet on 2nd ring
+  //smaller planet on second ring
   push();
   noStroke();
   fill(95, 158, 160);
   // Translate to the center of rotation
   translate(planet2.x, planet2.y);
   // Rotate our object by its current rotation
-  rotate(planet2.rotation / 2);
+  rotate(planet2.rotation * 2);
   // Now translate by the radius so we can draw it on the edge
   // of the circle
   translate(planet2.radius, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
-  ellipse(0, 0, planet2.size / 1.6);
+  ellipse(0, -400, planet2.size / 1.6);
   pop();
 
-  // planet on middle ring
+  // planet on third ring
   push();
   noStroke();
   fill(196, 174, 173);
@@ -699,6 +699,21 @@ function drawPlanet2() {
   translate(planet2.radius, 0);
   // Finally draw the planet (at 0,0 because we translated the origin)
   ellipse(-575, -275, planet2.size / 1.15);
+  pop();
+
+  //planet on inner ring
+  push();
+  noStroke();
+  fill(23, 104, 238);
+  // Translate to the center of rotation
+  translate(planet.x, planet.y);
+  // Rotate our object by its current rotation
+  rotate(planet.rotation * 6);
+  // Now translate by the radius so we can draw it on the edge
+  // of the circle
+  translate(planet.radius / 2, 0);
+  // Finally draw the planet (at 0,0 because we translated the origin)
+  ellipse(0, 0, planet.size / 1.5);
   pop();
 }
 
@@ -747,23 +762,6 @@ function drawStars() {
   translate(planet.x, planet.y);
   ellipse(0, 0, star.size);
   pop();
-}
-
-//Controls for during the simulation
-function handleOutwardDirection() {
-  if (keyIsDown(UP_ARROW)) {
-    push();
-    translate(centerPoint.x, centerPoint.y);
-    moon.x = moon.x + moon.speed;
-    moon.y = moon.y + moon.speed;
-    pop();
-  } else if (keyIsDown(DOWN_ARROW)) {
-    push();
-    translate(centerPoint.x, centerPoint.y);
-    moon.x = moon.x - moon.speed;
-    moon.y = moon.y - moon.speed;
-    pop();
-  }
 }
 
 /**
