@@ -2,14 +2,14 @@
 
 // Our garden
 let garden = {
-  // An array to store the individual flowers
-  flowers: [],
-  // How many flowers in the garden
-  numFlowers: 20,
-  // An array to our the bees
-  bees: [],
-  // How many bees in the garden
-  numBees: 5,
+  // An array to store the individual pumpkins
+  pumpkins: [],
+  // How many pumpkins in the garden
+  numPumpkins: 20,
+  // An array to our the ghosts
+  ghosts: [],
+  // How many ghosts in the garden
+  numGhosts: 5,
   // The color of the grass (background)
   grassColor: {
     r: 120,
@@ -18,12 +18,30 @@ let garden = {
   },
 };
 
-// setup() creates the canvas and the flowers in the garden
+let font;
+let bannerImg;
+let ghostImg;
+let pumpkinImg;
+let witchImg;
+let candyImg;
+
+function preload() {
+  font = loadFont("assets/fonts/font.otf");
+  bannerImg = loadImage("assets/images/banner.gif");
+  ghostImg = loadImage("assets/images/ghost.png");
+  pumpkinImg = loadImage("assets/images/pumpkin.gif");
+  witchImg = loadImage("assets/images/witch.gif");
+  candyImg = loadImage("assets/images/candy.gif");
+  // music = loadSound("assets/sounds/music.mp3");
+  // blastFX = loadSound("assets/sounds/blastFX.mp3");
+}
+
+// setup() creates the canvas and the pumpkins in the garden
 function setup() {
   createCanvas(600, 600);
 
-  // Create our flowers by counting up to the number of the flowers
-  for (let i = 0; i < garden.numFlowers; i++) {
+  // Create our pumpkins by counting up to the number of the pumpkins
+  for (let i = 0; i < garden.numPumpkins; i++) {
     // Create variables for our arguments for clarity
     let x = random(0, width);
     let y = random(0, height);
@@ -34,60 +52,63 @@ function setup() {
       g: random(100, 255),
       b: random(100, 255),
     };
-    // Create a new flower using the arguments
-    let flower = new Flower(x, y, size, stemLength, petalColor);
-    // Add the flower to the array of flowers
-    garden.flowers.push(flower);
+    // Create a new pumpkin using the arguments
+    let pumpkin = new Pumpkin(x, y, size, stemLength, petalColor);
+    // Add the pumpkin to the array of pumpkins
+    garden.pumpkins.push(pumpkin);
   }
 
-  // Create our bees by counting up to the number of bees
-  for (let i = 0; i < garden.numBees; i++) {
+  // Create our ghosts by counting up to the number of ghosts
+  for (let i = 0; i < garden.numGhosts; i++) {
     // Create variables for our arguments for clarity
     let x = random(0, width);
     let y = random(0, height);
-    // Create a new bee using the arguments
-    let bee = new Bee(x, y);
-    // Add the bee to the array of bees
-    garden.bees.push(bee);
+    // Create a new ghost using the arguments
+    let ghost = new Ghost(x, y);
+    // Add the ghost to the array of ghosts
+    garden.ghosts.push(ghost);
   }
 }
 
 // draw()
-// Displays our flowers
+// Displays our pumpkins
 function draw() {
   // Display the grass
   background(garden.grassColor.r, garden.grassColor.g, garden.grassColor.b);
 
-  // Loop through all the flowers in the array and display them
-  for (let i = 0; i < garden.flowers.length; i++) {
-    let flower = garden.flowers[i];
-    // Check if this flower is alive
-    if (flower.alive) {
-      // Update the flower by shrinking it and displaying it
-      flower.shrink();
-      flower.display();
+  //test images
+  image(ghostImg, mouseX, mouseY);
+
+  // Loop through all the pumpkins in the array and display them
+  for (let i = 0; i < garden.pumpkins.length; i++) {
+    let pumpkin = garden.pumpkins[i];
+    // Check if this pumpkin is alive
+    if (pumpkin.alive) {
+      // Update the pumpkin by shrinking it and displaying it
+      pumpkin.shrink();
+      pumpkin.display();
     }
   }
 
-  // Loop through all the bees in the array and display them
-  for (let i = 0; i < garden.bees.length; i++) {
-    let bee = garden.bees[i];
-    // Check if this flower is alive
-    if (bee.alive) {
-      // Shrink and move the bee
-      bee.shrink();
-      bee.move();
+  // Loop through all the ghosts in the array and display them
+  for (let i = 0; i < garden.ghosts.length; i++) {
+    let ghost = garden.ghosts[i];
+    // Check if this pumpkin is alive
+    if (ghost.alive) {
+      // Shrink and move the ghost
+      ghost.shrink();
+      ghost.move();
 
-      // NEW! Go through the entire flower array and try to pollinate the flowers!
+      // NEW! Go through the entire pumpkin array and try to pollinate the pumpkins!
       // Note that we use j in our for-loop here because we're already inside
       // a for-loop using i!
-      for (let j = 0; j < garden.flowers.length; j++) {
-        let flower = garden.flowers[j];
-        bee.tryToPollinate(flower);
+      for (let j = 0; j < garden.pumpkins.length; j++) {
+        let pumpkin = garden.pumpkins[j];
+        ghost.tryToPollinate(pumpkin);
       }
 
-      // Display the bee
-      bee.display();
+      // Display the ghost
+      ghost.display();
     }
   }
 }

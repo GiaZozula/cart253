@@ -1,5 +1,5 @@
-class Flower {
-  // The constructor() sets up a flower's properties
+class Pumpkin {
+  // The constructor() sets up a pumpkin's properties
   constructor(x, y, size, stemLength, petalColor) {
     // Position and size information
     this.x = x;
@@ -26,28 +26,28 @@ class Flower {
   }
 
   // shrink()
-  // Shrinks the flower
+  // Shrinks the pumpkin
   shrink() {
     // Choose a random amount to shrink
     let shrinkage = random(0, 0.1);
     // Reduce the petal thickness (divide by 10 to make it less rapid)
     this.petalThickness = this.petalThickness - shrinkage / 10;
-    // Reduce the centre of the flower
+    // Reduce the centre of the pumpkin
     this.size = this.size - shrinkage;
 
-    // If any of the key properties reach 0 or less, the flower is dead
+    // If any of the key properties reach 0 or less, the pumpkin is dead
     if (this.petalThickness <= 0 || this.size <= 0) {
       this.alive = false;
     }
   }
 
-  // NEW! pollinate() handles the flower being pollinated (it grows)
+  // NEW! pollinate() handles the pumpkin being pollinated (it grows)
   pollinate() {
     // Choose a random amount to grow
     let growth = random(0, 0.5);
     // Increase the petal thickness (divide by 10 to make it less rapid)
     this.petalThickness = this.petalThickness + growth / 10;
-    // Increase the centre of the flower
+    // Increase the centre of the pumpkin
     this.size = this.size + growth;
 
     // Constrain the elements
@@ -60,7 +60,7 @@ class Flower {
   }
 
   // display()
-  // Displays the flower on the canvas
+  // Displays the pumpkin on the canvas
   display() {
     push();
     // Set the stroke weight for the petals and the stem
@@ -68,7 +68,7 @@ class Flower {
     // Draw a line for the stem
     stroke(this.stemColor.r, this.stemColor.g, this.stemColor.b);
     line(this.x, this.y, this.x, this.y + this.stemLength);
-    // Draw a circle with a heavy outline for the flower
+    // Draw a circle with a heavy outline for the pumpkin
     strokeWeight(this.petalThickness);
     fill(this.centreColor.r, this.centreColor.g, this.centreColor.b);
     stroke(this.petalColor.r, this.petalColor.g, this.petalColor.b);
