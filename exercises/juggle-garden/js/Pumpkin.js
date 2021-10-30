@@ -63,16 +63,8 @@ class Pumpkin {
   // Displays the pumpkin on the canvas
   display() {
     push();
-    // Set the stroke weight for the petals and the stem
-    strokeWeight(this.stemThickness);
-    // Draw a line for the stem
-    stroke(this.stemColor.r, this.stemColor.g, this.stemColor.b);
-    line(this.x, this.y, this.x, this.y + this.stemLength);
-    // Draw a circle with a heavy outline for the pumpkin
-    strokeWeight(this.petalThickness);
-    fill(this.centreColor.r, this.centreColor.g, this.centreColor.b);
-    stroke(this.petalColor.r, this.petalColor.g, this.petalColor.b);
-    ellipse(this.x, this.y, this.size);
+    imageMode(CENTER);
+    image(pumpkinImg, this.x, this.y, this.size, this.size);
     pop();
   }
 }
