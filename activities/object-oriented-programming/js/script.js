@@ -77,6 +77,8 @@ function draw() {
       // Shrink and move the bee
       bee.shrink();
       bee.move();
+      // Display the bee
+      bee.display();
 
       // NEW! Go through the entire flower array and try to pollinate the flowers!
       // Note that we use j in our for-loop here because we're already inside
@@ -85,9 +87,6 @@ function draw() {
         let flower = garden.flowers[j];
         bee.tryToPollinate(flower);
       }
-
-      // Display the bee
-      bee.display();
     }
   }
 }

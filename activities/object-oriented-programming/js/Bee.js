@@ -9,6 +9,7 @@ class Bee {
     this.vy = 0;
     this.speed = 5;
     this.shrinkRate = 0.05; // How much smaller we get each frame
+    this.growRate = 0.05;
     this.jitteriness = 0.1; // How likely the bee is to change direction
     this.alive = true; // The Bee starts out alive!
   }
@@ -30,7 +31,7 @@ class Bee {
     // Calculate the distance between the bee and the flower
     let d = dist(this.x, this.y, flower.x, flower.y);
     // If they overlap...
-    if (d < this.size / 2 + flower.size / 2) {
+    if (d < this.size / 2 + flower.size / 2 + flower.petalThickness) {
       // The bee should grow
       // Notice how we can call OTHER METHODS of the Bee by using "this"
       // So this.grow() calls the grow() method for THIS bee
@@ -46,7 +47,7 @@ class Bee {
     // Grow by increasing the size by a set amount
     this.size = this.size + this.growRate;
     // Constrain the growth to a maximum
-    this.size = constrain(this.size, 0, this.maxSize);
+    this.size = constrain(this.size, this.minSize, this.maxSize);
   }
 
   // move() moves the bee by potentially changing direction
