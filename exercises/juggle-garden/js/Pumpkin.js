@@ -40,4 +40,15 @@ class Pumpkin {
     image(pumpkinImg, this.x, this.y, this.size, this.size);
     pop();
   }
+
+  mousePressed() {
+    // Calculate the distance between this pumpkin and the mouse
+    let d = dist(this.x, this.y, mouseX, mouseY);
+    // Check if the distance is less than the head of the pumpkin
+    if (d < this.size / 2) {
+      // If it is, this pumpkin was clicked, so increase its stem length
+      this.size = this.size + 2;
+      this.size = constrain(this.size, 0, this.maxSize);
+    }
+  }
 }

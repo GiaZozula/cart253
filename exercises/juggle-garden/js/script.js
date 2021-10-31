@@ -164,7 +164,13 @@ function mousePressed() {
     state = `game`;
   }
   if (state === `game`) {
-    gameControl();
+    // Loop through every pumpkin in the garden
+    for (let i = 0; i < garden.pumpkins.length; i++) {
+      // Get the current pumpkin in the loop
+      let pumpkin = garden.pumpkins[i];
+      // Call the pumpkin's mousePressed() method
+      pumpkin.mousePressed();
+    }
   }
 }
 
