@@ -1,3 +1,11 @@
+/**
+SPIRIT HALLOWEEN (juggle garden exercise)
+By Gia <3
+
+pixel graphics are by me :)
+
+*/
+
 "use strict";
 
 // Our garden
@@ -22,33 +30,21 @@ let garden = {
   },
 };
 
-let candy = {
-  x: undefined,
-  y: undefined,
-  size: 50,
-};
-
-let font;
-let bannerImg;
-let ghostImg;
-let pumpkinImg;
-let witchImg;
-let candyImg;
-
-//set the starting state
-let state = `title`;
-
-let titleScreen = {
+let splashScreen = {
   background: {
     r: 241,
     g: 100,
     b: 46,
   },
-  //text in the title screen
+  //text in the title screens
   text: {
     line1: `Keep the spirit of Halloween going!`,
     line2: `You have 13 seconds to survive...`,
     line3: `Click to Begin!!`,
+    line4: `Oh no! Now its Christmas!`,
+    line5: `Hooray!!`,
+    line6: `Christmas has been cancelled!`,
+    line7: `Halloween forever!`,
     width: 300,
     height: 300,
     size: 20,
@@ -67,10 +63,27 @@ let titleScreen = {
     thickness: 3,
     x: 300,
     y: 300,
-    width: 601,
-    height: 500,
+    width: 580,
+    height: 580,
   },
 };
+
+let candy = {
+  x: undefined,
+  y: undefined,
+  size: 50,
+};
+
+//let font and images
+let font;
+let bannerImg;
+let ghostImg;
+let pumpkinImg;
+let witchImg;
+let candyImg;
+
+//set the starting state
+let state = `game`;
 
 //preload all of the assets for the game
 function preload() {
@@ -80,8 +93,6 @@ function preload() {
   pumpkinImg = loadImage("assets/images/pumpkin.png");
   witchImg = loadImage("assets/images/witch.png");
   candyImg = loadImage("assets/images/candy.png");
-  // music = loadSound("assets/sounds/music.mp3");
-  // blastFX = loadSound("assets/sounds/blastFX.mp3");
 }
 
 // setup() creates the canvas and the pumpkins in the garden
@@ -218,52 +229,88 @@ function stateSwitcher() {
   }
 }
 
-function drawTitle() {
+function drawSplash() {
+  //text size
+  textSize(splashScreen.text.size);
   //orange background
   background(
-    titleScreen.background.r,
-    titleScreen.background.g,
-    titleScreen.background.b
-  );
-
-  //draw the banner
-  image(
-    bannerImg,
-    titleScreen.banner.x,
-    titleScreen.banner.y,
-    titleScreen.banner.width,
-    titleScreen.banner.height
+    splashScreen.background.r,
+    splashScreen.background.g,
+    splashScreen.background.b
   );
 
   //black frame
   push();
   noFill();
-  stroke(titleScreen.frame.stroke);
-  strokeWeight(titleScreen.frame.thickness);
+  stroke(splashScreen.frame.stroke);
+  strokeWeight(splashScreen.frame.thickness);
   rect(
-    titleScreen.frame.x,
-    titleScreen.frame.y,
-    titleScreen.frame.width,
-    titleScreen.frame.height
+    splashScreen.frame.x,
+    splashScreen.frame.y,
+    splashScreen.frame.width,
+    splashScreen.frame.height
   );
   pop();
 
-  //text about the game
-  // third chunk of text for title screen
-  textSize(titleScreen.text.size);
+  //draw the banner
+  image(
+    bannerImg,
+    splashScreen.banner.x,
+    splashScreen.banner.y,
+    splashScreen.banner.width,
+    splashScreen.banner.height
+  );
+}
+
+function drawTitle() {
+  //background, frame, and banner
+  drawSplash();
+  //text for the title
   text(
-    titleScreen.text.line1,
-    titleScreen.text.width,
-    titleScreen.text.height + 10
+    splashScreen.text.line1,
+    splashScreen.text.width,
+    splashScreen.text.height + 10
   );
   text(
-    titleScreen.text.line2,
-    titleScreen.text.width,
-    titleScreen.text.height + 50
+    splashScreen.text.line2,
+    splashScreen.text.width,
+    splashScreen.text.height + 50
   );
   text(
-    titleScreen.text.line3,
-    titleScreen.text.width,
-    titleScreen.text.height + 90
+    splashScreen.text.line3,
+    splashScreen.text.width,
+    splashScreen.text.height + 90
+  );
+}
+
+function drawEnding1() {
+  //background, frame, and banner
+  drawSplash();
+  //text for ending1
+  text(
+    splashScreen.text.line4,
+    splashScreen.text.width,
+    splashScreen.text.height + 10
+  );
+}
+
+function drawEnding2() {
+  //background, frame, and banner
+  drawSplash();
+  //text for ending1
+  text(
+    splashScreen.text.line5,
+    splashScreen.text.width,
+    splashScreen.text.height + 10
+  );
+  text(
+    splashScreen.text.line6,
+    splashScreen.text.width,
+    splashScreen.text.height + 50
+  );
+  text(
+    splashScreen.text.line7,
+    splashScreen.text.width,
+    splashScreen.text.height + 90
   );
 }
