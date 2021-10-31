@@ -68,6 +68,11 @@ let splashScreen = {
   },
 };
 
+//timer that counts up to 13
+let timeCounter = 0;
+//the length of the  game is 13 seconds
+let gameLength = 60 * 5;
+
 let candy = {
   x: undefined,
   y: undefined,
@@ -83,7 +88,7 @@ let witchImg;
 let candyImg;
 
 //set the starting state
-let state = `game`;
+let state = `title`;
 
 //preload all of the assets for the game
 function preload() {
@@ -142,12 +147,39 @@ function setup() {
 
 function draw() {
   //start with the appropriate state
-  stateSwitcher();
+  if (state === `title`) {
+    drawTitle();
+  } else if (state === `game`) {
+    drawGame();
+  } else if (state === `win`) {
+    drawEnding1();
+  } else if (state === `lose`) {
+    drawEnding2();
+  }
+}
+
+// mousePressed() switches from title to game or checks all circles to see if they were clicked
+function mousePressed() {
+  if (state === `title`) {
+    state = `game`;
+  }
+  if (state === `game`) {
+    gameControl();
+  }
 }
 
 function drawGame() {
   // Display the grass
   background(garden.grassColor.r, garden.grassColor.g, garden.grassColor.b);
+
+  //add +1 to the counter every frame
+  timeCounter++;
+
+  //check if timer is complete
+  if (timeCounter >= gameLength) {
+    // The game is over! So we should check the win/lose state
+    gameOver();
+  }
 
   // Loop through all the pumpkins in the array and display them
   for (let i = 0; i < garden.pumpkins.length; i++) {
@@ -209,18 +241,6 @@ function drawGame() {
   image(candyImg, mouseX, mouseY, candy.size * 2, candy.size);
 
   pop();
-}
-
-function stateSwitcher() {
-  if (state === `title`) {
-    drawTitle();
-  } else if (state === `game`) {
-    drawGame();
-  } else if (state === `ending1`) {
-    drawEnding1();
-  } else if (state === `ending2`) {
-    drawEnding2();
-  }
 }
 
 function drawSplash() {
@@ -307,4 +327,27 @@ function drawEnding2() {
     splashScreen.text.width,
     splashScreen.text.height + 90
   );
+}
+
+// gameOver() checks whether the player has won or lost
+// and sets the state appropriately
+function gameOver() {
+  // Check if anything is still alive
+  if (witch.alive && ghost.alive && pumpkin.alive === true) {
+    // The user managed to keep something alive!
+    state = `win`;
+  } else {
+    // Otherwise they lost
+    state = `lose`;
+  }
+}
+
+// win() shows YOU WIN
+function win() {
+  drawEnding1();
+}
+
+// lose() shows YOU LOSE
+function lose() {
+  drawEnding2();
 }
