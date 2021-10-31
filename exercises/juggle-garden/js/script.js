@@ -111,14 +111,8 @@ function setup() {
     let x = random(0, width);
     let y = random(0, height);
     let size = random(50, 80);
-    let stemLength = random(50, 100);
-    let petalColor = {
-      r: random(100, 255),
-      g: random(100, 255),
-      b: random(100, 255),
-    };
     // Create a new pumpkin using the arguments
-    let pumpkin = new Pumpkin(x, y, size, stemLength, petalColor);
+    let pumpkin = new Pumpkin(x, y, size);
     // Add the pumpkin to the array of pumpkins
     garden.pumpkins.push(pumpkin);
   }

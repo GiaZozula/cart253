@@ -33,7 +33,7 @@ class Witch {
     // If they overlap...
     if (d < this.size / 2 + pumpkin.size / 2) {
       // The witch should grow
-      // Notice how we can call OTHER METHODS of the Bee by using "this"
+      // Notice how we can call OTHER METHODS of the witch by using "this"
       // So this.grow() calls the grow() method for THIS witch
       this.grow();
       // The pumpkin should react to being pollinated so we call its method
