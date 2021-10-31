@@ -35,6 +35,44 @@ let pumpkinImg;
 let witchImg;
 let candyImg;
 
+//set the starting state
+let state = `title`;
+
+let titleScreen = {
+  background: {
+    r: 241,
+    g: 100,
+    b: 46,
+  },
+  //text in the title screen
+  text: {
+    line1: `Keep the spirit of Halloween going!`,
+    line2: `You have 13 seconds to survive...`,
+    line3: `Click to Begin!!`,
+    width: 300,
+    height: 300,
+    size: 20,
+    fill: 0,
+  },
+  //banner properties
+  banner: {
+    x: 300,
+    y: 200,
+    width: 300,
+    height: 120,
+  },
+  //frame properties
+  frame: {
+    stroke: 0,
+    thickness: 3,
+    x: 300,
+    y: 300,
+    width: 601,
+    height: 500,
+  },
+};
+
+//preload all of the assets for the game
 function preload() {
   font = loadFont("assets/fonts/font.otf");
   bannerImg = loadImage("assets/images/banner.png");
@@ -49,6 +87,12 @@ function preload() {
 // setup() creates the canvas and the pumpkins in the garden
 function setup() {
   createCanvas(600, 600);
+
+  //set the game's font, text, image, rect alignments
+  textFont("font");
+  textAlign(CENTER);
+  imageMode(CENTER);
+  rectMode(CENTER);
 
   // Create our pumpkins by counting up to the number of the pumpkins
   for (let i = 0; i < garden.numPumpkins; i++) {
@@ -92,6 +136,11 @@ function setup() {
 }
 
 function draw() {
+  //start with the appropriate state
+  stateSwitcher();
+}
+
+function drawGame() {
   // Display the grass
   background(garden.grassColor.r, garden.grassColor.g, garden.grassColor.b);
 
@@ -155,4 +204,66 @@ function draw() {
   image(candyImg, mouseX, mouseY, candy.size * 2, candy.size);
 
   pop();
+}
+
+function stateSwitcher() {
+  if (state === `title`) {
+    drawTitle();
+  } else if (state === `game`) {
+    drawGame();
+  } else if (state === `ending1`) {
+    drawEnding1();
+  } else if (state === `ending2`) {
+    drawEnding2();
+  }
+}
+
+function drawTitle() {
+  //orange background
+  background(
+    titleScreen.background.r,
+    titleScreen.background.g,
+    titleScreen.background.b
+  );
+
+  //draw the banner
+  image(
+    bannerImg,
+    titleScreen.banner.x,
+    titleScreen.banner.y,
+    titleScreen.banner.width,
+    titleScreen.banner.height
+  );
+
+  //black frame
+  push();
+  noFill();
+  stroke(titleScreen.frame.stroke);
+  strokeWeight(titleScreen.frame.thickness);
+  rect(
+    titleScreen.frame.x,
+    titleScreen.frame.y,
+    titleScreen.frame.width,
+    titleScreen.frame.height
+  );
+  pop();
+
+  //text about the game
+  // third chunk of text for title screen
+  textSize(titleScreen.text.size);
+  text(
+    titleScreen.text.line1,
+    titleScreen.text.width,
+    titleScreen.text.height + 10
+  );
+  text(
+    titleScreen.text.line2,
+    titleScreen.text.width,
+    titleScreen.text.height + 50
+  );
+  text(
+    titleScreen.text.line3,
+    titleScreen.text.width,
+    titleScreen.text.height + 90
+  );
 }
