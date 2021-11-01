@@ -32,6 +32,12 @@ class Pumpkin {
     this.size = constrain(this.size, 0, this.maxSize);
   }
 
+  //handles the pumpkin being stomped by Santa
+  destroy() {
+    this.size = this.size - 20;
+    this.alive = false;
+  }
+
   // display()
   // Displays the pumpkin on the canvas
   display() {

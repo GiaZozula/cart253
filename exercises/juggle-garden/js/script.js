@@ -13,15 +13,15 @@ let garden = {
   // An array to store the individual pumpkins
   pumpkins: [],
   // How many pumpkins in the garden
-  numPumpkins: 20,
+  numPumpkins: 50,
   // An array to our the ghosts
   ghosts: [],
   // How many ghosts in the garden
-  numGhosts: 5,
+  numGhosts: 30,
   //array for the witches
   witches: [],
   // how many witches in the garden?
-  numWitches: 8,
+  numWitches: 30,
   // The color of the grass (background)
   grassColor: {
     r: 120,
@@ -86,6 +86,7 @@ let ghostImg;
 let pumpkinImg;
 let witchImg;
 let candyImg;
+let santaImg;
 
 //set the starting state
 let state = `title`;
@@ -98,6 +99,7 @@ function preload() {
   pumpkinImg = loadImage("assets/images/pumpkin.png");
   witchImg = loadImage("assets/images/witch.png");
   candyImg = loadImage("assets/images/candy.png");
+  santaImg = loadImage("assets/images/santa.png");
 }
 
 // setup() creates the canvas and the pumpkins in the garden
@@ -109,6 +111,9 @@ function setup() {
   textAlign(CENTER);
   imageMode(CENTER);
   rectMode(CENTER);
+
+  //create Santa!
+  createSanta();
 
   // Create our pumpkins by counting up to the number of the pumpkins
   for (let i = 0; i < garden.numPumpkins; i++) {
@@ -156,6 +161,13 @@ function draw() {
   } else if (state === `lose`) {
     drawEnding1();
   }
+}
+
+function createSanta() {
+  let x = random(0, width);
+  let y = random(0, height);
+  let size = random;
+  let santa = new Santa();
 }
 
 // mousePressed() switches from title to game or checks all circles to see if they were clicked
@@ -240,12 +252,14 @@ function drawGame() {
     witch.display();
   }
 
+  // //display santa!!
+  // santa.display();
+
   //candy cursor
   push();
   noCursor();
   imageMode(CENTER);
   image(candyImg, mouseX, mouseY, candy.size * 2, candy.size);
-
   pop();
 }
 

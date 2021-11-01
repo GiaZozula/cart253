@@ -8,7 +8,7 @@ class Ghost {
     this.vx = 0;
     this.vy = 0;
     this.speed = 5;
-    this.shrinkRate = 0.05; // How much smaller we get each frame
+    this.shrinkRate = 0.1; // How much smaller we get each frame
     this.growRate = 0.05; //how much bigger it gets each frame
     this.jitteriness = 0.1; // How likely the ghost is to change direction
     this.alive = true; // The Ghost starts out alive!

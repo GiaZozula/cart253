@@ -7,10 +7,10 @@ class Witch {
     this.maxSize = 40; // We can't get bigger than this
     this.vx = 0;
     this.vy = 0;
-    this.speed = 5;
-    this.shrinkRate = 0.05; // How much smaller we get each frame
+    this.speed = 2;
+    this.shrinkRate = 0.1; // How much smaller we get each frame
     this.growRate = 0.05; //how much bigger it gets each frame
-    this.jitteriness = 0.1; // How likely the witch is to change direction
+    this.jitteriness = 0.03; // How likely the witch is to change direction
     this.alive = true; // The witch starts out alive!
   }
 
