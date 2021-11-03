@@ -30,6 +30,7 @@ let garden = {
   },
 };
 
+//title and end screen properties
 let splashScreen = {
   background: {
     r: 241,
@@ -67,6 +68,9 @@ let splashScreen = {
     height: 580,
   },
 };
+
+//santa's coming to town
+let santa = undefined;
 
 //timer that counts up to 13
 let timeCounter = 0;
@@ -163,13 +167,11 @@ function draw() {
   }
 }
 
+//create santa based off of the santa class
 function createSanta() {
   let x = random(0, width);
   let y = random(0, height);
-  let size = random;
-  let santa = new Santa();
-  //display santa!!
-  santa.display();
+  santa = new Santa(x, y);
 }
 
 // mousePressed() switches from title to game or checks all circles to see if they were clicked
@@ -209,6 +211,7 @@ function drawGame() {
       // Update the pumpkin by shrinking it and displaying it
       pumpkin.shrink();
       pumpkin.display();
+      santa.tryToDestroy(pumpkin);
     }
   }
 
@@ -253,6 +256,10 @@ function drawGame() {
     //display the witch!
     witch.display();
   }
+
+  //display santa!!
+  santa.move();
+  santa.display();
 
   //candy cursor
   push();

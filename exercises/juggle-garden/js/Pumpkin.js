@@ -34,7 +34,6 @@ class Pumpkin {
 
   //handles the pumpkin being stomped by Santa
   destroy() {
-    this.size = this.size - 20;
     this.alive = false;
   }
 
