@@ -168,6 +168,8 @@ function createSanta() {
   let y = random(0, height);
   let size = random;
   let santa = new Santa();
+  //display santa!!
+  santa.display();
 }
 
 // mousePressed() switches from title to game or checks all circles to see if they were clicked
@@ -251,9 +253,6 @@ function drawGame() {
     //display the witch!
     witch.display();
   }
-
-  // //display santa!!
-  // santa.display();
 
   //candy cursor
   push();
