@@ -11,9 +11,9 @@ class Tshirt extends Product {
     super(x, y);
     // After using the Product's constructor() we need to set
     // the Product properties to the specific values for a Hat
-    this.width = 60;
-    this.height = 30;
-    this.vx = 7;
+    this.width = 40;
+    this.height = 40;
+    this.vx = undefined;
   }
 
   // 3. We don't need to define move() or wrap() because they are already part

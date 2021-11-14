@@ -11,9 +11,9 @@ class Doll extends Product {
     super(x, y);
     // After using the Product's constructor() we need to set
     // the Product properties to the specific values for a Hat
-    this.width = 30;
-    this.height = 10;
-    this.vx = 2;
+    this.width = 40;
+    this.height = 40;
+    this.vx = undefined;
   }
 
   // 3. We don't need to define move() or wrap() because they are already part
