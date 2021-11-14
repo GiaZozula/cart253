@@ -19,28 +19,20 @@ Desirable mechanics:
 "use strict";
 
 // this is a list of possible orders that are stored in an array
-let orders = [`T-Shirt`, `Doll`, `Toaster`, `Baseball Cap`];
+let orders = [`Blue`, `Purple`, `Red`, `Yellow`];
 
 //this is the starting order, that will be replaced once the game begins
 let currentOrder = `YOU READY TO WORK?!`;
+
+//this sets a timer, and ties it to the orders changing
+let orderTimer = 1000;
+let orderChange = orderTimer;
 
 let products = [];
 let numToasters = 15;
 let numHats = 10;
 let numTshirts = 8;
 let numDolls = 8;
-
-let toasterIMG = undefined;
-let hatIMG = undefined;
-let tshirtIMG = undefined;
-let dollIMG = undefined;
-
-function preload() {
-  toasterIMG = loadImage("assets/images/toaster.png");
-  hatIMG = loadImage("assets/images/hat.png");
-  tshirtIMG = loadImage("assets/images/tshirt.png");
-  dollIMG = loadImage("assets/images/doll.png");
-}
 
 function setup() {
   createCanvas(1200, 800);
@@ -95,7 +87,13 @@ function setup() {
 function draw() {
   background(0);
 
-  //the text will read what the current order is, as its randomized
+  //this checks if enough time has passed before changing the order
+  if (millis() > orderChange) {
+    currentOrder = random(orders);
+    orderChange = millis() + orderTimer;
+  }
+
+  //this displays the order
   text(currentOrder, width / 2, height / 4);
 
   for (let i = 0; i < products.length; i++) {
@@ -107,11 +105,6 @@ function draw() {
 }
 
 function mousePressed() {
-  // By passing the orders array as an argument to random() we get back
-  // a RANDOM ELEMENT in the array (one of the fortune strings) which we
-  // can then store in the currentOrder variable for displaying
-  currentOrder = random(orders);
-
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
     product.mousePressed();

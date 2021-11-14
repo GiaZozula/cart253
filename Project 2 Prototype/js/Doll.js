@@ -3,7 +3,7 @@
 // Our Toaster extends the Product class...
 class Doll extends Product {
   // Create a new Toaster object that moves to the right
-  constructor(x, y, image) {
+  constructor(x, y) {
     // NEW! 2. We call the Product's constructor() first! Because the Product
     // is the superclass for our Toaster, we call its constructor super()!
     // So super(x,y) means: call the superclass' constructor with arguments
@@ -14,7 +14,6 @@ class Doll extends Product {
     this.width = 30;
     this.height = 10;
     this.vx = 2;
-    this.image = image;
   }
 
   // 3. We don't need to define move() or wrap() because they are already part
