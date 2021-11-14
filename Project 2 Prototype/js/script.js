@@ -36,6 +36,13 @@ let numHats = 10;
 let numTshirts = 8;
 let numDolls = 8;
 
+let redLane = {
+  x: 0,
+  y: 200,
+  width: 1200,
+  height: 60,
+};
+
 //this sets up a boundary area for the products to exist in
 let topEdge = 400;
 let bottomEdge = 750;
@@ -51,6 +58,7 @@ function setup() {
   // Create the correct number of toasters and put them in our array
   for (let i = 0; i < numToasters; i++) {
     let x = random(0, width);
+    //this keeps them within the conveyor belt boundary
     let y = constrain(
       random(topEdge + padding, height),
       topEdge,
@@ -63,6 +71,7 @@ function setup() {
   // Create the correct number of hats and put them in our array
   for (let i = 0; i < numHats; i++) {
     let x = random(0, width);
+    //this keeps them within the conveyor belt boundary
     let y = constrain(
       random(topEdge + padding, height),
       topEdge,
@@ -75,6 +84,7 @@ function setup() {
   // Create the correct number of tshirts and put them in our array
   for (let i = 0; i < numTshirts; i++) {
     let x = random(0, width);
+    //this keeps them within the conveyor belt boundary
     let y = constrain(
       random(topEdge + padding, height),
       topEdge,
@@ -87,6 +97,7 @@ function setup() {
   // Create the correct number of dolls and put them in our array
   for (let i = 0; i < numDolls; i++) {
     let x = random(0, width);
+    //this keeps them within the conveyor belt boundary
     let y = constrain(
       random(topEdge + padding, height),
       topEdge,
@@ -111,6 +122,14 @@ function draw() {
   line(0, topEdge, width, topEdge);
   line(0, bottomEdge, width, bottomEdge);
 
+  //this draws the proper lanes for products to be dropped in
+  //starting with the Toaster (red)
+  push();
+  noStroke();
+  fill(255, 0, 0);
+  rect(redLane.x, redLane.y, redLane.width, redLane.height);
+  pop();
+
   //this checks if enough time has passed before changing the order
   if (millis() > orderChange) {
     currentOrder = random(orders);
@@ -118,7 +137,7 @@ function draw() {
   }
 
   //this displays the order
-  text(currentOrder, width / 2, height / 7);
+  text(currentOrder, width / 2, height - 50);
 
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
