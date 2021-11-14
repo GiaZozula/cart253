@@ -1,16 +1,19 @@
 /**
-Projec
-fill(255)t 2 Prototype
+Project 2 Prototype
 Gia ~~
 
-This is a prototype of a game that simulates (in a very reduced, gameified manner) the stress of working at warehouse.
-The player has to respond to timed orders from the boss, using converyor belts.
 
-Possible other mechanics :
-  - Survival systems like the need to stay hydrated and use the washroom
-      - Perhaps with the need to use the washroom effecting player movement/or the visuals to make it more difficult to work
-  - Some kind of hourly income rate, where you are penalized for missing items/using the washroom
-  - The actual win/lose state being if you are able to pay rent at the end of shift
+Necessary Mechanics :
+- A randomized order is displayed
+- Clicked Products can be identified as fulfilling the displayed order
+
+Desirable mechanics:
+- The products are on conveyor belts with different speeds
+- Different products appear on the same conveyor belt
+- Products can be picked up by the player
+- Products can be placed on another moving conveyor belt by the player
+
+
 */
 
 "use strict";
@@ -21,27 +24,36 @@ let orders = [`T-Shirt`, `Doll`, `Toaster`, `Baseball Cap`];
 //this is the starting order, that will be replaced once the game begins
 let currentOrder = `YOU READY TO WORK?!`;
 
-// this is a list of toasters that are stored in an array
-let toasters = [];
-//this is the length of the array filled with toasters
-let numToasters = 5;
-
-// this is a list of hats that are stored in an array
-let hats = [];
-//this is the length of the array filled with hats
+let products = [];
+let numToasters = 15;
 let numHats = 10;
+let numTshirts = 8;
+let numDolls = 8;
+
+let toasterIMG = undefined;
+let hatIMG = undefined;
+let tshirtIMG = undefined;
+let dollIMG = undefined;
+
+function preload() {
+  toasterIMG = loadImage("assets/images/toaster.png");
+  hatIMG = loadImage("assets/images/hat.png");
+  tshirtIMG = loadImage("assets/images/tshirt.png");
+  dollIMG = loadImage("assets/images/doll.png");
+}
 
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(1200, 800);
   textAlign(CENTER, CENTER);
   fill(255);
+  textSize(50);
 
   // Create the correct number of toasters and put them in our array
   for (let i = 0; i < numToasters; i++) {
     let x = random(0, width);
     let y = random(0, height);
     let toaster = new Toaster(x, y);
-    toasters.push(toaster);
+    products.push(toaster);
   }
 
   // Create the correct number of hats and put them in our array
@@ -49,7 +61,34 @@ function setup() {
     let x = random(0, width);
     let y = random(0, height);
     let hat = new Hat(x, y);
-    hats.push(hat);
+    products.push(hat);
+  }
+
+  // Create the correct number of tshirts and put them in our array
+  for (let i = 0; i < numTshirts; i++) {
+    let x = random(0, width);
+    let y = random(0, height);
+    let tshirt = new Tshirt(x, y);
+    products.push(tshirt);
+  }
+
+  // Create the correct number of dolls and put them in our array
+  for (let i = 0; i < numDolls; i++) {
+    let x = random(0, width);
+    let y = random(0, height);
+    let doll = new Doll(x, y);
+    products.push(doll);
+  }
+
+  //set randomized speeds for the products
+  for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    let r = random(0, 1);
+    if (r < 0.5) {
+      product.vx = product.speed * 2;
+    } else {
+      product.vx = product.speed;
+    }
   }
 }
 
@@ -59,20 +98,11 @@ function draw() {
   //the text will read what the current order is, as its randomized
   text(currentOrder, width / 2, height / 4);
 
-  // Go through all the toasters and move, wrap, and display them
-  for (let i = 0; i < toasters.length; i++) {
-    let toaster = toasters[i];
-    toaster.move();
-    toaster.wrap();
-    toaster.display();
-  }
-
-  // Go through all the hats and move, wrap, and display them
-  for (let i = 0; i < hats.length; i++) {
-    let hat = hats[i];
-    hat.move();
-    hat.wrap();
-    hat.display();
+  for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    product.move();
+    product.wrap();
+    product.display();
   }
 }
 
@@ -81,4 +111,16 @@ function mousePressed() {
   // a RANDOM ELEMENT in the array (one of the fortune strings) which we
   // can then store in the currentOrder variable for displaying
   currentOrder = random(orders);
+
+  for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    product.mousePressed();
+  }
+}
+
+function mouseReleased() {
+  for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    product.mouseReleased();
+  }
 }
