@@ -29,7 +29,6 @@ class Toaster extends Product {
 
     push();
     rectMode(CENTER);
-    noStroke();
     fill(255, 0, 0);
     rect(this.x, this.y, this.width, this.height);
     pop();

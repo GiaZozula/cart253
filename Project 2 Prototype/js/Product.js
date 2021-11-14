@@ -11,7 +11,7 @@ class Product {
     // so we set its velocity to 0
     this.vx = 0;
     this.vy = 0;
-    this.speed = 2;
+    this.speed = 5;
     this.isBeingDragged = false;
   }
 

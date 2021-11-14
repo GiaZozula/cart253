@@ -24,7 +24,7 @@ let orders = [`Blue`, `Purple`, `Red`, `Yellow`];
 let currentOrder = `YOU READY TO WORK?!`;
 
 //this sets a timer, and ties it to the orders changing
-let orderTimer = 1000;
+let orderTimer = 3000;
 let orderChange = orderTimer;
 
 //this changes if the clicked order corresponds to the one displayed
@@ -36,9 +36,31 @@ let numHats = 10;
 let numTshirts = 8;
 let numDolls = 8;
 
+//these are setting up the conveyor belts for each item
+let blueLane = {
+  x: 0,
+  y: 0,
+  width: 1200,
+  height: 60,
+};
+
 let redLane = {
   x: 0,
   y: 200,
+  width: 1200,
+  height: 60,
+};
+
+let yellowLane = {
+  x: 0,
+  y: 300,
+  width: 1200,
+  height: 60,
+};
+
+let purpleLane = {
+  x: 0,
+  y: 100,
   width: 1200,
   height: 60,
 };
@@ -123,17 +145,45 @@ function draw() {
   line(0, bottomEdge, width, bottomEdge);
 
   //this draws the proper lanes for products to be dropped in
+  //this is for the tshirt (blue)
+  push();
+  stroke(255);
+  fill(0, 0, 255);
+  rect(blueLane.x, blueLane.y, blueLane.width, blueLane.height);
+  pop();
+
+  //this draws the proper lanes for products to be dropped in
   //starting with the Toaster (red)
   push();
-  noStroke();
+  stroke(255);
   fill(255, 0, 0);
   rect(redLane.x, redLane.y, redLane.width, redLane.height);
+  pop();
+
+  //hat
+  push();
+  stroke(255);
+  fill(255, 255, 0);
+  rect(yellowLane.x, yellowLane.y, yellowLane.width, yellowLane.height);
+  pop();
+
+  //this draws the proper lanes for products to be dropped in
+  //this is for the doll (purple)
+  push();
+  stroke(255);
+  fill(255, 0, 255);
+  rect(purpleLane.x, purpleLane.y, purpleLane.width, purpleLane.height);
   pop();
 
   //this checks if enough time has passed before changing the order
   if (millis() > orderChange) {
     currentOrder = random(orders);
-    orderChange = millis() + orderTimer;
+    let r = random(0, 1);
+
+    //attempting to add some randomness to the duration of the timer
+    if (r < 0.5) {
+      orderChange = millis() + orderTimer;
+    }
   }
 
   //this displays the order

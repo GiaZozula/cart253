@@ -29,7 +29,6 @@ class Hat extends Product {
 
     push();
     rectMode(CENTER);
-    noStroke();
     fill(255, 255, 0);
     rect(this.x, this.y, this.width, this.height);
     pop();

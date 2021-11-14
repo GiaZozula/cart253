@@ -29,7 +29,7 @@ class Tshirt extends Product {
 
     push();
     rectMode(CENTER);
-    noStroke();
+
     fill(0, 0, 255);
     rect(this.x, this.y, this.width, this.height);
     pop();
