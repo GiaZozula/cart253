@@ -2,26 +2,14 @@
 Project 2 Prototype
 Gia ~~
 
-This is a prototype of a game that simulates (in a very reduced, gameified manner) the stress of working at a warehouse like Amazon.
-The player has to respond to timed orders from the boss, using converyor belts.
+This is a prototype of a game that simulates (in a very reduced, gamified manner) the stress of working at a warehouse like Amazon.
+The player has to respond to timed orders from the boss, using conveyor belts.
 
-Possible other mechanics :
-  - Survival systems like the need to stay hydrated and use the washroom
-      - Perhaps with the need to use the washroom effecting player movement/or the visuals to make it more difficult to work
-  - Some kind of hourly income rate, where you are penalized for missing items/using the washroom
-  - The actual win/lose state being if you are able to pay rent at the end of shift
+For this prototype, the player is able to interact with the moving products by dragging and dropping them.
+There are four colours of products and four corresponding lanes, to give a sense of how the objects will need to be sorted.
+There is also a text that displays the current colour that should be sorted. It changes at irregular intervals, and needs some fine tuning. My desire was to have it change at a regular pace, but with a chance that it might not change, to give it a sense of irregularity.
 
-
-Necessary Mechanics :
-- Clicked Products can be identified as fulfilling the displayed order
-- specific speeds for each conveyor belt
-
-Desirable mechanics:
-- The products are on conveyor belts with different speeds
-- Different products appear on the same conveyor belt
-- Products can be placed on another moving conveyor belt by the player
-- When the product reaches the end of the screen it checks if it corresponds to the one displayed
-
+Currently it changes too quickly sometimes, which will have to be fixed in future versions.
 
 */
 
@@ -38,8 +26,12 @@ let orderTimer = 3000;
 let orderChange = orderTimer;
 
 //this changes if the clicked order corresponds to the one displayed
+//but is currently not implemented in this prototype version
 let correctOrder = false;
 
+//this sets up the variables and array for all of the products
+//currently, they are named after products, even though they
+//are just all different colour squares. This will be changed.
 let products = [];
 let numToasters = 15;
 let numHats = 10;
@@ -139,7 +131,12 @@ function setup() {
     products.push(doll);
   }
 
-  //set the speed for the main conveyor (via the product's vx and speed)
+  //set the speed for the main conveyor belt (via the product's vx and speed)
+  //I initially considered having multiple belts with different speeds, but
+  //changed my idea to be simpler. As a result, this is somewhat extraneous
+  //but I figured it may help me to have a vx and speed when I create better
+  //functioning deposit lanes that go in a different direction and perhaps
+  //ramp up in speed, as though the product gets "launched" down a tube
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
     product.vx = product.speed;
@@ -149,12 +146,12 @@ function setup() {
 function draw() {
   background(0);
 
-  //this draws the boundary lines for the products
+  //this draws the boundary lines for the products on the conveyor belt
   stroke(255);
   line(0, topEdge, width, topEdge);
   line(0, bottomEdge, width, bottomEdge);
 
-  //this draws the proper lanes for products to be dropped in
+  //this draws the product deposit conveyor belts
   //this is for the tshirt (blue)
   push();
   stroke(255);
@@ -162,22 +159,20 @@ function draw() {
   rect(blueLane.x, blueLane.y, blueLane.width, blueLane.height);
   pop();
 
-  //this draws the proper lanes for products to be dropped in
-  //starting with the Toaster (red)
+  //this is for the toaster (red)
   push();
   stroke(255);
   fill(255, 0, 0);
   rect(redLane.x, redLane.y, redLane.width, redLane.height);
   pop();
 
-  //hat
+  //this is for the hat (yellow)
   push();
   stroke(255);
   fill(255, 255, 0);
   rect(yellowLane.x, yellowLane.y, yellowLane.width, yellowLane.height);
   pop();
 
-  //this draws the proper lanes for products to be dropped in
   //this is for the doll (purple)
   push();
   stroke(255);
@@ -207,6 +202,7 @@ function draw() {
   }
 }
 
+//this controls the drag and drop input of the mouse
 function mousePressed() {
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
@@ -220,7 +216,3 @@ function mouseReleased() {
     product.mouseReleased();
   }
 }
-
-// function orderCheck() {
-//   if (currentOrder == `Blue` && )
-// }
