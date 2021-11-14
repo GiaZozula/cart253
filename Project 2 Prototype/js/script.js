@@ -2,6 +2,16 @@
 Project 2 Prototype
 Gia ~~
 
+This is a prototype of a game that simulates (in a very reduced, gameified manner) the stress of working at a warehouse like Amazon.
+The player has to respond to timed orders from the boss, using converyor belts.
+
+Possible other mechanics :
+  - Survival systems like the need to stay hydrated and use the washroom
+      - Perhaps with the need to use the washroom effecting player movement/or the visuals to make it more difficult to work
+  - Some kind of hourly income rate, where you are penalized for missing items/using the washroom
+  - The actual win/lose state being if you are able to pay rent at the end of shift
+
+
 Necessary Mechanics :
 - Clicked Products can be identified as fulfilling the displayed order
 - specific speeds for each conveyor belt
