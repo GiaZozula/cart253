@@ -1,15 +1,21 @@
 /**
+Exercise: Progress Report
 Project 2 Prototype
 Gia ~~
 
 This is a prototype of a game that simulates (in a very reduced, gamified manner) the stress of working at a warehouse like Amazon.
-The player has to respond to timed orders from the boss, using conveyor belts.
+The player has to respond to orders from the boss, using conveyor belts.
 
-For this prototype, the player is able to interact with the moving products by dragging and dropping them.
-There are four colours of products and four corresponding lanes, to give a sense of how the objects will need to be sorted.
-There is also a text that displays the current colour that should be sorted. It changes at irregular intervals, and needs some fine tuning. My desire was to have it change at a regular pace, but with a chance that it might not change, to give it a sense of irregularity.
-
-Currently it changes too quickly sometimes, which will have to be fixed in future versions.
+To be added:
+- there is only one type of product, though in the future there will be more!
+- boss orders change too quickly sometimes, which will have to be fixed
+- need to add a way for the products to be determined as the right one being asked
+(likely through linking the order system to the checkOverlap system)
+- need to add the "rent" bar that fills up with each consecutive order being filled
+- have to add win/fail states
+- still have to add timer systems (as described in my prototype proposal)
+- add graphical assets
+- add sound FX or music
 
 */
 
@@ -33,41 +39,10 @@ let correctOrder = false;
 //currently, they are named after products, even though they
 //are just all different colour squares. This will be changed.
 let products = [];
-let numToasters = 15;
-let numHats = 10;
-let numTshirts = 8;
-let numDolls = 8;
+let numProducts = 15;
+let dropzone = undefined;
 
-//these are setting up the conveyor belts for each item
-let blueLane = {
-  x: 0,
-  y: 0,
-  width: 1200,
-  height: 60,
-};
-
-let redLane = {
-  x: 0,
-  y: 200,
-  width: 1200,
-  height: 60,
-};
-
-let yellowLane = {
-  x: 0,
-  y: 300,
-  width: 1200,
-  height: 60,
-};
-
-let purpleLane = {
-  x: 0,
-  y: 100,
-  width: 1200,
-  height: 60,
-};
-
-//this sets up a boundary area for the products to exist in
+//this sets up a boundary area for the products to spawn in on the belt
 let topEdge = 400;
 let bottomEdge = 750;
 //some padding so the products don't look like they're right on the edge
@@ -79,8 +54,13 @@ function setup() {
   fill(255);
   textSize(50);
 
-  // Create the correct number of toasters and put them in our array
-  for (let i = 0; i < numToasters; i++) {
+  //create the Dropzone
+  let x = 700;
+  let y = 0;
+  dropzone = new Dropzone(x, y);
+
+  // Create the correct number of products and put them in our array
+  for (let i = 0; i < numProducts; i++) {
     let x = random(0, width);
     //this keeps them within the conveyor belt boundary
     let y = constrain(
@@ -88,54 +68,12 @@ function setup() {
       topEdge,
       bottomEdge - padding
     );
-    let toaster = new Toaster(x, y);
-    products.push(toaster);
+    let product = new Product(x, y);
+    products.push(product);
   }
 
-  // Create the correct number of hats and put them in our array
-  for (let i = 0; i < numHats; i++) {
-    let x = random(0, width);
-    //this keeps them within the conveyor belt boundary
-    let y = constrain(
-      random(topEdge + padding, height),
-      topEdge,
-      bottomEdge - padding
-    );
-    let hat = new Hat(x, y);
-    products.push(hat);
-  }
-
-  // Create the correct number of tshirts and put them in our array
-  for (let i = 0; i < numTshirts; i++) {
-    let x = random(0, width);
-    //this keeps them within the conveyor belt boundary
-    let y = constrain(
-      random(topEdge + padding, height),
-      topEdge,
-      bottomEdge - padding
-    );
-    let tshirt = new Tshirt(x, y);
-    products.push(tshirt);
-  }
-
-  // Create the correct number of dolls and put them in our array
-  for (let i = 0; i < numDolls; i++) {
-    let x = random(0, width);
-    //this keeps them within the conveyor belt boundary
-    let y = constrain(
-      random(topEdge + padding, height),
-      topEdge,
-      bottomEdge - padding
-    );
-    let doll = new Doll(x, y);
-    products.push(doll);
-  }
-
-  //set the speed for the main conveyor belt (via the product's vx and speed)
-  //I initially considered having multiple belts with different speeds, but
-  //changed my idea to be simpler. As a result, this is somewhat extraneous
-  //but I figured it may help me to have a vx and speed when I create better
-  //functioning deposit lanes that go in a different direction and perhaps
+  //need to create functioning deposit lanes change the product direction and detect
+  //if it is overlapping with the product
   //ramp up in speed, as though the product gets "launched" down a tube
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
@@ -146,38 +84,14 @@ function setup() {
 function draw() {
   background(0);
 
-  //this draws the boundary lines for the products on the conveyor belt
-  stroke(255);
-  line(0, topEdge, width, topEdge);
-  line(0, bottomEdge, width, bottomEdge);
+  //this displays the dropzone
+  dropzone.display();
 
-  //this draws the product deposit conveyor belts
-  //this is for the tshirt (blue)
+  //this draws the product arrival conveyor belt
   push();
   stroke(255);
-  fill(0, 0, 255);
-  rect(blueLane.x, blueLane.y, blueLane.width, blueLane.height);
-  pop();
-
-  //this is for the toaster (red)
-  push();
-  stroke(255);
-  fill(255, 0, 0);
-  rect(redLane.x, redLane.y, redLane.width, redLane.height);
-  pop();
-
-  //this is for the hat (yellow)
-  push();
-  stroke(255);
-  fill(255, 255, 0);
-  rect(yellowLane.x, yellowLane.y, yellowLane.width, yellowLane.height);
-  pop();
-
-  //this is for the doll (purple)
-  push();
-  stroke(255);
-  fill(255, 0, 255);
-  rect(purpleLane.x, purpleLane.y, purpleLane.width, purpleLane.height);
+  fill(0);
+  rect(0, topEdge, width, bottomEdge / 2);
   pop();
 
   //this checks if enough time has passed before changing the order
@@ -194,6 +108,7 @@ function draw() {
   //this displays the order
   text(currentOrder, width / 2, height - 50);
 
+  //displays the product
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
     product.move();
@@ -213,6 +128,9 @@ function mousePressed() {
 function mouseReleased() {
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
+    if (product.isBeingDragged) {
+      dropzone.checkOverlap(product);
+    }
     product.mouseReleased();
   }
 }

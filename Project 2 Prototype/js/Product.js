@@ -5,13 +5,13 @@ class Product {
     this.y = y;
     // NOTE: We don't know the dimensions of a generic Product
     // so we start them as undefined
-    this.width = undefined;
-    this.height = undefined;
+    this.width = 40;
+    this.height = 40;
     // NOTE: We don't know how a generic Product will move
     // so we set its velocity to 0
     this.vx = 0;
     this.vy = 0;
-    this.speed = 5;
+    this.speed = 2;
     this.isBeingDragged = false;
   }
 
@@ -35,8 +35,12 @@ class Product {
 
   // Display the Product
   display() {
-    // We will leave this empty because we don't display a generic
-    // Product! Instead, we leave this up to the subclasses.
+    push();
+    rectMode(CENTER);
+    fill(255, 0, 0);
+    stroke(255);
+    rect(this.x, this.y, this.width, this.height);
+    pop();
   }
 
   mousePressed() {
