@@ -14,6 +14,7 @@ class Product {
     this.speed = 2;
     this.colour = undefined;
     this.isBeingDragged = false;
+    this.canBeDragged = true;
   }
 
   // Move the Product according to its velocity
@@ -57,5 +58,10 @@ class Product {
 
   mouseReleased() {
     this.isBeingDragged = false;
+
+    if (dropzone.overlap === true) {
+      this.canBeDragged = false;
+      print("cannotdrag");
+    }
   }
 }

@@ -42,16 +42,16 @@ class Dropzone {
     ) {
       product.vx = 0;
       product.vy = -2;
-      product.overlap = true;
+      this.overlap = true;
     } else {
       this.fill = color(255);
-      product.overlap = false;
+      this.overlap = false;
     }
     //return true or false value for overlap?
   }
 
   checkColour(product) {
-    if (product.overlap == true && product.colour == "Red") {
+    if (this.overlap == true && product.colour == "Red") {
       print("working!!!");
       rentbar.width += 10;
     }

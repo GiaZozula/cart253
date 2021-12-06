@@ -9,16 +9,8 @@ The player has to respond to orders from the boss, using conveyor belts.
 To be added:
 - there is only one type of product, though in the future there will be more!
 - boss orders change too quickly sometimes, which will have to be fixed
-- need to add a way for the products to be determined as the right one being asked
-(likely through linking the order system to the checkOverlap system)
-- need to add the "rent" bar that fills up with each consecutive order being filled
-- have to add win/fail states
-- still have to add timer systems (as described in my prototype proposal)
 - add graphical assets
 - add sound FX or music
-
-- cut off controls once it is released on Dropzone
-- if an object reaches the top of the screen (y < 0) can move it back to converyor belt area and change its velocity
 
 
 STATES IDEAS
@@ -27,9 +19,11 @@ STATES IDEAS
   - during title screen could add a button for bringing up controls
 - Fail state version changes depending on where they got  (food, rent, healthcare, childcare) to if time runs out
 
+- cut off controls once it is released on Dropzone
+- if an object reaches the top of the screen (y < 0) can move it back to converyor belt area and change its velocity
 
 
-- win/fail states, fail state as a general timer that counts down
+
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
 - need to make it so products don't overlap when spawned
 - add other products??
@@ -58,7 +52,7 @@ let currentOrder = `YOU READY TO WORK?!`;
 let gameCounter;
 //this sets the max amount of time for the game to be completed within (millis)
 //if we subtract the gameTimer from the timeLimit, we will get how much time is left
-let maxTime = 5;
+let maxTime = 30;
 //give the Timer a font
 let gameTimerFont;
 //give the Timer some properties
