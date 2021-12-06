@@ -4,7 +4,7 @@ class Dropzone {
     this.x = x;
     this.y = y;
     this.width = 200;
-    this.height = 350;
+    this.height = 650;
     this.overlap = false;
     this.stroke = 255;
     this.fill = 255;
@@ -53,6 +53,7 @@ class Dropzone {
   checkColour(product) {
     if (product.overlap == true && product.colour == "Red") {
       print("working!!!");
+      rentbar.width += 10;
     }
   }
 }

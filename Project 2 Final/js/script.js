@@ -22,8 +22,8 @@ To be added:
 - cut off controls once it is released on Dropzone
 - if an object reaches the top of the screen (y < 0) can move it back to converyor belt area and change its velocity
 
-- rent bar as a class ( how much you have paid, and how much there is to go ) draw a rect based off of this
-- if product is correct add $$ to rent bar
+- rent bar as a class ( how much you have paid, and how much there is to go ) draw a rect based off of this by adding to the X everytime correctorder is true
+- if product is correct add $$ to rent bar (X to extend length?)
 - win/fail states, fail state as a general timer that counts down
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
 - need to make it so products don't overlap when spawned
@@ -61,6 +61,9 @@ let products = [];
 let numProducts = 15;
 let dropzone = undefined;
 
+//HUD elements declared
+let rentbar = undefined;
+
 //this sets up a boundary area for the products to spawn in on the belt
 let topEdge = 400;
 let bottomEdge = 750;
@@ -74,9 +77,12 @@ function setup() {
   textSize(50);
 
   //create the Dropzone
-  let x = 700;
+  let x = 800;
   let y = 0;
   dropzone = new Dropzone(x, y);
+
+  //HUD elements setup
+  rentbar = new Rentbar(x, y);
 
   // Create the correct number of products and put them in our array
   for (let i = 0; i < numProducts; i++) {
@@ -103,6 +109,9 @@ function setup() {
 
 function draw() {
   background(0);
+
+  //this displays the Rentbar
+  rentbar.display();
 
   //this displays the dropzone
   dropzone.display();
