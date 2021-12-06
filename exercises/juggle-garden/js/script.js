@@ -141,6 +141,7 @@ function setup() {
     // Add the ghost to the array of ghosts
     garden.ghosts.push(ghost);
   }
+  //
 
   //create the witches by counting up to their number in an array
   for (let i = 0; i < garden.numWitches; i++) {
