@@ -19,12 +19,19 @@ class Product {
 
   // Move the Product according to its velocity
   move() {
-    if (!this.isBeingDragged) {
+    if (!this.isBeingDragged && this.canBeDragged) {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.isBeingDragged = false;
+    } else if (!this.isBeingDragged && !this.canBeDragged) {
       this.x += this.vx;
       this.y += this.vy;
     } else {
-      this.x = mouseX;
-      this.y = mouseY;
+      this.isBeingDragged = true;
+      if (this.isBeingDragged && this.canBeDragged) {
+        this.x = mouseX;
+        this.y = mouseY;
+      }
     }
   }
 
@@ -58,10 +65,14 @@ class Product {
 
   mouseReleased() {
     this.isBeingDragged = false;
-
-    if (dropzone.overlap === true) {
-      this.canBeDragged = false;
-      print("cannotdrag");
-    }
   }
+
+  // //adding in a restriction on the controls if the product is dropped in the dropzone
+  // if (dropzone.overlap === true) {
+  //   this.canBeDragged = false;
+  //   print("cannotdrag");
+  // } else {
+  //   this.canBeDragged = true;
+  //   print("candrag");
+  // }
 }
