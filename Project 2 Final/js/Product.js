@@ -14,21 +14,21 @@ class Product {
     this.speed = 2;
     this.colour = undefined;
     this.isBeingDragged = false;
-    this.canBeDragged = true;
+    this.canBeClicked = true;
   }
 
   // Move the Product according to its velocity
   move() {
-    if (!this.isBeingDragged && this.canBeDragged) {
+    if (!this.isBeingDragged && this.canBeClicked) {
       this.x += this.vx;
       this.y += this.vy;
       this.isBeingDragged = false;
-    } else if (!this.isBeingDragged && !this.canBeDragged) {
+    } else if (!this.isBeingDragged && !this.canBeClicked) {
       this.x += this.vx;
       this.y += this.vy;
     } else {
       this.isBeingDragged = true;
-      if (this.isBeingDragged && this.canBeDragged) {
+      if (this.isBeingDragged && this.canBeClicked) {
         this.x = mouseX;
         this.y = mouseY;
       }
@@ -57,7 +57,8 @@ class Product {
       mouseX > this.x - this.width / 2 &&
       mouseX < this.x + this.width / 2 &&
       mouseY > this.y - this.height / 2 &&
-      mouseY < this.y + this.height / 2
+      mouseY < this.y + this.height / 2 &&
+      this.canBeClicked
     ) {
       this.isBeingDragged = true;
     }

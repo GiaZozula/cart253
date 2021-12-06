@@ -40,7 +40,7 @@ class Dropzone {
       product.y > this.y - this.height / 2 &&
       product.y < this.y + this.height / 2
     ) {
-      product.canBeDragged = false;
+      product.canBeClicked = false;
       product.vx = 0;
       product.vy = -2;
       this.overlap = true;
