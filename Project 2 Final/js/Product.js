@@ -15,6 +15,7 @@ class Product {
     this.colour = undefined;
     this.isBeingDragged = false;
     this.canBeClicked = true;
+    this.isOffScreen = false;
   }
 
   // Move the Product according to its velocity
@@ -26,6 +27,11 @@ class Product {
     } else if (!this.isBeingDragged && !this.canBeClicked) {
       this.x += this.vx;
       this.y += this.vy;
+      if (this.y <= 0) {
+        // product.pop();
+        print("popppp");
+        this.isOffScreen = true;
+      }
     } else {
       this.isBeingDragged = true;
       if (this.isBeingDragged && this.canBeClicked) {

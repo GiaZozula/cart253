@@ -19,9 +19,8 @@ STATES IDEAS
   - during title screen could add a button for bringing up controls
 - Fail state version changes depending on where they got  (food, rent, healthcare, childcare) to if time runs out
 
-- cut off controls once it is released on Dropzone
-- if an object reaches the top of the screen (y < 0) can move it back to converyor belt area and change its velocity
 
+- if an object reaches the top of the screen (y < 0) can move it back to converyor belt area and change its velocity
 
 
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
@@ -221,6 +220,11 @@ function drawGame() {
     product.move();
     product.wrap();
     product.display();
+
+    //delete the product from the array if it reaches the edge of the screen
+    if (product.isOffScreen === true) {
+      products.splice(i, 1);
+    }
   }
 }
 
@@ -240,5 +244,12 @@ function mouseReleased() {
       dropzone.checkColour(product);
     }
     product.mouseReleased();
+  }
+}
+
+function checkOffScreen() {
+  if (product.y <= 0) {
+    // product.pop();
+    print("popppp");
   }
 }

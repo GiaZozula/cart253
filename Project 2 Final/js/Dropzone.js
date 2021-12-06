@@ -42,15 +42,12 @@ class Dropzone {
     ) {
       product.canBeClicked = false;
       product.vx = 0;
-      product.vy = -2;
+      product.vy += -15;
       this.overlap = true;
-      // product.x = !mouseX;
-      // product.y = !mouseY;
     } else {
       this.fill = color(255);
       this.overlap = false;
     }
-    //return true or false value for overlap?
   }
 
   checkColour(product) {
