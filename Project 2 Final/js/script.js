@@ -55,7 +55,7 @@ let currentOrder = `YOU READY TO WORK?!`;
 
 //this is an object that counts the time (going up)
 let gameCounter;
-//this sets the max amount of time for the game to be completed within (millis)
+///this sets the max amount of time for the game to be completed within (millis)
 //if we subtract the gameTimer from the timeLimit, we will get how much time is left
 let maxTime = 30;
 //give the Timer a font
