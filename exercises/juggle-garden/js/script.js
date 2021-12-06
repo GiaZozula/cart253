@@ -155,7 +155,7 @@ function setup() {
 }
 
 function draw() {
-  //start with the appropriate state
+  //start with the appropriate state?
   if (state === `title`) {
     drawTitle();
   } else if (state === `game`) {
