@@ -20,9 +20,6 @@ STATES IDEAS
 - Fail state version changes depending on where they got  (food, rent, healthcare, childcare) to if time runs out
 
 
-- if an object reaches the top of the screen (y < 0) can move it back to converyor belt area and change its velocity
-
-
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
 - need to make it so products don't overlap when spawned
 - add other products??
@@ -77,14 +74,16 @@ let products = [];
 let numProducts = 15;
 let dropzone = undefined;
 
+let conveyorbelt = undefined;
+
 //HUD elements declared
 let rentbar = undefined;
 
 //this sets up a boundary area for the products to spawn in on the belt
-let topEdge = 400;
-let bottomEdge = 750;
-//some padding so the products don't look like they're right on the edge
-let padding = 50;
+// let topEdge = 400;
+// let bottomEdge = 750;
+// //some padding so the products don't look like they're right on the edge
+// let padding = 50;
 
 function preload() {
   //preload fonts
@@ -103,6 +102,8 @@ function setup() {
   let y = 0;
   dropzone = new Dropzone(x, y);
 
+  conveyorbelt = new Conveyorbelt();
+
   //HUD elements setup
   rentbar = new Rentbar(x, y);
 
@@ -111,9 +112,9 @@ function setup() {
     let x = random(0, width);
     //this keeps them within the conveyor belt boundary
     let y = constrain(
-      random(topEdge + padding, height),
-      topEdge,
-      bottomEdge - padding
+      random(conveyorbelt.topEdge + conveyorbelt.padding, height),
+      conveyorbelt.topEdge,
+      conveyorbelt.bottomEdge - conveyorbelt.padding
     );
     let product = new Product(x, y);
     products.push(product);
@@ -163,6 +164,9 @@ function drawGame() {
   background(0);
   gameOverCheck();
 
+  // this displays the conveyor belt
+  conveyorbelt.display();
+
   //this displays the Rentbar
   rentbar.display();
 
@@ -193,12 +197,12 @@ function drawGame() {
     }
   }
 
-  //this draws the product arrival conveyor belt
-  push();
-  stroke(255);
-  fill(0);
-  rect(0, topEdge, width, bottomEdge / 2);
-  pop();
+  // //this draws the product arrival conveyor belt
+  // push();
+  // stroke(255);
+  // fill(0);
+  // rect(0, topEdge, width, bottomEdge / 2);
+  // pop();
 
   //this checks if enough time has passed before changing the order
   if (millis() > orderChange) {
