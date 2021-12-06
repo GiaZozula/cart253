@@ -20,12 +20,6 @@ To be added:
 - cut off controls once it is released on Dropzone
 - if an object reaches the top of the screen (y < 0) can move it back to converyor belt area and change its velocity
 
--
-- win/fail states, fail state as a general timer that counts down
-- faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
-- need to make it so products don't overlap when spawned
-- add other products??
-- make product disappear after it reaches an edge after dropzone
 
 STATES IDEAS
 - have an intro state with a series of visuals explaining the story?
@@ -33,6 +27,13 @@ STATES IDEAS
   - during title screen could add a button for bringing up controls
 - Fail state version changes depending on where they got  (food, rent, healthcare, childcare) to if time runs out
 
+
+
+- win/fail states, fail state as a general timer that counts down
+- faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
+- need to make it so products don't overlap when spawned
+- add other products??
+- make product disappear after it reaches an edge after dropzone
 
 - graphics ideas:
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
@@ -55,16 +56,18 @@ let currentOrder = `YOU READY TO WORK?!`;
 
 //this is an object that counts the time (going up)
 let gameCounter;
-///this sets the max amount of time for the game to be completed within (millis)
+//this sets the max amount of time for the game to be completed within (millis)
 //if we subtract the gameTimer from the timeLimit, we will get how much time is left
-let maxTime = 30;
+let maxTime = 5;
 //give the Timer a font
 let gameTimerFont;
 //give the Timer some properties
-let gameTimer = {
+let gameTimerXY = {
   x: 1100,
   y: 50,
 };
+
+let countDown;
 
 //this sets a timer, and ties it to the orders changing
 let orderTimer = 3000;
@@ -166,6 +169,7 @@ function drawGameover() {
 function drawGame() {
   background(0);
   gameOverCheck();
+
   //this displays the Rentbar
   rentbar.display();
 
@@ -178,21 +182,24 @@ function drawGame() {
   //divide the millis into an integer
   gameCounter = int(gameCounter / 1000);
 
+  countDown = maxTime - gameCounter;
+
   //this draws the gameTimer
   push();
   textFont(gameTimerFont);
   fill(255);
   stroke(0);
   textSize(100);
-  text(maxTime - gameCounter, gameTimer.x, gameTimer.y);
+  text(countDown, gameTimerXY.x, gameTimerXY.y);
   pop();
 
   //this changes the gamestate if time runs out
   function gameOverCheck() {
-    if (gameCounter >= 0) {
+    if (countDown <= "0") {
       state = "gameover";
     }
   }
+
   //this draws the product arrival conveyor belt
   push();
   stroke(255);
@@ -221,23 +228,23 @@ function drawGame() {
     product.wrap();
     product.display();
   }
+}
 
-  //this controls the drag and drop input of the mouse
-  function mousePressed() {
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i];
-      product.mousePressed();
-    }
+//this controls the drag and drop input of the mouse
+function mousePressed() {
+  for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    product.mousePressed();
   }
+}
 
-  function mouseReleased() {
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i];
-      if (product.isBeingDragged) {
-        dropzone.checkOverlap(product);
-        dropzone.checkColour(product);
-      }
-      product.mouseReleased();
+function mouseReleased() {
+  for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    if (product.isBeingDragged) {
+      dropzone.checkOverlap(product);
+      dropzone.checkColour(product);
     }
+    product.mouseReleased();
   }
 }
