@@ -12,6 +12,7 @@ class Product {
     this.vx = 0;
     this.vy = 0;
     this.speed = 2;
+    this.colour = undefined;
     this.isBeingDragged = false;
   }
 

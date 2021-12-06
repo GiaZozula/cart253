@@ -26,6 +26,14 @@ To be added:
 - if product is correct add $$ to rent bar
 - win/fail states, fail state as a general timer that counts down
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
+- need to make it so products don't overlap when spawned
+- add other products??
+
+- graphics ideas:
+  - in order to keep the program lightweight, maybe steer away from heavy gifs.
+  - for VFX, using animated opacity could be interesting (steam, dust, smoke, etc)
+  - for the converyor belt, use the idea of the arrows
+  - for the dropzone, having different colours to indicate a correct or incorrect object could be interesting
 
 
 */
@@ -33,7 +41,7 @@ To be added:
 "use strict";
 
 // this is a list of possible orders that are stored in an array
-let orders = [`Blue`, `Purple`, `Red`, `Yellow`];
+let orders = [`Red`];
 
 //this is the starting order, that will be replaced once the game begins
 let currentOrder = `YOU READY TO WORK?!`;
@@ -89,6 +97,7 @@ function setup() {
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
     product.vx = product.speed;
+    product.colour = "Red";
   }
 }
 
@@ -141,6 +150,7 @@ function mouseReleased() {
     let product = products[i];
     if (product.isBeingDragged) {
       dropzone.checkOverlap(product);
+      dropzone.checkColour(product);
     }
     product.mouseReleased();
   }
