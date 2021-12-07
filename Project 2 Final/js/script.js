@@ -38,7 +38,7 @@ STATES IDEAS
 let state = "game";
 
 // this is a list of possible orders that are stored in an array
-let orders = ["RED", "BLUE"];
+let orders = ["RED", "BLUE", "GREEN", "YELLOW"];
 
 //this is the starting order, that will be replaced once the game begins
 let currentOrder = "YOU READY TO WORK?!";
@@ -120,23 +120,17 @@ function setup() {
     let product = products[i];
     product.vx = product.speed;
     let r = random(0, 1);
-    if (r < 0.5) {
+    if (r < 0.25) {
       product.colour = "RED";
-    } else {
+    } else if (r > 0.25 && r < 0.5) {
       product.colour = "BLUE";
+    } else if (r > 0.5 && r < 0.75) {
+      product.colour = "GREEN";
+    } else {
+      product.colour = "YELLOW";
     }
   }
 }
-
-// if (millis() > orderChange) {
-//   currentOrder = random(orders);
-//   let r = random(0, 1);
-//
-//   //attempting to add some randomness to the duration of the timer
-//   if (r < 0.5) {
-//     orderChange = millis() + orderTimer;
-//   }
-// }
 
 // DRAW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function draw() {
