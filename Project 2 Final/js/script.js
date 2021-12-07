@@ -7,7 +7,6 @@ This is a prototype of a game that simulates (in a very reduced, gamified manner
 The player has to respond to orders from the boss, using conveyor belts.
 
 To be added:
-- there is only one type of product, though in the future there will be more!
 - boss orders change too quickly sometimes, which will have to be fixed
 - add graphical assets
 - add sound FX or music
@@ -20,7 +19,10 @@ STATES IDEAS
 - Fail state version changes depending on where they got (food, rent, healthcare, childcare) if time runs out
 
 
-- faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
+- faliure to put the right object on the drop zone/dropping it off the converyor = reduced time
+- correct adds time
+- add more spawns to the array, keep it full
+- stop the spawns from overlapping
 
 - graphics ideas:
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
