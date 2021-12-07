@@ -23,7 +23,6 @@ STATES IDEAS
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
 - need to make it so products don't overlap when spawned
 - add other products??
-- make product disappear after it reaches an edge after dropzone
 
 - graphics ideas:
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
@@ -197,13 +196,6 @@ function drawGame() {
     }
   }
 
-  // //this draws the product arrival conveyor belt
-  // push();
-  // stroke(255);
-  // fill(0);
-  // rect(0, topEdge, width, bottomEdge / 2);
-  // pop();
-
   //this checks if enough time has passed before changing the order
   if (millis() > orderChange) {
     currentOrder = random(orders);
@@ -252,9 +244,12 @@ function mouseReleased() {
   }
 }
 
-function checkOffScreen() {
-  if (product.y <= 0) {
-    // product.pop();
-    print("popppp");
-  }
-}
+// function shrink() {
+//   for (let i = 0; i < products.length; i++) {
+//     let product = products[i];
+//     if (conveyorbelt.outOfBounds) {
+//       product.width = 10;
+//       product.height = 10;
+//     }
+//   }
+// }

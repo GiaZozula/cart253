@@ -16,6 +16,8 @@ class Product {
     this.isBeingDragged = false;
     this.canBeClicked = true;
     this.isOffScreen = false;
+    // this.fill = (255, 0, 0, 100);
+    this.stroke = 255;
   }
 
   // Move the Product according to its velocity
@@ -52,8 +54,8 @@ class Product {
   display() {
     push();
     rectMode(CENTER);
-    fill(255, 0, 0);
-    stroke(255);
+    fill(255, 0, 0, 100);
+    stroke(this.stroke);
     rect(this.x, this.y, this.width, this.height);
     pop();
   }
@@ -73,13 +75,4 @@ class Product {
   mouseReleased() {
     this.isBeingDragged = false;
   }
-
-  // //adding in a restriction on the controls if the product is dropped in the dropzone
-  // if (dropzone.overlap === true) {
-  //   this.canBeDragged = false;
-  //   print("cannotdrag");
-  // } else {
-  //   this.canBeDragged = true;
-  //   print("candrag");
-  // }
 }

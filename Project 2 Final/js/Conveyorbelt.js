@@ -8,9 +8,14 @@ class Conveyorbelt {
     this.topEdge = 400;
     this.bottomEdge = 750;
     this.padding = 50;
-    this.overlap = false;
+    this.overlap = true;
+    this.outOfBounds = false;
     this.stroke = 255;
     this.fill = 0;
+    this.hboxX = 0;
+    this.hboxY = 0;
+    this.hboxH = 425;
+    this.hboxW = 1200;
   }
 
   display() {
@@ -27,6 +32,12 @@ class Conveyorbelt {
     // }
     //this draws the product deposit conveyor belt
     push();
+    rectMode(CORNER);
+    stroke(this.stroke);
+    fill(100);
+    rect(this.hboxX, this.hboxY, this.hboxW, this.hboxH);
+    pop();
+    push();
     rectMode(CENTER);
     stroke(this.stroke);
     fill(this.fill);
@@ -39,14 +50,31 @@ class Conveyorbelt {
   //
   checkOverlap(product) {
     if (
-      product.x > this.x - this.width / 2 &&
-      product.x < this.x + this.width / 2 &&
-      product.y > this.y - this.height / 2 &&
-      product.y < this.y + this.height / 2
+      (product.x > this.x - this.width / 2 &&
+        product.x < this.x + this.width / 2 &&
+        product.y > this.y - this.height / 2 &&
+        product.y < this.y + this.height / 2) ||
+      dropzone.overlap
     ) {
       this.overlap = true;
     } else {
+      // print("dsjkf");
       this.overlap = false;
+    }
+  }
+
+  checkOutOfBounds() {
+    if (
+      (product.x > this.hboxX - this.hboxW / 2 &&
+        product.x < this.hboxX + this.hboxW / 2 &&
+        product.y > this.hboxY - this.hboxH / 2 &&
+        product.y < this.hboxY + this.hboxH / 2) ||
+      !dropzone.overlap
+    ) {
+      print("dsjkf");
+      this.outOfBounds = true;
+    } else {
+      this.outOfBounds = false;
     }
   }
 }
