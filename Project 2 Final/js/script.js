@@ -246,6 +246,7 @@ function mouseReleased() {
     if (product.isBeingDragged) {
       dropzone.checkOverlap(product);
       dropzone.checkColour(product);
+      conveyorbelt.checkOverlap(product);
     }
     product.mouseReleased();
   }
