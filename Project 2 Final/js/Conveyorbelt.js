@@ -47,8 +47,9 @@ class Conveyorbelt {
     ) {
       this.outOfBounds = false;
     } else {
-      print("dsjkf");
       this.outOfBounds = true;
+      // let index = products.indexOf(product);
+      // products.splice(index, 1);
     }
   }
 }

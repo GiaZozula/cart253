@@ -17,12 +17,12 @@ STATES IDEAS
 - have an intro state with a series of visuals explaining the story?
 - could add a "PRESS ENTER TO SKIP" that brings you to the title screen
   - during title screen could add a button for bringing up controls
-- Fail state version changes depending on where they got  (food, rent, healthcare, childcare) to if time runs out
+- Fail state version changes depending on where they got (food, rent, healthcare, childcare) if time runs out
 
 
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
-- need to make it so products don't overlap when spawned
-- add other products??
+- add other products
+- add other orders
 
 - graphics ideas:
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
@@ -77,12 +77,6 @@ let conveyorbelt = undefined;
 
 //HUD elements declared
 let rentbar = undefined;
-
-//this sets up a boundary area for the products to spawn in on the belt
-// let topEdge = 400;
-// let bottomEdge = 750;
-// //some padding so the products don't look like they're right on the edge
-// let padding = 50;
 
 function preload() {
   //preload fonts
@@ -211,7 +205,8 @@ function drawGame() {
   text(currentOrder, width / 2, height - 50);
 
   //displays the product
-  for (let i = 0; i < products.length; i++) {
+  for (let i = products.length - 1; i >= 0; i--) {
+    // for (let i = 0; i < products.length; i++) {
     let product = products[i];
     product.move();
     product.wrap();
@@ -222,6 +217,8 @@ function drawGame() {
       products.splice(i, 1);
     }
   }
+
+  shrink();
 }
 
 //this controls the drag and drop input of the mouse
@@ -244,12 +241,12 @@ function mouseReleased() {
   }
 }
 
-// function shrink() {
-//   for (let i = 0; i < products.length; i++) {
-//     let product = products[i];
-//     if (conveyorbelt.outOfBounds) {
-//       product.width = 10;
-//       product.height = 10;
-//     }
-//   }
-// }
+function shrink() {
+  for (let i = products.length - 1; i >= 0; i--) {
+    let product = products[i];
+    if (conveyorbelt.outOfBounds) {
+      product.width = 10;
+      product.height = 10;
+    }
+  }
+}
