@@ -1,6 +1,6 @@
 class Product {
   // Create a new Product object
-  constructor(x, y, vx) {
+  constructor(x, y, vx, colour) {
     this.x = x;
     this.y = y;
     // NOTE: We don't know the dimensions of a generic Product
@@ -54,7 +54,7 @@ class Product {
   display() {
     push();
     rectMode(CENTER);
-    fill(255, 0, 0, 100);
+    fill(this.colour);
     stroke(this.stroke);
     rect(this.x, this.y, this.width, this.height);
     pop();

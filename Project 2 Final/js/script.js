@@ -38,10 +38,10 @@ STATES IDEAS
 let state = "game";
 
 // this is a list of possible orders that are stored in an array
-let orders = [`Red`];
+let orders = ["RED", "BLUE"];
 
 //this is the starting order, that will be replaced once the game begins
-let currentOrder = `YOU READY TO WORK?!`;
+let currentOrder = "YOU READY TO WORK?!";
 
 //this is an object that counts the time (going up)
 let gameCounter;
@@ -119,9 +119,24 @@ function setup() {
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
     product.vx = product.speed;
-    product.colour = "Red";
+    let r = random(0, 1);
+    if (r < 0.5) {
+      product.colour = "RED";
+    } else {
+      product.colour = "BLUE";
+    }
   }
 }
+
+// if (millis() > orderChange) {
+//   currentOrder = random(orders);
+//   let r = random(0, 1);
+//
+//   //attempting to add some randomness to the duration of the timer
+//   if (r < 0.5) {
+//     orderChange = millis() + orderTimer;
+//   }
+// }
 
 // DRAW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function draw() {
@@ -217,8 +232,8 @@ function drawGame() {
       products.splice(i, 1);
     }
   }
-
-  shrink();
+  //
+  // shrink();
 }
 
 //this controls the drag and drop input of the mouse
@@ -241,12 +256,12 @@ function mouseReleased() {
   }
 }
 
-function shrink() {
-  for (let i = products.length - 1; i >= 0; i--) {
-    let product = products[i];
-    if (conveyorbelt.outOfBounds) {
-      product.width = 10;
-      product.height = 10;
-    }
-  }
-}
+// function shrink() {
+//   for (let i = products.length - 1; i >= 0; i--) {
+//     let product = products[i];
+//     if (conveyorbelt.outOfBounds) {
+//       product.width = 10;
+//       product.height = 10;
+//     }
+//   }
+// }

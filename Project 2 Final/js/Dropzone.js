@@ -51,7 +51,7 @@ class Dropzone {
   }
 
   checkColour(product) {
-    if (this.overlap == true && product.colour == "Red") {
+    if (this.overlap == true && product.colour == currentOrder) {
       print("working!!!");
       rentbar.width += 10;
     }
