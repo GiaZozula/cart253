@@ -48,6 +48,8 @@ class Conveyorbelt {
       this.outOfBounds = false;
     } else {
       this.outOfBounds = true;
+      print("out of bounds!!");
+      rentbar.width -= 10;
       let index = products.indexOf(product);
       products.splice(index, 1);
     }

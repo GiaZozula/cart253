@@ -21,14 +21,13 @@ STATES IDEAS
 
 
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced money and time
-- add other products
-- add other orders
 
 - graphics ideas:
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
   - for VFX, using animated opacity could be interesting (steam, dust, smoke, etc)
   - for the converyor belt, use the idea of the arrows
   - for the dropzone, having different colours to indicate a correct or incorrect object could be interesting
+  - flashing rent bar when low / along with sfx
 
 
 */
@@ -194,7 +193,7 @@ function drawGame() {
 
   //this changes the gamestate if time runs out
   function gameOverCheck() {
-    if (countDown <= "0") {
+    if (countDown <= "0" || rentbar.width <= 0) {
       state = "gameover";
     }
   }

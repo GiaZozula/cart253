@@ -52,8 +52,11 @@ class Dropzone {
 
   checkColour(product) {
     if (this.overlap == true && product.colour == currentOrder) {
-      print("working!!!");
+      print("correct order");
       rentbar.width += 10;
+    } else {
+      print("incorrect order");
+      rentbar.width -= 10;
     }
   }
 }
