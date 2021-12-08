@@ -79,6 +79,11 @@ let conveyorbelt = undefined;
 //HUD elements declared
 let rentbar = undefined;
 
+//graphics elements
+let hud;
+let bg;
+let smoke;
+
 function preload() {
   //preload fonts
   gameTimerFont = loadFont("assets/gameTimerfont.ttf");
@@ -90,6 +95,11 @@ function setup() {
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(50);
+
+  hud = loadImage("assets/images/hud.png");
+  bg = loadImage("assets/images/bg.png");
+  smoke = loadImage("assets/images/smoke.png");
+  orders = loadImage("assets/images/orders.png");
 
   //create the Dropzone
   let x = 800;
