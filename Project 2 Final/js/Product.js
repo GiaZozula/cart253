@@ -70,6 +70,19 @@ class Product {
     ) {
       this.isBeingDragged = true;
     }
+
+    {
+      //this is a debugger I added to make sure that the colours are being assigned correctly
+      if (this.isBeingDragged && this.colour == "RED") {
+        print("RED");
+      } else if (this.isBeingDragged && this.colour == "BLUE") {
+        print("BLUE");
+      } else if (this.isBeingDragged && this.colour == "YELLOW") {
+        print("YELLOW");
+      } else if (this.isBeingDragged && this.colour == "GREEN") {
+        print("GREEN");
+      }
+    }
   }
 
   mouseReleased() {

@@ -9,6 +9,7 @@ class Conveyorbelt {
     this.bottomEdge = 750;
     this.padding = 50;
     this.outOfBounds = false;
+    this.onBelt = true;
     this.stroke = 255;
     this.fill = 0;
   }
@@ -37,7 +38,8 @@ class Conveyorbelt {
   //
   // // //https://editor.p5js.org/pippinbarr/sketches/fVWa_F6j2
   //
-  checkOverlap(product) {
+
+  checkOutOfBounds(product) {
     if (
       (product.x > this.x - this.width / 2 &&
         product.x < this.x + this.width / 2 &&
@@ -52,6 +54,20 @@ class Conveyorbelt {
       rentbar.width -= 10;
       let index = products.indexOf(product);
       products.splice(index, 1);
+    }
+  }
+
+  checkOnBelt(product) {
+    if (
+      product.x > this.x - this.width / 2 &&
+      product.x < this.x + this.width / 2 &&
+      product.y > this.y - this.height / 2 &&
+      product.y < this.y + this.height / 2
+    ) {
+      this.onBelt = true;
+    } else {
+      this.onBelt = false;
+      print("not on belt");
     }
   }
 }

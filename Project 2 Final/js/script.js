@@ -82,12 +82,23 @@ let rentbar = undefined;
 //graphics elements
 let hud;
 let bg;
-let smoke;
+let smoke = {
+  x: 0,
+  y: 0,
+  speed: 2,
+};
 let tv;
+let bggif;
 
 function preload() {
   //preload fonts
   gameTimerFont = loadFont("assets/gameTimerfont.ttf");
+
+  hud = loadImage("assets/images/hud.png");
+  bg = loadImage("assets/images/bg.png");
+  bggif = loadImage("assets/images/bggif.gif");
+  smoke = loadImage("assets/images/smoke.png");
+  tv = loadImage("assets/images/tv.png");
 }
 
 //SET UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,11 +107,6 @@ function setup() {
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(50);
-
-  hud = loadImage("assets/images/hud.png");
-  bg = loadImage("assets/images/bg.png");
-  smoke = loadImage("assets/images/smoke.png");
-  tv = loadImage("assets/images/tv.png");
 
   //create the Dropzone
   let x = 800;
@@ -125,9 +131,7 @@ function setup() {
     products.push(product);
   }
 
-  //need to create functioning deposit lanes change the product direction and detect
-  //if it is overlapping with the product
-  //ramp up in speed, as though the product gets "launched" down a tube
+  //assign a velocity and colour to the products
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
     product.vx = product.speed;
@@ -175,7 +179,7 @@ function drawGameover() {
 
 // DRAW THE "GAME" STATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function drawGame() {
-  background(0);
+  background(bggif);
   gameOverCheck();
 
   // this displays the conveyor belt
@@ -191,12 +195,11 @@ function drawGame() {
   push();
   tint(255, 127 * sin(millis() / 1000));
   image(smoke, 0, 0);
-
+  // smoke.x += smoke.speed;
   // // Wrap the smoke onceit reaches the right edge
-  // wrap() {
-  //   if (smoke.x > width) {
-  //     smoke.x -= width;
-  //   }
+  //
+  // if (smoke.x > width) {
+  //   smoke.x -= width;
   // }
 
   pop();
@@ -234,9 +237,9 @@ function drawGame() {
     let r = random(0, 1);
 
     //attempting to add some randomness to the duration of the timer
-    if (r < 0.5) {
-      orderChange = millis() + orderTimer;
-    }
+    // if (r < 0.5) {
+    orderChange = millis() + orderTimer;
+    // }
   }
 
   //this displays the order
@@ -255,6 +258,7 @@ function drawGame() {
       products.splice(i, 1);
     }
   }
+
   //
   // shrink();
 }
@@ -272,13 +276,13 @@ function mouseReleased() {
     let product = products[i];
     if (product.isBeingDragged) {
       dropzone.checkOverlap(product);
+      conveyorbelt.checkOutOfBounds(product);
+      conveyorbelt.checkOnBelt(product);
       dropzone.checkColour(product);
-      conveyorbelt.checkOverlap(product);
     }
     product.mouseReleased();
   }
 }
-
 // function shrink() {
 //   for (let i = products.length - 1; i >= 0; i--) {
 //     let product = products[i];
