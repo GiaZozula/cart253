@@ -83,6 +83,7 @@ let rentbar = undefined;
 let hud;
 let bg;
 let smoke;
+let tv;
 
 function preload() {
   //preload fonts
@@ -99,7 +100,7 @@ function setup() {
   hud = loadImage("assets/images/hud.png");
   bg = loadImage("assets/images/bg.png");
   smoke = loadImage("assets/images/smoke.png");
-  orders = loadImage("assets/images/orders.png");
+  tv = loadImage("assets/images/tv.png");
 
   //create the Dropzone
   let x = 800;
@@ -180,11 +181,28 @@ function drawGame() {
   // this displays the conveyor belt
   conveyorbelt.display();
 
-  //this displays the Rentbar
-  rentbar.display();
-
   //this displays the dropzone
   dropzone.display();
+
+  //display background graphic elements
+  image(tv, 0, 0);
+
+  //smoke graphic
+  push();
+  tint(255, 127 * sin(millis() / 1000));
+  image(smoke, 0, 0);
+
+  // // Wrap the smoke onceit reaches the right edge
+  // wrap() {
+  //   if (smoke.x > width) {
+  //     smoke.x -= width;
+  //   }
+  // }
+
+  pop();
+
+  //this displays the Rentbar
+  rentbar.display();
 
   //this begins the main counter for the game
   gameCounter = millis();
