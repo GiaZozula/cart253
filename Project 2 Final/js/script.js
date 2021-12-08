@@ -128,7 +128,26 @@ function setup() {
       conveyorbelt.bottomEdge - conveyorbelt.padding
     );
     let product = new Product(x, y);
-    products.push(product);
+
+    //Check if there are already products at the spawn location
+    //adapted from a CodeTrain video, had to tweak though
+    for (let j = 0; j < products.length; i++) {
+      let prodInArray = products[j];
+      print("products are now being put in the second array!");
+      if (
+        prodInArray.x > product.x - product.width / 2 &&
+        prodInArray.x < product.x + product.width / 2 &&
+        prodInArray.y > product.y - product.height / 2 &&
+        prodInArray.y < product.y + product.height / 2
+      ) {
+        product.overlap = true;
+        break;
+      }
+
+      if (!product.overlap) {
+        products.push(product);
+      }
+    }
   }
 
   //assign a velocity and colour to the products
