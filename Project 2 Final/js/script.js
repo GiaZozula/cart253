@@ -23,6 +23,8 @@ STATES IDEAS
 - correct adds time
 - add more spawns to the array, keep it full
 - stop the spawns from overlapping
+- speed up orders changing
+- ensure that there is always at least one of any given colour
 
 - graphics ideas:
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
@@ -71,7 +73,7 @@ let correctOrder = false;
 //currently, they are named after products, even though they
 //are just all different colour squares. This will be changed.
 let products = [];
-let numProducts = 15;
+let numProducts = 20;
 let dropzone = undefined;
 
 let conveyorbelt = undefined;
@@ -119,36 +121,32 @@ function setup() {
   rentbar = new Rentbar(x, y);
 
   // Create the correct number of products and put them in our array
-  for (let i = 0; i < numProducts; i++) {
-    let x = random(0, width);
-    //this keeps them within the conveyor belt boundary
-    let y = constrain(
-      random(conveyorbelt.topEdge + conveyorbelt.padding, height),
-      conveyorbelt.topEdge,
-      conveyorbelt.bottomEdge - conveyorbelt.padding
-    );
-    let product = new Product(x, y);
+  //some of this code was adapted from a CodeTrain video about overlapping circles
+  while (products.length < numProducts)
+    for (let i = 0; i < numProducts; i++) {
+      let x = random(0, width);
+      //this keeps them within the conveyor belt boundary
+      let y = constrain(
+        random(conveyorbelt.topEdge + conveyorbelt.padding, height),
+        conveyorbelt.topEdge,
+        conveyorbelt.bottomEdge - conveyorbelt.padding
+      );
+      let product = new Product(x, y);
 
-    //Check if there are already products at the spawn location
-    //adapted from a CodeTrain video, had to tweak though
-    for (let j = 0; j < products.length; i++) {
-      let prodInArray = products[j];
-      print("products are now being put in the second array!");
-      if (
-        prodInArray.x > product.x - product.width / 2 &&
-        prodInArray.x < product.x + product.width / 2 &&
-        prodInArray.y > product.y - product.height / 2 &&
-        prodInArray.y < product.y + product.height / 2
-      ) {
-        product.overlap = true;
-        break;
+      let overlapping = false;
+      for (let j = 0; j < products.length; j++) {
+        let other = products[j];
+        let d = dist(product.x, product.y, other.x, other.y);
+        if (d < 30) {
+          print("THEYREOVERLAPPIN");
+          overlapping = true;
+          break;
+        }
       }
-
-      if (!product.overlap) {
+      if (!overlapping) {
         products.push(product);
       }
     }
-  }
 
   //assign a velocity and colour to the products
   for (let i = 0; i < products.length; i++) {
