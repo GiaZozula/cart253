@@ -25,8 +25,12 @@ STATES IDEAS
 - stop the spawns from overlapping
 - speed up orders changing
 - ensure that there is always at least one of any given colour
+- load images for products in a sequenced array (they all need the same filename with a diff #)
+- move orders to screen/link them to images?
 
 - graphics ideas:
+- Bezos photo
+  - need to make a graphic for the rentbar with notches indicating how far the user has gotten
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
   - for VFX, using animated opacity could be interesting (steam, dust, smoke, etc)
   - for the converyor belt, use the idea of the arrows
@@ -73,7 +77,7 @@ let correctOrder = false;
 //currently, they are named after products, even though they
 //are just all different colour squares. This will be changed.
 let products = [];
-let numProducts = 20;
+let numProducts = 25;
 let dropzone = undefined;
 
 let conveyorbelt = undefined;
@@ -90,15 +94,20 @@ let smoke = {
   speed: 2,
 };
 let tv;
-let bggif;
+let yellowImg;
+let blueImg;
+let greenImg;
+let redImg;
 
 function preload() {
   //preload fonts
   gameTimerFont = loadFont("assets/gameTimerfont.ttf");
-
-  hud = loadImage("assets/images/hud.png");
-  bg = loadImage("assets/images/bg.png");
-  bggif = loadImage("assets/images/bggif.gif");
+  yellowImg = loadImage("assets/images/yellow.gif");
+  blueImg = loadImage("assets/images/blue.gif");
+  greenImg = loadImage("assets/images/green.gif");
+  redImg = loadImage("assets/images/red.gif");
+  // bg = loadImage("assets/images/bg.png");
+  // bggif = loadImage("assets/images/bggif.gif");
   smoke = loadImage("assets/images/smoke.png");
   tv = loadImage("assets/images/tv.png");
 }
@@ -137,7 +146,7 @@ function setup() {
       for (let j = 0; j < products.length; j++) {
         let other = products[j];
         let d = dist(product.x, product.y, other.x, other.y);
-        if (d < 30) {
+        if (d < 35) {
           print("THEYREOVERLAPPIN");
           overlapping = true;
           break;
@@ -196,7 +205,7 @@ function drawGameover() {
 
 // DRAW THE "GAME" STATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function drawGame() {
-  background(bggif);
+  background(0);
   gameOverCheck();
 
   // this displays the conveyor belt
@@ -206,14 +215,18 @@ function drawGame() {
   dropzone.display();
 
   //display background graphic elements
+  // colours for tv
+  image(redImg, 220, 280, 150, 150);
+
+  //display tv
   image(tv, 0, 0);
 
   //smoke graphic
   push();
   tint(255, 127 * sin(millis() / 1000));
   image(smoke, 0, 0);
-  // smoke.x += smoke.speed;
-  // // Wrap the smoke onceit reaches the right edge
+  smoke.x += smoke.speed;
+  // Wrap the smoke onceit reaches the right edge
   //
   // if (smoke.x > width) {
   //   smoke.x -= width;

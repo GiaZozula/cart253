@@ -18,7 +18,6 @@ class Product {
     this.isOffScreen = false;
     // this.fill = (255, 0, 0, 100);
     this.stroke = 255;
-    this.overlap = false;
   }
 
   // Move the Product according to its velocity
