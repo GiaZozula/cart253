@@ -104,7 +104,7 @@ let tvProps = {
 };
 
 let tvScreen = {
-  x: 220,
+  x: 218,
   y: 260,
   h: 160,
   w: 160,
@@ -119,9 +119,25 @@ let bgGif;
 
 let noiseOverlay;
 
+//audio variables
+let yellowMp3 = {
+  isplaying: false,
+};
+let blueMp3 = {
+  isplaying: false,
+};
+let redMp3 = {
+  isplaying: false,
+};
+let greenMp3 = {
+  isplaying: false,
+};
+
 function preload() {
   //preload fonts
   gameTimerFont = loadFont("assets/gameTimerfont.ttf");
+
+  //preload images
   yellowImg = loadImage("assets/images/yellow.gif");
   blueImg = loadImage("assets/images/blue.gif");
   greenImg = loadImage("assets/images/green.gif");
@@ -131,6 +147,12 @@ function preload() {
   smoke = loadImage("assets/images/smoke.png");
   tv = loadImage("assets/images/tv.png");
   noiseOverlay = loadImage("assets/images/noise.gif");
+
+  //preload audio
+  yellowMp3 = loadSound("assets/sounds/yellow.mp3");
+  blueMp3 = loadSound("assets/sounds/blue.mp3");
+  redMp3 = loadSound("assets/sounds/red.mp3");
+  greenMp3 = loadSound("assets/sounds/green.mp3");
 }
 
 //SET UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -241,12 +263,32 @@ function drawGame() {
     let product = products[i];
     if (currentOrder === "RED") {
       image(redImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      if (!redMp3.isplaying) {
+        redMp3.play();
+        redMp3.setVolume(0.5);
+        redMp3.isplaying = true;
+      }
     } else if (currentOrder === "BLUE") {
       image(blueImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      if (!blueMp3.isplaying) {
+        blueMp3.play();
+        blueMp3.setVolume(0.5);
+        blueMp3.isplaying = true;
+      }
     } else if (currentOrder === "GREEN") {
       image(greenImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      if (!greenMp3.isplaying) {
+        greenMp3.play();
+        greenMp3.setVolume(0.5);
+        greenMp3.isplaying = true;
+      }
     } else if (currentOrder === "YELLOW") {
       image(yellowImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      if (!yellowMp3.isplaying) {
+        yellowMp3.play();
+        yellowMp3.setVolume(0.5);
+        yellowMp3.isplaying = true;
+      }
     }
   }
 
