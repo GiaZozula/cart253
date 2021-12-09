@@ -257,17 +257,22 @@ function drawGame() {
   //this displays the dropzone
   dropzone.display();
 
-  //display background graphic elements
+  //display and play all of the assets related to the orders --
   // colours for tv
   for (let i = 0; i < products.length; i++) {
     let product = products[i];
     if (currentOrder === "RED") {
       image(redImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      // switch all of the other booleans off (so they can be turned on again if necessary)
       blueMp3.isplaying = false;
       greenMp3.isplaying = false;
       yellowMp3.isplaying = false;
+      blueMp3.stop();
+      greenMp3.stop();
+      yellowMp3.stop();
+      //play the corresponding colour audio
       if (!redMp3.isplaying) {
-        redMp3.play();
+        redMp3.loop();
         redMp3.setVolume(0.5);
         redMp3.isplaying = true;
       }
@@ -276,8 +281,11 @@ function drawGame() {
       redMp3.isplaying = false;
       greenMp3.isplaying = false;
       yellowMp3.isplaying = false;
+      greenMp3.stop();
+      yellowMp3.stop();
+      redMp3.stop();
       if (!blueMp3.isplaying) {
-        blueMp3.play();
+        blueMp3.loop();
         blueMp3.setVolume(0.5);
         blueMp3.isplaying = true;
       }
@@ -286,8 +294,11 @@ function drawGame() {
       blueMp3.isplaying = false;
       redMp3.isplaying = false;
       yellowMp3.isplaying = false;
+      blueMp3.stop();
+      yellowMp3.stop();
+      redMp3.stop();
       if (!greenMp3.isplaying) {
-        greenMp3.play();
+        greenMp3.loop();
         greenMp3.setVolume(0.5);
         greenMp3.isplaying = true;
       }
@@ -296,8 +307,11 @@ function drawGame() {
       blueMp3.isplaying = false;
       redMp3.isplaying = false;
       greenMp3.isplaying = false;
+      blueMp3.stop();
+      greenMp3.stop();
+      redMp3.stop();
       if (!yellowMp3.isplaying) {
-        yellowMp3.play();
+        yellowMp3.loop();
         yellowMp3.setVolume(0.5);
         yellowMp3.isplaying = true;
       }
@@ -406,6 +420,7 @@ function mouseReleased() {
     product.mouseReleased();
   }
 }
+
 // function shrink() {
 //   for (let i = products.length - 1; i >= 0; i--) {
 //     let product = products[i];
