@@ -104,7 +104,7 @@ let tvProps = {
 };
 
 let tvScreen = {
-  x: 218,
+  x: 210,
   y: 260,
   h: 160,
   w: 160,
@@ -263,6 +263,9 @@ function drawGame() {
     let product = products[i];
     if (currentOrder === "RED") {
       image(redImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      blueMp3.isplaying = false;
+      greenMp3.isplaying = false;
+      yellowMp3.isplaying = false;
       if (!redMp3.isplaying) {
         redMp3.play();
         redMp3.setVolume(0.5);
@@ -270,6 +273,9 @@ function drawGame() {
       }
     } else if (currentOrder === "BLUE") {
       image(blueImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      redMp3.isplaying = false;
+      greenMp3.isplaying = false;
+      yellowMp3.isplaying = false;
       if (!blueMp3.isplaying) {
         blueMp3.play();
         blueMp3.setVolume(0.5);
@@ -277,6 +283,9 @@ function drawGame() {
       }
     } else if (currentOrder === "GREEN") {
       image(greenImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      blueMp3.isplaying = false;
+      redMp3.isplaying = false;
+      yellowMp3.isplaying = false;
       if (!greenMp3.isplaying) {
         greenMp3.play();
         greenMp3.setVolume(0.5);
@@ -284,6 +293,9 @@ function drawGame() {
       }
     } else if (currentOrder === "YELLOW") {
       image(yellowImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+      blueMp3.isplaying = false;
+      redMp3.isplaying = false;
+      greenMp3.isplaying = false;
       if (!yellowMp3.isplaying) {
         yellowMp3.play();
         yellowMp3.setVolume(0.5);
