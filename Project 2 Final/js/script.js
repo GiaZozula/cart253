@@ -105,15 +105,19 @@ let tvProps = {
 
 let tvScreen = {
   x: 220,
-  y: 280,
-  h: 150,
-  w: 150,
+  y: 260,
+  h: 160,
+  w: 160,
 };
 
 let yellowImg;
 let blueImg;
 let greenImg;
 let redImg;
+
+let bgGif;
+
+let noiseOverlay;
 
 function preload() {
   //preload fonts
@@ -123,9 +127,10 @@ function preload() {
   greenImg = loadImage("assets/images/green.gif");
   redImg = loadImage("assets/images/red.gif");
   // bg = loadImage("assets/images/bg.png");
-  // bggif = loadImage("assets/images/bggif.gif");
+  bgGif = loadImage("assets/images/bggif.gif");
   smoke = loadImage("assets/images/smoke.png");
   tv = loadImage("assets/images/tv.png");
+  noiseOverlay = loadImage("assets/images/noise.gif");
 }
 
 //SET UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,7 +226,7 @@ function drawGameover() {
 
 // DRAW THE "GAME" STATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function drawGame() {
-  background(0);
+  background(bgGif);
   gameOverCheck();
 
   // this displays the conveyor belt
@@ -261,6 +266,11 @@ function drawGame() {
   //   smoke.x -= width;
   // }
 
+  pop();
+
+  push();
+  blendMode(SCREEN);
+  image(noiseOverlay, 0, 0);
   pop();
 
   //this displays the Rentbar
