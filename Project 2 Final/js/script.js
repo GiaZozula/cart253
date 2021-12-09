@@ -93,17 +93,27 @@ let smoke = {
   y: 0,
   speed: 2,
 };
+
 let tv;
-let yellowImg;
-let blueImg;
-let greenImg;
-let redImg;
+
+let tvProps = {
+  x: 0,
+  y: 0,
+  h: 0,
+  y: 0,
+};
+
 let tvScreen = {
   x: 220,
   y: 280,
   h: 150,
   w: 150,
 };
+
+let yellowImg;
+let blueImg;
+let greenImg;
+let redImg;
 
 function preload() {
   //preload fonts
@@ -234,14 +244,11 @@ function drawGame() {
       image(yellowImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
     }
   }
-  //
-  //
-  // tvScreenSwitcher() {
-  //   if
-  // }
 
   //display tv
-  image(tv, 0, 0);
+  image(tv, tvProps.x, tvProps.y, tvProps.h, tvProps.w);
+  tvProps.x += sin(millis() / 100);
+  tvProps.y += sin(millis() / 150);
 
   //smoke graphic
   push();
