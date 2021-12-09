@@ -7,16 +7,14 @@ This is a prototype of a game that simulates (in a very reduced, gamified manner
 The player has to respond to orders from the boss, using conveyor belts.
 
 To be added:
-- finesse time/rent amounts
-- ensure that there is always at least one of any given colour
-    - go thru array, if (!product.colour == )
-- load images for products in a sequenced array (they all need the same filename with a diff #)
 - fix timer starting too early
 
 
-- add graphical assets for products (colour swaps on some weird item?!), rentbar, dropzone, conveyorbelt
+- add graphical assets for dropzone, conveyorbelt
 - add graphical assets for intro state (title screen)
 - add sound FX for dropping and picking up items,
+- add voice sfx for "ARE U READY" "YOU'RE HIRED!" "ITS A COMPETITIVE MARKET"
+- WELCOME TO YOUR ABJECT WORKPLACE
 - add music (sync'd if I have time)
 - change cursor to hand
 -purple smoke
@@ -26,6 +24,8 @@ To be added:
 
 
 Extras:
+- ensure that there is always at least one of any given colour
+    - go thru array, if (!product.colour == )
 STATES IDEAS
 - have an intro state with a series of visuals explaining the story?
 - could add a "PRESS ENTER TO SKIP" that brings you to the title screen
@@ -248,6 +248,13 @@ function setup() {
 
 // DRAW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function draw() {
+  //set the cursor
+  if (mouseIsPressed) {
+    cursor("grabbing");
+  } else {
+    cursor("grab");
+  }
+
   //State switching !
   if (state === "title") {
     drawTitle();
