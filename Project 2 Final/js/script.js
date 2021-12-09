@@ -7,11 +7,22 @@ This is a prototype of a game that simulates (in a very reduced, gamified manner
 The player has to respond to orders from the boss, using conveyor belts.
 
 To be added:
-- boss orders change too quickly sometimes, which will have to be fixed
-- add graphical assets
-- add sound FX or music
+- add win state
+- finesse time/rent amounts
+- add intro state
+- ensure that there is always at least one of any given colour
+    - go thru array, if (!product.colour == )
+- load images for products in a sequenced array (they all need the same filename with a diff #)
 
 
+- add graphical assets for products (colour swaps on some weird item?!), rentbar, dropzone, conveyorbelt
+- add sound FX for dropping and picking up items,
+- add music (sync'd if I have time)
+- change cursor to hand
+
+
+
+Extras:
 STATES IDEAS
 - have an intro state with a series of visuals explaining the story?
 - could add a "PRESS ENTER TO SKIP" that brings you to the title screen
@@ -22,14 +33,11 @@ STATES IDEAS
 - faliure to put the right object on the drop zone/dropping it off the converyor = reduced time
 - correct adds time
 - add more spawns to the array, keep it full
-- stop the spawns from overlapping
-- speed up orders changing
-- ensure that there is always at least one of any given colour
 - load images for products in a sequenced array (they all need the same filename with a diff #)
-- move orders to screen/link them to images?
 
 - graphics ideas:
-- Bezos photo
+- Bezos photo (EMPLOYEE  OF THE MONTH)
+- time SFX to song (with cue?)
   - need to make a graphic for the rentbar with notches indicating how far the user has gotten
   - in order to keep the program lightweight, maybe steer away from heavy gifs.
   - for VFX, using animated opacity could be interesting (steam, dust, smoke, etc)
