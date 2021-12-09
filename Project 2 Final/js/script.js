@@ -235,8 +235,12 @@ function draw() {
 
 function drawGameover() {
   background(0);
+  blueMp3.stop();
+  greenMp3.stop();
+  yellowMp3.stop();
+  redMp3.stop();
 
-  //this draws the gameTimer
+  //this draws the end title
   push();
   textFont(gameTimerFont);
   fill(255, 0, 0);
