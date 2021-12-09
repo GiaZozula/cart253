@@ -1,11 +1,11 @@
 class Rentbar {
   constructor(x, y) {
     //this is the default placement and size of the bar's "frame"/stroke
-    this.x = 20;
-    this.y = 20;
+    this.x = 60;
+    this.y = 60;
     this.framewidth = 500;
-    this.width = 10;
-    this.height = 20;
+    this.width = 480;
+    this.height = 50;
     //if the bar reaches this number, gameover.
     this.min = -1;
     //if the bar reaches this number, victory!
@@ -15,7 +15,7 @@ class Rentbar {
     this.food = false;
     this.childcare = false;
     this.healthcare = false;
-    this.win = 500;
+    this.win = 10000;
   }
 
   // Display the Rentbar
@@ -26,10 +26,11 @@ class Rentbar {
     rect(this.x, this.y, this.width, this.height);
     pop();
 
-    push();
-    noFill();
-    stroke(255);
-    rect(this.x, this.y, this.framewidth, this.height);
-    pop();
+    image(grossFrame, 0, 0);
+    // push();
+    // noFill();
+    // stroke(255);
+    // rect(this.x, this.y, this.framewidth, this.height);
+    // pop();
   }
 }

@@ -19,6 +19,7 @@ To be added:
 - add sound FX for dropping and picking up items,
 - add music (sync'd if I have time)
 - change cursor to hand
+- DO WRITEUP
 
 
 
@@ -130,8 +131,7 @@ let redImg;
 let bgGif;
 let noiseOverlay;
 
-let conveyorFrameImg;
-let conveyorUnderImg;
+let grossFrame;
 
 //audio variables
 let yellowMp3 = {
@@ -162,8 +162,7 @@ function preload() {
   tv = loadImage("assets/images/tv.png");
   noiseOverlay = loadImage("assets/images/noise.gif");
 
-  conveyorFrameImg = loadImage("assets/images/frame.png");
-  conveyorUnderImg = loadImage("assets/images/gifconveyor.gif");
+  grossFrame = loadImage("assets/images/grossframe.png");
 
   //preload audio
   yellowMp3 = loadSound("assets/sounds/yellow.mp3");
@@ -395,14 +394,39 @@ function drawGame() {
 
   pop();
 
-  push();
-  blendMode(SCREEN);
-  image(noiseOverlay, 0, 0);
-  pop();
+  // this displays the conveyor belt
+  conveyorbelt.display();
+
+  //displays the product
+  for (let i = products.length - 1; i >= 0; i--) {
+    // for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    product.move();
+    product.wrap();
+    product.display();
+
+    //delete the product from the array if it reaches the edge of the screen
+    if (product.isOffScreen === true) {
+      products.splice(i, 1);
+    }
+  }
 
   //this displays the Rentbar
   rentbar.display();
 
+  //display tv
+  image(tv, tvProps.x, tvProps.y, tvProps.h, tvProps.w);
+  tvProps.x += sin(millis() / 100);
+  tvProps.y += sin(millis() / 150);
+
+  //this displays the dropzone
+  dropzone.display();
+
+  //noise overlay
+  push();
+  blendMode(SCREEN);
+  image(noiseOverlay, 0, 0);
+  pop();
   //
 
   //this begins the main counter for the game
@@ -442,20 +466,6 @@ function drawGame() {
 
   //this displays the order
   text(currentOrder, width / 2, height - 50);
-
-  //displays the product
-  for (let i = products.length - 1; i >= 0; i--) {
-    // for (let i = 0; i < products.length; i++) {
-    let product = products[i];
-    product.move();
-    product.wrap();
-    product.display();
-
-    //delete the product from the array if it reaches the edge of the screen
-    if (product.isOffScreen === true) {
-      products.splice(i, 1);
-    }
-  }
 
   //this changes the gamestate if time runs out
   function winCheck() {
