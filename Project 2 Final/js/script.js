@@ -8,7 +8,9 @@ The player has to respond to orders from the boss, using conveyor belts.
 
 To be added:
 - fix timer starting too early
-
+- check if there is already something being picked up
+- take out "ARE YOU READY TO WORK", add black image behind tv for that part
+- add a reset state button to go back to intro
 
 - add graphical assets for dropzone, conveyorbelt
 - add graphical assets for intro state (title screen)
@@ -16,7 +18,6 @@ To be added:
 - add voice sfx for "ARE U READY" "YOU'RE HIRED!" "ITS A COMPETITIVE MARKET"
 - WELCOME TO YOUR ABJECT WORKPLACE
 - add music (sync'd if I have time)
-- change cursor to hand
 -purple smoke
 - DO WRITEUP
 - Clean up code
@@ -97,17 +98,32 @@ let dropzone = undefined;
 
 let conveyorbelt = undefined;
 
+//title state graphics + variables
+let titleCard;
+let titleBg;
+let buttonImg;
+let buttonInImg;
+let controlCard;
+let button = {
+  x: 1050,
+  y: 700,
+  width: 350,
+  height: 100,
+};
+
 //HUD elements declared
 let rentbar = undefined;
 
 //graphics elements
-let hud;
 let bg;
+
+//overlay graphics variables
 let smoke = {
   x: 0,
   y: 0,
   speed: 2,
 };
+let noiseOverlay;
 
 let tv;
 
@@ -136,7 +152,6 @@ let skullg;
 let skullr;
 
 let bgGif;
-let noiseOverlay;
 
 let grossFrame;
 
@@ -158,6 +173,13 @@ function preload() {
   //preload fonts
   gameTimerFont = loadFont("assets/gameTimerfont.ttf");
 
+  //preload title screen graphics
+  titleCard = loadImage("assets/images/title.png");
+  buttonImg = loadImage("assets/images/howtoplay.png");
+  buttonInImg = loadImage("assets/images/howtoplaypressed.png");
+  controlCard = loadImage("assets/images/controls.png");
+  titleBg = loadImage("assets/images/titlebg.png");
+
   //preload tv screen images
   yellowImg = loadImage("assets/images/yellow.gif");
   blueImg = loadImage("assets/images/blue.gif");
@@ -171,11 +193,12 @@ function preload() {
   skullr = loadImage("assets/images/skullr.png");
 
   bgGif = loadImage("assets/images/bggif.gif");
-  smoke = loadImage("assets/images/smoke.png");
   tv = loadImage("assets/images/tv.png");
-  noiseOverlay = loadImage("assets/images/noise.gif");
-
   grossFrame = loadImage("assets/images/grossframe.png");
+
+  //gfx overlays
+  noiseOverlay = loadImage("assets/images/noise.gif");
+  smoke = loadImage("assets/images/smoke.png");
 
   //preload audio
   yellowMp3 = loadSound("assets/sounds/yellow.mp3");
@@ -270,21 +293,37 @@ function draw() {
 }
 
 function drawTitle() {
-  background(0);
+  background(titleBg);
   blueMp3.stop();
   greenMp3.stop();
   yellowMp3.stop();
   redMp3.stop();
 
-  //this draws the win title
+  // titleCard;
+  // buttonImg;
+  // buttonInImg;
+  // controlCard;
+
+  //this draws the start title
   push();
-  textFont(gameTimerFont);
-  fill(255, 0, 0);
-  stroke(0);
-  textSize(100);
-  text("ABJECT WORKPLACE", width / 2, height / 2);
+  imageMode(CENTER);
+  image(titleCard, width / 2, height / 2);
   pop();
 
+  push();
+
+  imageMode(CENTER);
+  image(buttonImg, button.x, button.y);
+  if (
+    mouseX > button.x - button.width / 2 &&
+    mouseX < button.x + button.width / 2 &&
+    mouseY > button.y - button.height / 2 &&
+    mouseY < button.y + button.height / 2
+  ) {
+    image(buttonInImg, button.x, button.y);
+  }
+  pop();
+  // image(controlCard, 0, 0);
   titleCounterStart = millis();
   // print(titleCounterStart / 1000);
 }
@@ -524,6 +563,17 @@ function mouseReleased() {
       dropzone.checkColour(product);
     }
     product.mouseReleased();
+  }
+}
+
+function displayControl() {
+  if (
+    mouseX > button.x - button.width / 2 &&
+    mouseX < button.x + button.width / 2 &&
+    mouseY > button.y - button.height / 2 &&
+    mouseY < button.y + button.height / 2
+  ) {
+    image(controlCard, 0, 0);
   }
 }
 
