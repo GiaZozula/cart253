@@ -7,15 +7,15 @@ This is a prototype of a game that simulates (in a very reduced, gamified manner
 The player has to respond to orders from the boss, using conveyor belts.
 
 To be added:
-- add win state
 - finesse time/rent amounts
-- add intro state
 - ensure that there is always at least one of any given colour
     - go thru array, if (!product.colour == )
 - load images for products in a sequenced array (they all need the same filename with a diff #)
+- fix timer starting too early
 
 
 - add graphical assets for products (colour swaps on some weird item?!), rentbar, dropzone, conveyorbelt
+- add graphical assets for intro state (title screen)
 - add sound FX for dropping and picking up items,
 - add music (sync'd if I have time)
 - change cursor to hand
@@ -50,7 +50,7 @@ STATES IDEAS
 
 "use strict";
 
-let state = "game";
+let state = "title";
 
 // this is a list of possible orders that are stored in an array
 let orders = ["RED", "BLUE", "GREEN", "YELLOW"];
@@ -234,11 +234,45 @@ function draw() {
     drawIntro();
   } else if (state === "game") {
     drawGame();
-  } else if (state === "success") {
-    drawSuccess();
+  } else if (state === "win") {
+    drawWin();
   } else if (state === `gameover`) {
     drawGameover();
   }
+}
+
+function drawTitle() {
+  background(0);
+  blueMp3.stop();
+  greenMp3.stop();
+  yellowMp3.stop();
+  redMp3.stop();
+
+  //this draws the win title
+  push();
+  textFont(gameTimerFont);
+  fill(255, 0, 0);
+  stroke(0);
+  textSize(100);
+  text("ABJECT WORKPLACE", width / 2, height / 2);
+  pop();
+}
+
+function drawWin() {
+  background(0);
+  blueMp3.stop();
+  greenMp3.stop();
+  yellowMp3.stop();
+  redMp3.stop();
+
+  //this draws the win title
+  push();
+  textFont(gameTimerFont);
+  fill(255, 0, 0);
+  stroke(0);
+  textSize(100);
+  text("YOU WIN", width / 2, height / 2);
+  pop();
 }
 
 function drawGameover() {
@@ -262,6 +296,7 @@ function drawGameover() {
 function drawGame() {
   background(bgGif);
   gameOverCheck();
+  winCheck();
 
   // this displays the conveyor belt
   conveyorbelt.display();
@@ -408,15 +443,26 @@ function drawGame() {
     }
   }
 
+  //this changes the gamestate if time runs out
+  function winCheck() {
+    if (rentbar.width >= rentbar.win) {
+      state = "win";
+    }
+  }
+
   //
   // shrink();
 }
 
 //this controls the drag and drop input of the mouse
 function mousePressed() {
-  for (let i = 0; i < products.length; i++) {
-    let product = products[i];
-    product.mousePressed();
+  if (state === "title") {
+    state = "game";
+  } else if (state === "game") {
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i];
+      product.mousePressed();
+    }
   }
 }
 

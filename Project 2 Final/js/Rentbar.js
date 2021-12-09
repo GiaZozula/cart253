@@ -15,6 +15,7 @@ class Rentbar {
     this.food = false;
     this.childcare = false;
     this.healthcare = false;
+    this.win = 500;
   }
 
   // Display the Rentbar
