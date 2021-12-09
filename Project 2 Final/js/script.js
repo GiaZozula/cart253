@@ -77,6 +77,10 @@ let countDown;
 let orderTimer = 3000;
 let orderChange = orderTimer;
 
+let titleCounterStart;
+let titleCounterEnd;
+let titleCounterTotal;
+
 //this changes if the clicked order corresponds to the one displayed
 //but is currently not implemented in this prototype version
 let correctOrder = false;
@@ -124,8 +128,10 @@ let greenImg;
 let redImg;
 
 let bgGif;
-
 let noiseOverlay;
+
+let conveyorFrameImg;
+let conveyorUnderImg;
 
 //audio variables
 let yellowMp3 = {
@@ -155,6 +161,9 @@ function preload() {
   smoke = loadImage("assets/images/smoke.png");
   tv = loadImage("assets/images/tv.png");
   noiseOverlay = loadImage("assets/images/noise.gif");
+
+  conveyorFrameImg = loadImage("assets/images/frame.png");
+  conveyorUnderImg = loadImage("assets/images/gifconveyor.gif");
 
   //preload audio
   yellowMp3 = loadSound("assets/sounds/yellow.mp3");
@@ -256,6 +265,9 @@ function drawTitle() {
   textSize(100);
   text("ABJECT WORKPLACE", width / 2, height / 2);
   pop();
+
+  titleCounterStart = millis();
+  // print(titleCounterStart / 1000);
 }
 
 function drawWin() {
@@ -391,9 +403,11 @@ function drawGame() {
   //this displays the Rentbar
   rentbar.display();
 
-  //this begins the main counter for the game
-  gameCounter = millis();
+  //
 
+  //this begins the main counter for the game
+  gameCounter = titleCounterEnd + millis();
+  // print(gameCounter / 1000);
   //divide the millis into an integer
   gameCounter = int(gameCounter / 1000);
 
@@ -458,6 +472,10 @@ function drawGame() {
 function mousePressed() {
   if (state === "title") {
     state = "game";
+    titleCounterEnd = titleCounterStart;
+    titleCounterStart = 0;
+    titleCounterEnd = titleCounterTotal;
+    print(titleCounterTotal);
   } else if (state === "game") {
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
