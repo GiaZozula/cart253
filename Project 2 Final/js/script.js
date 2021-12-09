@@ -98,6 +98,12 @@ let yellowImg;
 let blueImg;
 let greenImg;
 let redImg;
+let tvScreen = {
+  x: 220,
+  y: 280,
+  h: 150,
+  w: 150,
+};
 
 function preload() {
   //preload fonts
@@ -216,7 +222,23 @@ function drawGame() {
 
   //display background graphic elements
   // colours for tv
-  image(redImg, 220, 280, 150, 150);
+  for (let i = 0; i < products.length; i++) {
+    let product = products[i];
+    if (currentOrder === "RED") {
+      image(redImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+    } else if (currentOrder === "BLUE") {
+      image(blueImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+    } else if (currentOrder === "GREEN") {
+      image(greenImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+    } else if (currentOrder === "YELLOW") {
+      image(yellowImg, tvScreen.x, tvScreen.y, tvScreen.w, tvScreen.h);
+    }
+  }
+  //
+  //
+  // tvScreenSwitcher() {
+  //   if
+  // }
 
   //display tv
   image(tv, 0, 0);
