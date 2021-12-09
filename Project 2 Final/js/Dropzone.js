@@ -53,13 +53,13 @@ class Dropzone {
   checkColour(product) {
     if (this.overlap == true && product.colour == currentOrder) {
       print("correct order");
-      rentbar.width += 10;
+      rentbar.width += 57.5;
     } else if (conveyorbelt.onBelt) {
       //this is what happens when a product is picked up but put back down on the conveyor belt (to stop it from reducing points)
       print("dontworry");
     } else {
       print("incorrect order");
-      rentbar.width -= 10;
+      rentbar.width -= 57.5;
     }
   }
 }

@@ -19,7 +19,9 @@ To be added:
 - add sound FX for dropping and picking up items,
 - add music (sync'd if I have time)
 - change cursor to hand
+-purple smoke
 - DO WRITEUP
+- Clean up code
 
 
 
@@ -128,6 +130,11 @@ let blueImg;
 let greenImg;
 let redImg;
 
+let skully;
+let skullb;
+let skullg;
+let skullr;
+
 let bgGif;
 let noiseOverlay;
 
@@ -151,12 +158,18 @@ function preload() {
   //preload fonts
   gameTimerFont = loadFont("assets/gameTimerfont.ttf");
 
-  //preload images
+  //preload tv screen images
   yellowImg = loadImage("assets/images/yellow.gif");
   blueImg = loadImage("assets/images/blue.gif");
   greenImg = loadImage("assets/images/green.gif");
   redImg = loadImage("assets/images/red.gif");
-  // bg = loadImage("assets/images/bg.png");
+
+  //preload products images
+  skully = loadImage("assets/images/skully.png");
+  skullb = loadImage("assets/images/skullb.png");
+  skullg = loadImage("assets/images/skullg.png");
+  skullr = loadImage("assets/images/skullr.png");
+
   bgGif = loadImage("assets/images/bggif.gif");
   smoke = loadImage("assets/images/smoke.png");
   tv = loadImage("assets/images/tv.png");
@@ -378,8 +391,8 @@ function drawGame() {
 
   //display tv
   image(tv, tvProps.x, tvProps.y, tvProps.h, tvProps.w);
-  tvProps.x += sin(millis() / 100);
-  tvProps.y += sin(millis() / 150);
+  tvProps.x += sin(millis() / 80);
+  tvProps.y += sin(millis() / 100);
 
   //smoke graphic
   push();
@@ -396,6 +409,9 @@ function drawGame() {
 
   // this displays the conveyor belt
   conveyorbelt.display();
+
+  //this displays the dropzone
+  dropzone.display();
 
   //displays the product
   for (let i = products.length - 1; i >= 0; i--) {
@@ -419,9 +435,6 @@ function drawGame() {
   tvProps.x += sin(millis() / 100);
   tvProps.y += sin(millis() / 150);
 
-  //this displays the dropzone
-  dropzone.display();
-
   //noise overlay
   push();
   blendMode(SCREEN);
@@ -430,7 +443,7 @@ function drawGame() {
   //
 
   //this begins the main counter for the game
-  gameCounter = titleCounterEnd + millis();
+  gameCounter = millis();
   // print(gameCounter / 1000);
   //divide the millis into an integer
   gameCounter = int(gameCounter / 1000);
@@ -482,10 +495,10 @@ function drawGame() {
 function mousePressed() {
   if (state === "title") {
     state = "game";
-    titleCounterEnd = titleCounterStart;
-    titleCounterStart = 0;
-    titleCounterEnd = titleCounterTotal;
-    print(titleCounterTotal);
+    // titleCounterEnd = titleCounterStart;
+    // titleCounterStart = 0;
+    // titleCounterEnd = titleCounterTotal;
+    // print(titleCounterTotal);
   } else if (state === "game") {
     for (let i = 0; i < products.length; i++) {
       let product = products[i];

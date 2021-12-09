@@ -5,8 +5,8 @@ class Product {
     this.y = y;
     // NOTE: We don't know the dimensions of a generic Product
     // so we start them as undefined
-    this.width = 40;
-    this.height = 40;
+    this.width = 55;
+    this.height = 60;
     // NOTE: We don't know how a generic Product will move
     // so we set its velocity to 0
     this.vx = 0;
@@ -53,10 +53,23 @@ class Product {
   // Display the Product
   display() {
     push();
-    rectMode(CENTER);
-    fill(this.colour);
-    stroke(this.stroke);
-    rect(this.x, this.y, this.width, this.height);
+    imageMode(CENTER);
+
+    if (this.colour === "RED") {
+      image(skullr, this.x, this.y, this.width, this.height);
+    } else if (this.colour === "BLUE") {
+      image(skullb, this.x, this.y, this.width, this.height);
+    } else if (this.colour === "YELLOW") {
+      image(skully, this.x, this.y, this.width, this.height);
+    } else if (this.colour === "GREEN") {
+      image(skullg, this.x, this.y, this.width, this.height);
+    }
+
+    // push();
+    // rectMode(CENTER);
+    // fill(this.colour);
+    // stroke(this.stroke);
+    // rect(this.x, this.y, this.width, this.height);
     pop();
   }
 
