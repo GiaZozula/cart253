@@ -69,6 +69,7 @@ let gameCounter;
 let maxTime = 30;
 //give the Timer a font
 let gameTimerFont;
+let font2;
 //give the Timer some properties
 let gameTimerXY = {
   x: 1100,
@@ -103,7 +104,13 @@ let titleCard;
 let titleBg;
 let buttonImg;
 let buttonInImg;
-let controlCard;
+let controlCardImg;
+let controlCard = {
+  x: 0,
+  y: 0,
+  width: 1200,
+  height: 800,
+};
 let button = {
   x: 1050,
   y: 700,
@@ -136,7 +143,7 @@ let tvProps = {
 
 let tvScreen = {
   x: 210,
-  y: 260,
+  y: 250,
   h: 160,
   w: 160,
 };
@@ -156,6 +163,9 @@ let bgGif;
 let grossFrame;
 
 //audio variables
+let gameSong = {
+  isplaying: false,
+};
 let yellowMp3 = {
   isplaying: false,
 };
@@ -168,16 +178,26 @@ let redMp3 = {
 let greenMp3 = {
   isplaying: false,
 };
+let areYouReady = {
+  isplaying: false,
+};
+let workMp3 = {
+  isplaying: false,
+};
+
+let showReadyText = false;
+let showWorkText = false;
 
 function preload() {
   //preload fonts
-  gameTimerFont = loadFont("assets/gameTimerfont.ttf");
+  gameTimerFont = loadFont("assets/font.ttf");
+  font2 = loadFont("assets/font2.ttf");
 
   //preload title screen graphics
   titleCard = loadImage("assets/images/title.png");
   buttonImg = loadImage("assets/images/howtoplay.png");
   buttonInImg = loadImage("assets/images/howtoplaypressed.png");
-  controlCard = loadImage("assets/images/controls.png");
+  controlCardImg = loadImage("assets/images/controls.png");
   titleBg = loadImage("assets/images/titlebg.png");
 
   //preload tv screen images
@@ -201,10 +221,13 @@ function preload() {
   smoke = loadImage("assets/images/smoke.png");
 
   //preload audio
+  gameSong = loadSound("assets/sounds/gameSong.mp3");
   yellowMp3 = loadSound("assets/sounds/yellow.mp3");
   blueMp3 = loadSound("assets/sounds/blue.mp3");
   redMp3 = loadSound("assets/sounds/red.mp3");
   greenMp3 = loadSound("assets/sounds/green.mp3");
+  areYouReady = loadSound("assets/sounds/areyouready.mp3");
+  workMp3 = loadSound("assets/sounds/work.mp3");
 }
 
 //SET UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -213,6 +236,13 @@ function setup() {
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(50);
+  userStartAudio();
+
+  //adding audio cues for some intro cards, adapted from class notes
+  areYouReady.addCue(0.1, showReady);
+  areYouReady.addCue(0.3, hideReady);
+  workMp3.addCue(0.3, showWork);
+  workMp3.addCue(0.4, hideWork);
 
   //create the Dropzone
   let x = 800;
@@ -271,6 +301,25 @@ function setup() {
 
 // DRAW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function draw() {
+  // Called when the appropriate cue is triggered!
+  function showReady() {
+    showReadyText = true;
+  }
+
+  // Called when the appropriate cue is triggered!
+  function hideReady() {
+    showReadyText = false;
+  }
+  // Called when the appropriate cue is triggered!
+  function showWork() {
+    showWorkText = true;
+  }
+
+  // Called when the appropriate cue is triggered!
+  function hideWork() {
+    showWorkText = false;
+  }
+
   //set the cursor
   if (mouseIsPressed) {
     cursor("grabbing");
@@ -281,8 +330,6 @@ function draw() {
   //State switching !
   if (state === "title") {
     drawTitle();
-  } else if (state === "intro") {
-    drawIntro();
   } else if (state === "game") {
     drawGame();
   } else if (state === "win") {
@@ -321,6 +368,7 @@ function drawTitle() {
     mouseY < button.y + button.height / 2
   ) {
     image(buttonInImg, button.x, button.y);
+    // image(controlCardImg, controlCard.x, controlCard.y);
   }
   pop();
   // image(controlCard, 0, 0);
@@ -337,7 +385,7 @@ function drawWin() {
 
   //this draws the win title
   push();
-  textFont(gameTimerFont);
+  textFont(font2);
   fill(255, 0, 0);
   stroke(0);
   textSize(100);
@@ -354,7 +402,7 @@ function drawGameover() {
 
   //this draws the end title
   push();
-  textFont(gameTimerFont);
+  textFont(font2);
   fill(255, 0, 0);
   stroke(0);
   textSize(100);
@@ -365,6 +413,28 @@ function drawGameover() {
 // DRAW THE "GAME" STATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function drawGame() {
   background(bgGif);
+  songCheck();
+
+  if (showReadyText) {
+    push();
+    textFont(font2);
+    fill(255);
+    textSize(100);
+    textAlign(CENTER, CENTER);
+    text("ARE YOU READY?", width / 2, height / 2);
+    pop();
+  }
+
+  if (showWorkText) {
+    push();
+    textFont(font2);
+    fill(255);
+    textSize(150);
+    textAlign(CENTER, CENTER);
+    text("WORK!", width / 2, height / 2);
+    pop();
+  }
+
   gameOverCheck();
   winCheck();
 
@@ -574,6 +644,13 @@ function displayControl() {
     mouseY < button.y + button.height / 2
   ) {
     image(controlCard, 0, 0);
+  }
+}
+
+function songCheck() {
+  if (!gameSong.isplaying) {
+    gameSong.play();
+    gameSong.isplaying = true;
   }
 }
 
