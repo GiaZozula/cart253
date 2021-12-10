@@ -199,7 +199,7 @@ function preload() {
   purpleMist = loadImage("assets/images/purplemist.png");
 
   //preload audio
-  gameSong = loadSound("assets/sounds/gameSong.mp3");
+  gameSong = loadSound("assets/sounds/gamesong.mp3");
   yellowMp3 = loadSound("assets/sounds/yellow.mp3");
   blueMp3 = loadSound("assets/sounds/blue.mp3");
   redMp3 = loadSound("assets/sounds/red.mp3");
