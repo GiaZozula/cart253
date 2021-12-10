@@ -31,8 +31,7 @@ class Dropzone {
     pop();
   }
 
-  // //https://editor.p5js.org/pippinbarr/sketches/fVWa_F6j2
-
+  //is the product overlapping with the dropzone?
   checkOverlap(product) {
     if (
       product.x > this.x - this.width / 2 &&
@@ -40,25 +39,27 @@ class Dropzone {
       product.y > this.y - this.height / 2 &&
       product.y < this.y + this.height / 2
     ) {
+      //if so, it can no longer be clicked and is now moving upwards only
       product.canBeClicked = false;
       product.vx = 0;
       product.vy += -15;
       this.overlap = true;
     } else {
+      //this gives some player response to the dropzone
       this.fill = color(255);
       this.overlap = false;
     }
   }
 
+  //this checks if we have the right colour when we drop it on the dropzone
   checkColour(product) {
     if (this.overlap == true && product.colour == currentOrder) {
-      print("correct order");
+      //if so, we get some rent money
       rentbar.width += rentbar.increment;
     } else if (conveyorbelt.onBelt) {
       //this is what happens when a product is picked up but put back down on the conveyor belt (to stop it from reducing points)
-      print("dontworry");
+      //(nothing)
     } else {
-      print("incorrect order");
       rentbar.width -= rentbar.increment;
     }
   }

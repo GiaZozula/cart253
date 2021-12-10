@@ -1,14 +1,16 @@
 class Rentbar {
+  //create the rentbar class!
   constructor(x, y) {
-    //this is the default placement and size of the bar's "frame"/stroke
+    //this is the default placement and size of the bar's "frame"/stroke (ended up removing this)
     this.x = 60;
     this.y = 60;
     this.framewidth = 500;
     this.width = 20;
     this.height = 50;
-    //if the bar reaches this number, gameover.
+    //if the bar reaches this number or less, gameover.
     this.min = -1;
-    //adding these variables as milestones to reach
+
+    //this is the amount that is added or subtracted for correct or incorrect orders being dropped
     this.increment = 28.75;
     this.rent = false;
     this.food = false;
@@ -25,11 +27,7 @@ class Rentbar {
     rect(this.x, this.y, this.width, this.height);
     pop();
 
+    //put a gross frame over top
     image(grossFrame, 0, 0);
-    // push();
-    // noFill();
-    // stroke(255);
-    // rect(this.x, this.y, this.framewidth, this.height);
-    // pop();
   }
 }

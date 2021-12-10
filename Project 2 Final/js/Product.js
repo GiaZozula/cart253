@@ -1,14 +1,11 @@
 class Product {
   // Create a new Product object
+  //it recieves x, y, vx, colour, and ovelap
   constructor(x, y, vx, colour, overlap) {
     this.x = x;
     this.y = y;
-    // NOTE: We don't know the dimensions of a generic Product
-    // so we start them as undefined
     this.width = 55;
     this.height = 60;
-    // NOTE: We don't know how a generic Product will move
-    // so we set its velocity to 0
     this.vx = 0;
     this.vy = 0;
     this.speed = 2;
@@ -16,11 +13,11 @@ class Product {
     this.isBeingDragged = false;
     this.canBeClicked = true;
     this.isOffScreen = false;
-    // this.fill = (255, 0, 0, 100);
     this.stroke = 255;
   }
 
   // Move the Product according to its velocity
+  //make sure it is is not being dragged and can be clicked (items on the dropzone are not able to be clicked)
   move() {
     if (!this.isBeingDragged && this.canBeClicked) {
       this.x += this.vx;
@@ -30,8 +27,7 @@ class Product {
       this.x += this.vx;
       this.y += this.vy;
       if (this.y <= 0) {
-        // product.pop();
-        print("popppp");
+        //check if the product is offscreen (this is for after it is placed on the dropzone)
         this.isOffScreen = true;
       }
     } else {
@@ -55,6 +51,7 @@ class Product {
     push();
     imageMode(CENTER);
 
+    //link the colour of the product to the corresponding skull image
     if (this.colour === "RED") {
       image(skullr, this.x, this.y, this.width, this.height);
     } else if (this.colour === "BLUE") {
@@ -64,15 +61,10 @@ class Product {
     } else if (this.colour === "GREEN") {
       image(skullg, this.x, this.y, this.width, this.height);
     }
-
-    // push();
-    // rectMode(CENTER);
-    // fill(this.colour);
-    // stroke(this.stroke);
-    // rect(this.x, this.y, this.width, this.height);
     pop();
   }
 
+  //this detects if the product is under the mouse, can be clicked, and if so, tells us we're dragging it
   mousePressed() {
     if (
       mouseX > this.x - this.width / 2 &&
@@ -97,7 +89,7 @@ class Product {
       }
     }
   }
-
+  //let go of the mouse and its no longer being dragged
   mouseReleased() {
     this.isBeingDragged = false;
   }
