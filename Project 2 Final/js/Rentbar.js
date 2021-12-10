@@ -9,6 +9,7 @@ class Rentbar {
     //if the bar reaches this number, gameover.
     this.min = -1;
     //adding these variables as milestones to reach
+    this.increment = 28.75;
     this.rent = false;
     this.food = false;
     this.childcare = false;

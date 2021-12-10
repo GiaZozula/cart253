@@ -104,15 +104,23 @@ let titleCard;
 let titleBg;
 let buttonImg;
 let buttonInImg;
+let beginImg;
+let begin = {
+  x: 1040,
+  y: 700,
+};
 let controlCardImg;
 let controlCard = {
-  x: 0,
+  x: -1000,
   y: 0,
+  xOut: 0,
+  xIn: -1000,
+  move: 10,
   width: 1200,
   height: 800,
 };
 let button = {
-  x: 1050,
+  x: 160,
   y: 700,
   width: 350,
   height: 100,
@@ -199,6 +207,7 @@ function preload() {
   buttonInImg = loadImage("assets/images/howtoplaypressed.png");
   controlCardImg = loadImage("assets/images/controls.png");
   titleBg = loadImage("assets/images/titlebg.png");
+  beginImg = loadImage("assets/images/begin.png");
 
   //preload tv screen images
   yellowImg = loadImage("assets/images/yellow.gif");
@@ -326,9 +335,11 @@ function drawTitle() {
   image(titleCard, width / 2, height / 2);
   pop();
 
-  push();
+  image(controlCardImg, controlCard.x, controlCard.y);
 
+  push();
   imageMode(CENTER);
+  image(beginImg, begin.x, begin.y);
   image(buttonImg, button.x, button.y);
   if (
     mouseX > button.x - button.width / 2 &&
@@ -337,10 +348,14 @@ function drawTitle() {
     mouseY < button.y + button.height / 2
   ) {
     image(buttonInImg, button.x, button.y);
-    // image(controlCardImg, controlCard.x, controlCard.y);
+    if (controlCard.x <= controlCard.xOut) {
+      controlCard.x += controlCard.move;
+    }
+  } else {
+    controlCard.x -= controlCard.move;
   }
   pop();
-  // image(controlCard, 0, 0);
+
   titleCounterStart = millis();
   // print(titleCounterStart / 1000);
 }
@@ -553,6 +568,22 @@ function drawGame() {
 //this controls the drag and drop input of the mouse
 function mousePressed() {
   if (state === "title") {
+    if (
+      mouseX > button.x - button.width / 2 &&
+      mouseX < button.x + button.width / 2 &&
+      mouseY > button.y - button.height / 2 &&
+      mouseY < button.y + button.height / 2
+    ) {
+      if (controlCard.x <= controlCard.xOut && controlCard.isOffScreen) {
+        controlCard.x += controlCard.move;
+      } else {
+        controlCard.x -= controlCard.move;
+        if (controlCard.x >= controlCard.xIn) {
+          controlCard.x = controlCard.xIn;
+        }
+      }
+    }
+
     state = "game";
     // titleCounterEnd = titleCounterStart;
     // titleCounterStart = 0;
@@ -576,17 +607,6 @@ function mouseReleased() {
       dropzone.checkColour(product);
     }
     product.mouseReleased();
-  }
-}
-
-function displayControl() {
-  if (
-    mouseX > button.x - button.width / 2 &&
-    mouseX < button.x + button.width / 2 &&
-    mouseY > button.y - button.height / 2 &&
-    mouseY < button.y + button.height / 2
-  ) {
-    image(controlCard, 0, 0);
   }
 }
 
