@@ -244,6 +244,25 @@ function setup() {
   workMp3.addCue(0.3, showWork);
   workMp3.addCue(0.4, hideWork);
 
+  // Called when the appropriate cue is triggered!
+  function showReady() {
+    showReadyText = true;
+  }
+
+  // Called when the appropriate cue is triggered!
+  function hideReady() {
+    showReadyText = false;
+  }
+  // Called when the appropriate cue is triggered!
+  function showWork() {
+    showWorkText = true;
+  }
+
+  // Called when the appropriate cue is triggered!
+  function hideWork() {
+    showWorkText = false;
+  }
+
   //create the Dropzone
   let x = 800;
   let y = 0;
@@ -301,25 +320,6 @@ function setup() {
 
 // DRAW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function draw() {
-  // Called when the appropriate cue is triggered!
-  function showReady() {
-    showReadyText = true;
-  }
-
-  // Called when the appropriate cue is triggered!
-  function hideReady() {
-    showReadyText = false;
-  }
-  // Called when the appropriate cue is triggered!
-  function showWork() {
-    showWorkText = true;
-  }
-
-  // Called when the appropriate cue is triggered!
-  function hideWork() {
-    showWorkText = false;
-  }
-
   //set the cursor
   if (mouseIsPressed) {
     cursor("grabbing");
