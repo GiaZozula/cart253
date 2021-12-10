@@ -9,52 +9,21 @@ The player has to respond to orders from the boss, using conveyor belts.
 To be added:
 - fix timer starting too early
 - check if there is already something being picked up
-- take out "ARE YOU READY TO WORK", add black image behind tv for that part
+add black image behind tv for that part
 - add a reset state button to go back to intro
 
 - add graphical assets for dropzone, conveyorbelt
-- add graphical assets for intro state (title screen)
+
 - add sound FX for dropping and picking up items,
-- add voice sfx for "ARE U READY" "YOU'RE HIRED!" "ITS A COMPETITIVE MARKET"
-- WELCOME TO YOUR ABJECT WORKPLACE
-- add music (sync'd if I have time)
 -purple smoke
 - DO WRITEUP
 - Clean up code
-
-
-
-Extras:
-- ensure that there is always at least one of any given colour
-    - go thru array, if (!product.colour == )
-STATES IDEAS
-- have an intro state with a series of visuals explaining the story?
-- could add a "PRESS ENTER TO SKIP" that brings you to the title screen
-  - during title screen could add a button for bringing up controls
-- Fail state version changes depending on where they got (food, rent, healthcare, childcare) if time runs out
-
-
-- faliure to put the right object on the drop zone/dropping it off the converyor = reduced time
-- correct adds time
-- add more spawns to the array, keep it full
-- load images for products in a sequenced array (they all need the same filename with a diff #)
-
-- graphics ideas:
-- Bezos photo (EMPLOYEE  OF THE MONTH)
-- time SFX to song (with cue?)
-  - need to make a graphic for the rentbar with notches indicating how far the user has gotten
-  - in order to keep the program lightweight, maybe steer away from heavy gifs.
-  - for VFX, using animated opacity could be interesting (steam, dust, smoke, etc)
-  - for the converyor belt, use the idea of the arrows
-  - for the dropzone, having different colours to indicate a correct or incorrect object could be interesting
-  - flashing rent bar when low / along with sfx
-
 
 */
 
 "use strict";
 
-let state = "title";
+let state = "win";
 
 // this is a list of possible orders that are stored in an array
 let orders = ["RED", "BLUE", "GREEN", "YELLOW"];
@@ -139,7 +108,7 @@ let smoke = {
   speed: 2,
 };
 let noiseOverlay;
-
+let purpleMist;
 let tv;
 
 let tvProps = {
@@ -193,9 +162,6 @@ let workMp3 = {
   isplaying: false,
 };
 
-let showReadyText = false;
-let showWorkText = false;
-
 function preload() {
   //preload fonts
   gameTimerFont = loadFont("assets/font.ttf");
@@ -228,6 +194,7 @@ function preload() {
   //gfx overlays
   noiseOverlay = loadImage("assets/images/noise.gif");
   smoke = loadImage("assets/images/smoke.png");
+  purpleMist = loadImage("assets/images/purplemist.png");
 
   //preload audio
   gameSong = loadSound("assets/sounds/gameSong.mp3");
@@ -329,6 +296,12 @@ function drawTitle() {
   yellowMp3.stop();
   redMp3.stop();
 
+  push();
+  imageMode(CENTER);
+  tint(255, 255 * sin(millis() / 10));
+  image(purpleMist, width / 2, height / 2, 1200, 800);
+  pop();
+
   //this draws the start title
   push();
   imageMode(CENTER);
@@ -370,10 +343,22 @@ function drawWin() {
   //this draws the win title
   push();
   textFont(font2);
-  fill(255, 0, 0);
+  fill(154, 16, 225);
   stroke(0);
-  textSize(100);
-  text("YOU WIN", width / 2, height / 2);
+  textSize(20);
+  text("You can afford rent. See you tomorrow.", width / 2, height / 2);
+  pop();
+
+  push();
+  imageMode(CENTER);
+  tint(255, 255 * sin(millis() / 10));
+  image(purpleMist, width / 2, height / 2, 1200, 800);
+  pop();
+
+  //noise overlay
+  push();
+  blendMode(SCREEN);
+  image(noiseOverlay, 0, 0);
   pop();
 }
 
@@ -387,10 +372,31 @@ function drawGameover() {
   //this draws the end title
   push();
   textFont(font2);
-  fill(255, 0, 0);
+  fill(154, 16, 225);
   stroke(0);
-  textSize(100);
-  text("YOU LOSE", width / 2, height / 2);
+  textSize(20);
+  text(
+    "You cannot afford rent this month. And you're fired.",
+    width / 2,
+    height / 1.15
+  );
+  pop();
+
+  push();
+  imageMode(CENTER);
+  image(skullg, width / 2, height / 2);
+  pop();
+
+  push();
+  imageMode(CENTER);
+  tint(255, 255 * sin(millis() / 10));
+  image(purpleMist, width / 2, height / 2, 1200, 800);
+  pop();
+
+  //noise overlay
+  push();
+  blendMode(SCREEN);
+  image(noiseOverlay, 0, 0);
   pop();
 }
 
