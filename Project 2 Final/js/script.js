@@ -60,7 +60,7 @@ let state = "title";
 let orders = ["RED", "BLUE", "GREEN", "YELLOW"];
 
 //this is the starting order, that will be replaced once the game begins
-let currentOrder = "YOU READY TO WORK?!";
+let currentOrder = "ARE YOU READY?";
 
 //this is an object that counts the time (going up)
 let gameCounter;
@@ -238,31 +238,6 @@ function setup() {
   textSize(50);
   userStartAudio();
 
-  //adding audio cues for some intro cards, adapted from class notes
-  areYouReady.addCue(0.1, showReady);
-  areYouReady.addCue(0.3, hideReady);
-  workMp3.addCue(0.3, showWork);
-  workMp3.addCue(0.4, hideWork);
-
-  // Called when the appropriate cue is triggered!
-  function showReady() {
-    showReadyText = true;
-  }
-
-  // Called when the appropriate cue is triggered!
-  function hideReady() {
-    showReadyText = false;
-  }
-  // Called when the appropriate cue is triggered!
-  function showWork() {
-    showWorkText = true;
-  }
-
-  // Called when the appropriate cue is triggered!
-  function hideWork() {
-    showWorkText = false;
-  }
-
   //create the Dropzone
   let x = 800;
   let y = 0;
@@ -291,7 +266,6 @@ function setup() {
         let other = products[j];
         let d = dist(product.x, product.y, other.x, other.y);
         if (d < 35) {
-          print("THEYREOVERLAPPIN");
           overlapping = true;
           break;
         }
@@ -345,11 +319,6 @@ function drawTitle() {
   greenMp3.stop();
   yellowMp3.stop();
   redMp3.stop();
-
-  // titleCard;
-  // buttonImg;
-  // buttonInImg;
-  // controlCard;
 
   //this draws the start title
   push();
@@ -414,27 +383,6 @@ function drawGameover() {
 function drawGame() {
   background(bgGif);
   songCheck();
-
-  if (showReadyText) {
-    push();
-    textFont(font2);
-    fill(255);
-    textSize(100);
-    textAlign(CENTER, CENTER);
-    text("ARE YOU READY?", width / 2, height / 2);
-    pop();
-  }
-
-  if (showWorkText) {
-    push();
-    textFont(font2);
-    fill(255);
-    textSize(150);
-    textAlign(CENTER, CENTER);
-    text("WORK!", width / 2, height / 2);
-    pop();
-  }
-
   gameOverCheck();
   winCheck();
 
@@ -443,6 +391,13 @@ function drawGame() {
 
   //this displays the dropzone
   dropzone.display();
+
+  if (currentOrder === "ARE YOU READY?") {
+    if (!areYouReady.isplaying) {
+      areYouReady.play();
+      areYouReady.isplaying = true;
+    }
+  }
 
   //display and play all of the assets related to the orders --
   // colours for tv
@@ -515,12 +470,6 @@ function drawGame() {
   tint(255, 127 * sin(millis() / 1000));
   image(smoke, 0, 0);
   smoke.x += smoke.speed;
-  // Wrap the smoke onceit reaches the right edge
-  //
-  // if (smoke.x > width) {
-  //   smoke.x -= width;
-  // }
-
   pop();
 
   // this displays the conveyor belt
@@ -593,18 +542,12 @@ function drawGame() {
     // }
   }
 
-  //this displays the order
-  text(currentOrder, width / 2, height - 50);
-
   //this changes the gamestate if time runs out
   function winCheck() {
     if (rentbar.width >= rentbar.win) {
       state = "win";
     }
   }
-
-  //
-  // shrink();
 }
 
 //this controls the drag and drop input of the mouse
@@ -653,13 +596,3 @@ function songCheck() {
     gameSong.isplaying = true;
   }
 }
-
-// function shrink() {
-//   for (let i = products.length - 1; i >= 0; i--) {
-//     let product = products[i];
-//     if (conveyorbelt.outOfBounds) {
-//       product.width = 10;
-//       product.height = 10;
-//     }
-//   }
-// }
